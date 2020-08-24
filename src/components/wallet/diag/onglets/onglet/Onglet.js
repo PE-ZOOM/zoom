@@ -8,6 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import { namefield } from '../../../../../utils/diagNameColonne';
+import "../pmp.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +31,14 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: 20,
     width: 1,
+  },
+  tab_chck: {
+    '&:hover': {
+      cursor: 'pointer',
+   },
+   chck: {
+        color: '#c9794b',
+   },
   },
 }));
 
@@ -80,7 +89,7 @@ export default function Onglet({dataDiagMod,handleChangeMod,dataDiag,selected,ha
                           onClick={(event) => handleClick(event, row.name)}
                         />
                       </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
+                      <TableCell className={classes.tab_chck} component="th" id={labelId} scope="row" onClick={(event) => handleClick(event, row.name)}>
                         {namefield(row.name)}
                       </TableCell >
                       <TableCell>

@@ -15,9 +15,8 @@ const useStyles = makeStyles({
   },
 });
 
-export default function JalonTab({dataJalon}) {
+export default function JalonTab({dataJalon, color}) {
   const classes = useStyles();
-
   return (
      <>
     {(dataJalon.length > 0) && (
@@ -26,11 +25,11 @@ export default function JalonTab({dataJalon}) {
         <TableHead>
           <TableRow>
             <TableCell>Motif Jalon</TableCell>
-            <TableCell className = "color1" align="right">{Object.keys(dataJalon[0])[1]}</TableCell>
-            <TableCell className = "color2" align="right">{Object.keys(dataJalon[0])[2]}</TableCell>
-            <TableCell className = "color3" align="right">{Object.keys(dataJalon[0])[3]}</TableCell>
-            <TableCell className = "color4" align="right">{Object.keys(dataJalon[0])[4]}</TableCell>
-            <TableCell className = "color5" align="right">{Object.keys(dataJalon[0])[5]}</TableCell>
+            <TableCell style={{backgroundColor:color[0]}} align="right">{Object.keys(dataJalon[0])[1]}</TableCell>
+            <TableCell style={{backgroundColor:color[1]}} align="right">{Object.keys(dataJalon[0])[2]}</TableCell>
+            <TableCell style={{backgroundColor:color[2]}} align="right">{Object.keys(dataJalon[0])[3]}</TableCell>
+            <TableCell style={{backgroundColor:color[3]}} align="right">{Object.keys(dataJalon[0])[4]}</TableCell>
+            <TableCell style={{backgroundColor:color[4]}} align="right">{Object.keys(dataJalon[0])[5]}</TableCell>
             <TableCell align="right">{Object.keys(dataJalon[0])[6]}</TableCell>
           </TableRow>
         </TableHead>

@@ -9,7 +9,7 @@ const Tabs = props => {
     <div>
       <div className="tabs">
         {props.children.map((tab, i) => (
-          <button
+          <div
             className="tab-btn"
             onClick={() => {
               setActiveTabIndex(i);
@@ -17,7 +17,7 @@ const Tabs = props => {
             key={i}
           >
             {tab.props.title}
-          </button>
+          </div>
         ))}
       </div>
       <div className="tab-indicator-container">

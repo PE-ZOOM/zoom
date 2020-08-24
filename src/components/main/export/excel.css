@@ -1,0 +1,29 @@
+.AppExcel{
+	opacity: 0.5;
+    border-radius: 50px;
+	transition: all .5s;
+}
+.AppExcel:hover{
+	opacity: 1 !important;
+}
+.btn_down{
+	color: #fefefe !important;
+	padding: 5% !important;
+}
+.btn_down_elmt:hover{
+	background-color: #4b9bc95c !important;
+}
+.div-fab{
+	background-color: #fafafa !important;
+	display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
+.btn{
+	display: block !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+.mytooltip{
+	/*font-size: 118px;*/
+}

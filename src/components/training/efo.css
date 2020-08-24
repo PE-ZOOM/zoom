@@ -1,3 +1,12 @@
 .excel{
     text-align: left;
   }  
+.div_graph_efo{
+	display: flex;
+	justify-content: space-evenly !important;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.div_table{
+	max-width: 400px;
+}

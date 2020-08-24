@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import Avatar from '@material-ui/core/Avatar';
+// import Avatar from '@material-ui/core/Avatar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -24,16 +24,10 @@ import useStyles from './filesForMaterialUi/useStyles';
 import StyledBadge from './filesForMaterialUi/StyleBadge';
 import useStylesPanel from './filesForMaterialUi/useStylesPanel';
 import { NavContext } from '../../../contexts/NavContext';
-
-import Accordion from '@material-ui/core/Accordion'
-// import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import AccordionDetails from '@material-ui/core/AccordionActions'
-// import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import AccordionSummary from '@material-ui/core/AccordionSummary'
-// import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-
 import Cookies from 'js-cookie';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -43,36 +37,13 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 
-// import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
-// import Button2 from 'react-bootstrap/Button'
-// import Modal from 'react-bootstrap/Modal'
-// import InputLabel from '@material-ui/core/InputLabel';
-// import FormControl from '@material-ui/core/FormControl';
-// import Select from '@material-ui/core/Select';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Button2 from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
-
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
-import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
-import HourglassEmptyRoundedIcon from '@material-ui/icons/HourglassEmptyRounded';
-import AirplayOutlinedIcon from '@material-ui/icons/AirplayOutlined';
-import PermContactCalendarOutlinedIcon from '@material-ui/icons/PermContactCalendarOutlined';
-// import BackupOutlinedIcon from '@material-ui/icons/BackupOutlined';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-
-import avatar from '../../../image/avatar.png';
-import logo from '../../../image/zoom_logo.png';
-
-// const useStyles2 = makeStyles((theme) => ({
-//   root: {
-//     width: '100%',
-//     maxWidth: 360,
-//     backgroundColor: theme.palette.background.paper,
-//   },
-// }));
-
+import Contacts1 from '../../../components/activites/contacts/Contacts2';
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -95,18 +66,17 @@ function useInterval(callback, delay) {
 }
 
 export default function NavbarV() {
-  // const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false);
 
-  // const handleClose = () => setShow(false);
-  // const handleShow2 = () => setShow(true);
+  const handleClose = () => setShow(false);
+  const handleShow2 = () => setShow(true);
+  const [ listeStructure, setListeStructure] = useState([]);
 
-  // const [ listeStructure, setListeStructure] = useState([]);
-
-  // const [ sourceFilter, setSourceFilter ] = useState({
-  //     dc_structureprincipalesuivi: 'all',
-  //     dc_modalitesuiviaccomp_id: 'all',
-  //     annee: 'all',
-  //   });
+  const [ sourceFilter, setSourceFilter ] = useState({
+  dc_structureprincipalesuivi: 'all',
+  dc_modalitesuiviaccomp_id: 'all',
+  annee: 'all',
+});
 
 
   const classes = useStyles();
@@ -143,7 +113,7 @@ export default function NavbarV() {
 
   //count nav bar portefeuille
   const getCountPort = (fonction_id, p_user, ape_id) => {
-
+    // console.log(fonction_id)
     switch (fonction_id) {
       //conseiller
       case 1:
@@ -169,13 +139,13 @@ export default function NavbarV() {
         break;
 
       default:
-        // console.log('function_id missing');
+        console.log('function_id missing');
     }
   };
 
   useEffect(() => {
     getCountPort(user.fonction_id, user.p_user, user.ape_id);
-
+    //  console.log('source=' + source)
     if (source !== '') {
       axios({
         method: 'get',
@@ -215,7 +185,7 @@ export default function NavbarV() {
         break;
 
       default:
-        // console.log('function_id missing');
+        console.log('function_id missing');
     }
   };
 
@@ -228,12 +198,12 @@ export default function NavbarV() {
       },
     }).then((res) => setCountUsers(res.data[0].count));
 
-  }, 5000);
+  }, 1000);
 
 
   useEffect(() => {
     getCountEfo(user.fonction_id, user.p_user, user.ape_id);
-
+    //  console.log('sourceefo=' + sourceEfo)
     if (sourceEfo !== '') {
       axios({
         method: 'get',
@@ -278,14 +248,37 @@ export default function NavbarV() {
     }).then((res) => res.data);
   };
 
-  // const [ checkUrl, setCheckUrl ] = useState('');
+  const [ checkUrl, setCheckUrl ] = useState('');
 
-    // const classes2 = useStyles2();
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const exportRef = () => {
+      axios({
+        method: 'get', 
+        responseType: 'blob', 
+        url: '/activitexlsx/contacts/ref?' + checkUrl,
+        headers: {
+          Authorization: 'Bearer ' + Cookies.get('authToken'),
+        }
+      })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'contactREF.xlsx'); 
+        document.body.appendChild(link);
+        link.click();
+       });
+    }
+    
+    const test = () => setShow(true);
+  // const test = () => {
+  //   // console.log(dataActi) handleShow
+  //   console.log(checkUrl)
+  // }
 
-  const handleListItemClick = (event, index) => {
-    setSelectedIndex(index);
-  };
+  // console.log('Navbar user information: ', user)
+  // console.log('Navbar count: ', countPort)
+  // console.log('Navbar countefo: ', countEfo)
+  // console.log(onlineUsers);
 
   return (
     <div>
@@ -309,21 +302,7 @@ export default function NavbarV() {
           <Typography variant="subtitle1" noWrap>
             Maj : 01/05/2020
           </Typography>
-          <div>
-
-          {isUserPermitted(LOAD_DATA, user.fonction) && (
-          <Link to="admin">
-            <Button
-              className="MuiButton_toolbar"
-              startIcon={<SupervisorAccountIcon />}
-            >
-              Administration
-            </Button>
-          </Link>
-          )}
-          </div>
           <List>
-
             {isUserPermitted(LOAD_DATA, user.fonction) ? (
               <PopupState variant="popover" popupId="demo-popup-menu">
                 {(popupState) => (
@@ -382,10 +361,9 @@ export default function NavbarV() {
                 <MailIcon />
               </a>
             </IconButton>
-            <Button className="MuiButton_toolbar" onClick={logout} startIcon={<ExitToAppIcon />}>Logout</Button>
+            <button onClick={logout}>Logout</button>
           </List>
         </Toolbar>
-
       </AppBar>
       <Drawer
         className={classes.drawer}
@@ -396,11 +374,7 @@ export default function NavbarV() {
           paper: classes.drawerPaper,
         }}
       >
-        <div className={classes.drawerHeader} id="navbar-back">
-          <div className="navbar-back-img"> 
-            <Link to='/'><img src={logo} alt={logo} /></Link>
-          </div>
-          <div className="navbar-back-btn">
+        <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
@@ -408,34 +382,15 @@ export default function NavbarV() {
               <ChevronRightIcon />
             )}
           </IconButton>
-          </div>
         </div>
         <Divider />
         <List>
-        
-        <ListItem button onClick={handleShow}>
-        <div className="card card-navbar">
-            <div className="card-header">
-                <Avatar className="card-center"  alt={user.name} src={avatar} className={classes.orange} />
-            </div>
-            <div className="card-body card-center">
-                <h5 className="card-title">{user.name}</h5>
-                    <p className="card-text">{user.fonction}</p>
-                    {isUserPermitted(DISPLAY_STRUCTURE, user.fonction) && (
-                      <p className="card-text">{user.libelle_ape}</p>
-                    )}
-            </div>
-        </div>
-        </ListItem>
-       
-        
-          {/* <ListItem button onClick={handleShow}>
+          <ListItem button onClick={handleShow}>
             <div className="card mb-3">
               <div className="row no-gutters">
-                <div className="card-head">
-                  <Avatar alt={user.name} src="/broken-image.jpg" className={classes.orange} />
+                <div className="col-8">
                   {/* TODO: Understand why broken image is not functioning */}
-                  {/* <Avatar src="/broken-image.jpg" /> 
+                  {/* <Avatar src="/broken-image.jpg" /> */}
                 </div>
                 <div className="col-12">
                   <div className="card-body">
@@ -448,116 +403,142 @@ export default function NavbarV() {
                 </div>
               </div>
             </div>
-          </ListItem> */}
+          </ListItem>
 
-          <Accordion
-          expanded={expanded === 'panel1'}
-          onChange={handleChange('panel1')}
-          >
-            <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
+          <div className={classesP.root}>
+            <ExpansionPanel
+              expanded={expanded === 'panel1'}
+              onChange={handleChange('panel1')}
             >
-              <Typography className={classesP.heading}>
-                Portefeuille
-              </Typography>
-              <Typography className={classesP.Heading}>
-                {countPort.toLocaleString()}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails 
-              className="Accordion_menu">
-              <ListItem button component={Link} to="diag" selected={selectedIndex === 9}
-              onClick={(event) => handleListItemClick(event, 9)}>
-                <ListItemIcon>
-                  <SettingsOutlinedIcon />
-                </ListItemIcon>
-                  <ListItemText primary="Diagnostic" onClick={() => {
-                  handleHistoric('Diagnostic');
-                  }} />
-              </ListItem>
-              <ListItem button component={Link} to="jalons" selected={selectedIndex === 0}
-              onClick={(event) => handleListItemClick(event, 0)}>
-                <ListItemIcon>
-                  <FlagOutlinedIcon />
-                </ListItemIcon>
-                  <ListItemText primary="Jalons" onClick={() => {
-                  handleHistoric('Jalons');
-                  }} />
-              </ListItem>
-              </AccordionDetails>
-          </Accordion>
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+              >
+                <Typography className={classesP.heading}>
+                  Portefeuille
+                </Typography>
+                <Typography className={classesP.Heading}>
+                  {countPort.toLocaleString()}
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+              
+                <ListItem>
+                  <Link
+                    className=""
+                    to="other"
+                    onClick={() => {
+                      handleHistoric('Autres');
+                    }}
+                  >
+                    Autres
+                  </Link>
+                </ListItem>
 
-          <Accordion
-          expanded={expanded === 'panel2'}
-          onChange={handleChange('panel2')}
-          >
-            <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
-            >
-              <Typography className={classesP.heading}>
-                EFO
-              </Typography>
-              <Typography className={classesP.Heading}>
-                {countEfo.toLocaleString()}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails 
-              className="Accordion_menu">
-            
-              <ListItem button component={Link} to="efo" selected={selectedIndex === 2}
-                  onClick={(event) => handleListItemClick(event, 2)}>
-                  <ListItemIcon>
-                      <HourglassEmptyRoundedIcon />
-                  </ListItemIcon>
-                      <ListItemText primary="EFO C/O en attente" onClick={() => {
-                        handleHistoric('EFO');
-                      }} />
-              </ListItem>
-              </AccordionDetails>
-          </Accordion>
+                <ListItem>
+                  <Link
+                    className=""
+                    to="diag"
+                    onClick={() => {
+                      handleHistoric('Diagnostic');
+                    }}
+                  >
+                    Diagnostic
+                  </Link>
+                </ListItem>
 
-          <Accordion
-          expanded={expanded === 'panel3'}
-          onChange={handleChange('panel3')}
-          >
-            <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
+
+                <ListItem>
+                  <Link
+                    className=""
+                    to="jalons"
+                    onClick={() => {
+                      handleHistoric('Jalons');
+                    }}
+                  >
+                    Jalons
+                  </Link>
+                </ListItem>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+            <ExpansionPanel
+              expanded={expanded === 'panel2'}
+              onChange={handleChange('panel2')}
             >
-              <Typography className={classesP.heading}>
-                Activités
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails 
-              className="Accordion_menu">
-            
-              <ListItem button component={Link} to="contacts" selected={selectedIndex === 3}
-                  onClick={(event) => handleListItemClick(event, 3)}>
-                  <ListItemIcon>
-                      <PermContactCalendarOutlinedIcon />
-                  </ListItemIcon>
-                      <ListItemText primary="Contacts" onClick={() => {
-                        handleHistoric('Contacts');
-                      }} />
-              </ListItem>
-               <ListItem button component={Link} to="presta" selected={selectedIndex === 4}
-                  onClick={(event) => handleListItemClick(event, 4)}>
-                  <ListItemIcon>
-                      <AirplayOutlinedIcon />
-                  </ListItemIcon>
-                      <ListItemText primary="Prestations" onClick={() => {
-                        handleHistoric('Prestations');
-                      }} />
-              </ListItem>
-              </AccordionDetails>
-          </Accordion>
-          
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel2bh-content"
+                id="panel2bh-header"
+              >
+                <Typography className={classesP.heading}>EFO</Typography>
+                <Typography className={classesP.Heading}>
+                  {countEfo.toLocaleString()}
+                </Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <ListItem>
+                  <Link
+                    className=""
+                    to="efo"
+                    onClick={() => {
+                      handleHistoric('EFO');
+                    }}
+                  >
+                    EFO C/O en attente
+                  </Link>
+                </ListItem>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+            <ExpansionPanel
+              expanded={expanded === 'panel3'}
+              onChange={handleChange('panel3')}
+            >
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel3bh-content"
+                id="panel3bh-header"
+              >
+                <Typography className={classesP.heading}>Activités</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <ListItem>
+                  <Link
+                    className=""
+                    to="contacts"
+                    onClick={() => {
+                      handleHistoric('Contacts');
+                    }}
+                  >
+                    Contacts
+                  </Link>
+                </ListItem>
+                <ListItem>
+                  <Link
+                    className=""
+                    to="presta"
+                    onClick={() => {
+                      handleHistoric('Prestations');
+                    }}
+                  >
+                    Prestations
+                  </Link>
+                </ListItem>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          </div>
+          <ListItem>
+            {isUserPermitted(LOAD_DATA, user.fonction) && (
+              <Link className="" to="load">
+                Load
+              </Link>
+            )}
+          </ListItem>
         </List>
+        
+        <button onClick={test}>TEST</button>
+
+    <Contacts1/>
       </Drawer>
     </div>
   );

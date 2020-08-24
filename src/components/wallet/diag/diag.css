@@ -5,9 +5,24 @@
   .off {
     background: #9e9d9d;
   }
-
+.ol{
+	text-align:left;
+	margin-bottom: 0;
+	font-size: 15px;
+}
 .excel img{
   text-align: left;
   cursor:pointer;
 }  
 
+.MuiTabs-centered {
+    justify-content: space-around !important;
+}
+.MuiTab-textColorPrimary.Mui-selected {
+    color: #c9794b !important;
+}
+.MuiTabs-indicator{
+	height: 5px !important;
+  background: #4b9bc9 !important;
+  /*transition: transform 0.2s !important;*/
+}

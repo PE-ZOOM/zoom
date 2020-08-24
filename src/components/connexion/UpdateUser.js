@@ -122,16 +122,13 @@ const UpdateUser = ({ show, handleClose }) => {
           <div className="container">
             <div className="d-flex justify-content-center h-100">
               <div className="card">
-                <div className="card-header">
-                  {/* <h3>Nouveau Profile</h3> */}
-                </div>
                 <div className="card-body">
                   <form onSubmit={handleSubmit}>
                     <SelectFonction
                       name="fonction_id"
                       options={listFunction} //database
                       handleChange={handleChange}
-                      placeholder={'Select fonction'}
+                      placeholder={'Fonction'}
                     />
                     {isUserPermitted(CONSEILLER, register.fonction_id) && (
                       <div>
@@ -139,7 +136,7 @@ const UpdateUser = ({ show, handleClose }) => {
                           name="team_id"
                           options={listTeam} //database
                           handleChange={handleChange}
-                          placeholder={'Select team'}
+                          placeholder={'Equipe'}
                         />
                         <Autocomplete
                           onChange={(event, newValue) => {
@@ -152,7 +149,7 @@ const UpdateUser = ({ show, handleClose }) => {
                           renderInput={(params) => (
                             <TextField
                               {...params}
-                              label="P user"
+                              label="Utilisateur"
                               variant="outlined"
                               value={register.p_user}
                             />
@@ -165,7 +162,7 @@ const UpdateUser = ({ show, handleClose }) => {
                           name="ape_id"
                           options={listAPE} //database
                           handleChange={handleChange}
-                          placeholder={'Select APE'}
+                          placeholder={'Agence'}
                         />
                       </div>
                     )}
@@ -175,24 +172,18 @@ const UpdateUser = ({ show, handleClose }) => {
                           name="team_id"
                           options={listTeam} //database
                           handleChange={handleChange}
-                          placeholder={'Select team'}
+                          placeholder={'Equipe'}
                         />
                         <SelectStructure
                           name="ape_id"
                           options={listAPE} //database
                           handleChange={handleChange}
-                          placeholder={'Select APE'}
+                          placeholder={'Agence'}
                         />
                       </div>
                     )}
-                    <div className="card-footer">
-                      <div className="d-flex justify-content-center links">
-                        <input
-                          type="submit"
-                          value="update"
-                          className="btn float-right login_btn"
-                        />
-                      </div>
+                    <div>
+                      <Button type="submit" value="Valider" className="btn float-right login_btn" variant="contained">Valider</Button>
                     </div>
                   </form>
                 </div>

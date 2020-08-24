@@ -1,4 +1,5 @@
 import React from 'react';
+import LinearProgress from '@material-ui/core/LinearProgress';
 // import "./loader.css";
 
 const Loader = () => {
@@ -9,6 +10,8 @@ const Loader = () => {
           <br/>
           Large File might take sometime <br/>
           Please Wait... 
+
+          <LinearProgress />
         </div>
     </div>
 

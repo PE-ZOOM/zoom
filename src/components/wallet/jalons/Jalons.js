@@ -5,12 +5,17 @@ import JalonTab from './JalonTab';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import './jalon.css'
-import ide from '../../../image/ide.png';
-import ref from '../../../image/ref.png';
-import ape from '../../../image/ape.png';
+import useStyles from '../../main/Navbar.js/filesForMaterialUi/useStyles';
+// import {Pie} from 'react-chartjs-2';
+// import ide from '../../../image/ide.png';
+// import ref from '../../../image/ref.png';
+// import ape from '../../../image/ape.png';
+
+// EXCEL
+import Excel from '../../main/export/Excel';
 
 const Jalons = () => {
-
+	const classes = useStyles();
 	const { user } = useContext(UserContext);
 
 	const [ dataJalon, setDataJalon ] = useState([]);
@@ -18,7 +23,8 @@ const Jalons = () => {
 
 	//chart pie
 	const [dataPie, setDataPie] = useState([])
-
+	// const color = ['#6D6875', '#B5838D', '#E5989B', '#FFB4A2', '#FFCDB2'] //Défini les couleurs du tableau + donut
+	const color = ['#264653', '#2a9d8f', '#e9c46a', '#f4a261', '#e76f51', '#6f51e7', '#c4ffff', '#e76fff']
 
     //function source according to the user
     const getCountJalon = (fonction_id, p_user,ape_id) => {
@@ -55,7 +61,8 @@ const Jalons = () => {
 
 		useEffect(() => {
 			 getCountJalon(user.fonction_id, user.p_user,user.ape_id)
-			//  console.log('sourcejalon=' + sourceJalon)
+			 // console.log('sourcejalon=' + sourceJalon)
+			
 			 if(sourceJalon !== 'soon'){
 			 axios({
 				method: 'get',
@@ -134,8 +141,11 @@ const Jalons = () => {
 	const builtdatachart = () => {
 		let tab = []
 		const denom = dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[6]], 0)
+
 		for (let i=1;i < 6;i++){
-			tab.push({ id:i-1, value:dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[i]], 0) / denom})
+			try{
+				tab.push({ id:i-1, value:dataJalon.reduce((total, currentValue) => total + currentValue[Object.keys(dataJalon[0])[i]], 0) / denom, str:Object.keys(dataJalon[0])[i]})
+			}catch(error){}
 		}
 		return tab
 	}	
@@ -145,24 +155,40 @@ const Jalons = () => {
    }
 	   // eslint-disable-next-line react-hooks/exhaustive-deps
 	   , [dataJalon])
-
-
 	return (
 		
 	<div>
 		<h4>Photo Jalons DE en portefeuille</h4>
-		<div className='excel'>
-		<img onClick={exportIDE} src={ide} alt='IDE' title='Liste par IDE'/>
-		<img onClick={exportRef} src={ref} alt='REF' title='Liste par REF'/>
-		<img onClick={exportApe} src={ape} alt='APE' title='Liste par APE'/>
+		<div className={classes.excel}>
+			<Excel
+				handleIDE={exportIDE}
+				handleREF={exportRef}
+				handleAPE={exportApe}
+			/>
+			{/*<ButtonGroup color="primary" aria-label="outlined primary button group" >
+				<ButtonR variant="contained" color="primary" disableElevation startIcon={<SaveIcon />}>
+				  Télécharger
+				</ButtonR>
+				<ButtonR onClick={exportIDE}>IDE</ButtonR>
+				<ButtonR onClick={exportRef}>REF</ButtonR>
+				<ButtonR onClick={exportApe}>APE</ButtonR>
+			</ButtonGroup>
+
+			 <div className='excel'>
+				<img onClick={exportIDE} src={ide} alt='IDE' title='Liste par IDE'/>
+				<img onClick={exportRef} src={ref} alt='REF' title='Liste par REF'/>
+				<img onClick={exportApe} src={ape} alt='APE' title='Liste par APE'/>
+				</div>*/}
 		</div>
 		<div className="container-jalon">
+		
 			<div className="box">
-			<JalonTab dataJalon={dataJalon}/>	 	 
+				<JalonTab dataJalon={dataJalon} color={color}/>	 	 
 			</div>
-			<div className="box">
-			<JalonPie data={dataPie}/>
+			<div className="Doughnut">
+				<JalonPie data={dataPie} color={color}/>
 			</div>
+			
 		</div>
 
 	

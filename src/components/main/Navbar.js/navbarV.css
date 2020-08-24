@@ -13,21 +13,37 @@
   padding: 5px !important;
 }
 
-.MuiExpansionPanelSummary-content {
+.MuiAccordionSummary-content {
   justify-content: space-between;
 }
+.MuiAccordionSummary-root{
+  background-color: #ebebeb !important;
 
-.MuiExpansionPanelDetails-root {
+  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12) !important;
+}
+.Mui-expanded{
+  margin-top:0 !important;
+  margin-bottom:0 !important;
+}
+.MuiAccordionDetails-root {
   flex-direction: column;
+  padding:0 !important;
 }
 .MuiBadge-colorSecondary {
   background-color: #b7797f !important;
 }
-
+.MuiAvatar-root{
+  width: 70px !important;
+  height: 70px !important;
+  margin-right: auto;
+  margin-left: auto;
+}
 .menu {
   margin-top: 30px;
 }
-
+.MuiButton_toolbar{
+  background-color: #fafafa !important;
+}
 .menu li:last-child {
   border-radius: 5px;
   color: red;
@@ -35,7 +51,39 @@
   margin: 0px auto;
   padding: 0px auto;
 }
-
+.card-navbar{
+  width: 100%;
+  margin-bottom: 10%;
+}
+.card-center{
+  margin-right: auto;
+  margin-left: auto;
+}
+.card{
+  border: 2px solid rgb(201 121 75) !important;
+}
+.card-header{
+  border-bottom: 1px solid rgb(201 121 75) !important;
+}
+.ListItem-title{
+  display: flex;
+    justify-content: space-between;
+    padding: 10%;
+    background-color: #ebebeb;
+    /* border: 1px solid #ebebeb; */
+}
+.ListItem-title-margin{
+    /*margin-top: 8%;*/
+}
+.nav_a{
+  color: #c9794b;
+    font-size: large;
+    text-decoration: none;
+    background-color: #bb191900;
+}
+.navbar-back-img, .navbar-back-img img{
+  max-width:100%;
+}
 #id-user {
   background-color: #4b9bc9;
   border-radius: 5px;
@@ -44,7 +92,14 @@
   margin-right: 5px;
 }
 /* .MuiButtonBase-root, */
-.MuiButton-root,
+/*.MuiButton-root,*/
+.MuiListItem-root.Mui-selected{
+  background-color: rgb(75 155 201 / 0.5) !important;
+}
+.MuiListItem-button:hover{
+  background-color: #c9794b85 !important;
+  color: #673b23;
+}
 .MuiButton-contained,
 .MuiButton-containedPrimary {
   background-color: #4b9bc9 !important;
@@ -54,4 +109,18 @@
 
 .mailto {
   color: rgb(78, 78, 78);
+}
+.MuiAvatar-colorDefault, #navbar-back {
+    color: #fafafa;
+    background-color: #ebebeb;
+}
+.MuiList-padding{
+  padding-top:0 !important;
+}
+.Accordion_menu{
+  display: block !important;
+  padding:0 !important;
+}
+.MuiAccordionActions-spacing > :not(:first-child) {
+  margin-left: 0px !important;
 }

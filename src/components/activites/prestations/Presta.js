@@ -3,26 +3,43 @@ import { UserContext } from '../../../contexts/UserContext';
 import PrestaTab from './PrestaTab';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import ref from '../../../image/ref.png';
-import ape from '../../../image/ape.png';
+import Excel from '../../main/export/Excel';
+import useStyles from '../../main/Navbar.js/filesForMaterialUi/useStyles';
+import {Bar} from 'react-chartjs-2';
+import {Pie} from 'react-chartjs-2';
+import Paper from '@material-ui/core/Paper';
+import './prestas.css'
+
+// import ref from '../../../image/ref.png';
+// import ape from '../../../image/ape.png';
 // import './contact.css'
 
-const useStyles = makeStyles((theme) => ({
-	formControl: {
-	  margin: theme.spacing(1),
-	  minWidth: 120,
-	},
-	selectEmpty: {
-	  marginTop: theme.spacing(1),
-	},
-  }));
+// EXCEL
+// import ButtonR from '@material-ui/core/Button';
+// import SaveIcon from '@material-ui/icons/Save';
+// import ButtonGroup from '@material-ui/core/ButtonGroup';
+
+// const useStyles = makeStyles((theme) => ({
+// 	formControl: {
+// 	  margin: theme.spacing(1),
+// 	  minWidth: 120,
+// 	},
+// 	selectEmpty: {
+// 	  marginTop: theme.spacing(1),
+// 	},
+// 	presta_orange:{
+// 		color: ' #c9794b',
+
+// 	},
+//   }));
 
 const Presta = () => {
+	const color = ['#264653', '#2a9d8f', '#e9c46a', '#f4a261', '#e76f51', '#e59b19', '#895d0f', '#5b3e0a']
 
   const classes = useStyles();
 
@@ -229,33 +246,90 @@ const Presta = () => {
 		
 	}
 	
+	// console.log(dataActi)
+	var value1 = []
+	var label1 = []
+	var title1 = []
 
+	var value2 = []
+	var label2 = []
+	var title2 = []
+
+	try {
+    	for (const [key, value] of Object.entries(dataActi[0])) {
+			if(key.includes('ACTIV') || key.includes('Prestas')|| key.includes('Regards')|| key.includes('Vers1')|| key.includes('Valoriser')){
+					value1.push(value)
+					label1.push(key.replace('_',' '))
+			}else if(key.includes('annee') || key.includes('mois')){
+				title1.push(value)
+			}
+		}
+
+		for (const [key, value] of Object.entries(dataActi[1])) {
+			if(key.includes('ACTIV') || key.includes('Prestas')|| key.includes('Regards')|| key.includes('Vers1')|| key.includes('Valoriser')){
+					value2.push(value)
+					label2.push(key.replace('_',' '))
+			}else if(key.includes('annee') || key.includes('mois')){
+				title2.push(value)
+			}
+		}
+		// console.log(dataActi[0])
+		
+    } catch(error){}
 		// const test= () => {
 		// 	console.log(dataActi)
 		// 	console.log(checkUrl)
 		// }
-	
+	// console.log(label1)
+	const data = {
+		labels: label1,
+		datasets: [{
+			label: title1[1] + '/' + title1[0],
+			type:'bar',
+			data: value1,
+			fill: false,
+			backgroundColor: color[0],
+		},{
+			type: 'bar',
+			label:  title1[1] + '/' + title1[0],
+			data: value2,
+			fill: false,
+			backgroundColor: color[1],
+		}]
+	};
+
+	const options = {
+		legend: {position: 'right',}
+	}
+
+	const dataPie = {
+		labels: label1,
+		datasets: [{
+			data: value1,
+			backgroundColor: color,
+			// hoverBackgroundColor: DoughnutHoverColor,
+			// hoverBorderColor:DoughnutColor,
+			hoverBorderWidth:2
+		}]
+	};
+
 	return (
 		
 	<div>
 		{/* <button onClick={test}></button> */}
 		<h4>Prestations DE inscrits au moins un jour dans le mois, affectés à un conseiller référent</h4>
 		<h5>(sans situation,rattaché,en portefeuille)</h5>
-		{(dataActi!==undefined && dataActi.length>0) &&
-			<div className='excel'>
-			<img onClick={exportRef} src={ref} alt='REF' title='Liste selon filtre par REF'/>
-			<img onClick={exportApe} src={ape} alt='APE' title='Liste selon filtre par APE'/>
-			</div>
-}
+		
 			<div>
 
 				<FormControl variant="outlined" className={classes.formControl}>
-						<InputLabel id="demo-simple-select-outlined-label">Structure</InputLabel>
+						<InputLabel className={classes.select_orange}>Structure</InputLabel>
 						<Select
 						name="dc_structureprincipalesuivi"
 						value={sourceFilter.dc_structureprincipalesuivi}
 						onChange={handleChange}
 						label="Structure"
+						className={classes.select_orange}
 						>
 						<MenuItem value="all"><em>Tous</em></MenuItem>
 						{listeStructure.map(option => (
@@ -267,12 +341,13 @@ const Presta = () => {
 						</Select>
 				</FormControl>
 				<FormControl variant="outlined" className={classes.formControl}>
-					<InputLabel id="demo-simple-select-outlined-label">Modalité d'acc</InputLabel>
+					<InputLabel id="demo-simple-select-outlined-label" className={classes.select_orange}>Modalité d'acc</InputLabel>
 					<Select
 					name="dc_modalitesuiviaccomp_id"
 					value={sourceFilter.dc_modalitesuiviaccomp_id}
 					onChange={handleChange}
 					label="Modalité d'acc"
+					className={classes.select_orange}
 					>
 					<MenuItem value="all"><em>Tous</em></MenuItem>
 					{listeModAcc.map(option => (
@@ -284,12 +359,13 @@ const Presta = () => {
 					</Select>
 				</FormControl>
 				<FormControl variant="outlined" className={classes.formControl}>
-					<InputLabel id="demo-simple-select-outlined-label">Année</InputLabel>
+					<InputLabel id="demo-simple-select-outlined-label" className={classes.select_orange}>Année</InputLabel>
 					<Select
 					name="annee"
 					value={sourceFilter.annee}
 					onChange={handleChange}
 					label="Année"
+					className={classes.select_orange}
 					>
 					<MenuItem value="all"><em>Tous</em></MenuItem>
 					{listeYear.map(option => (
@@ -304,11 +380,46 @@ const Presta = () => {
 
 			</div>
 			
-			
-			<div>
-			<PrestaTab dataActi={dataActi}/>	 	 
+			<div className="div_graph">
+				<div className="Doughnut">
+					<Paper>
+						<Bar data={data} 
+							width={500}  
+				        	height={200}
+							options={{ maintainAspectRatio: false}} 
+						/>
+					</Paper>
+					<Paper>
+				        <Pie data={dataPie} 
+				        	width={500}
+			        		height={200}
+			        		options={options}
+				        />
+					</Paper>
+				</div>
 			</div>
 			
+			<div>
+				<PrestaTab dataActi={dataActi}/>	 	 
+			</div>
+			{(dataActi!==undefined && dataActi.length>0) &&
+
+			<div className={classes.excel}>
+				<Excel
+					handleIDE='0'
+					handleREF={exportRef}
+					handleAPE={exportApe}
+				/>
+				{/* <div className='excel'>
+					<p class="div_excel_p">Exportation </p>
+					<div class="div_excel_img">
+						<img onClick={exportRef} data_dl={checkUrl} src={ref} alt='REF' title='Liste selon filtre par REF'/>
+						<img onClick={exportApe} src={ape} alt='APE' title='Liste selon filtre par APE'/>
+					</div>
+				</div>*/}
+			</div>
+				
+			}
 					
 	</div>	
 	)

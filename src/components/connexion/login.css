@@ -1,0 +1,16 @@
+body{
+	
+}
+.login_log{
+	padding-top: 10%;
+	/*padding-bottom: 35%;*/
+	height: 100vh;
+	background-color: #FBAB7E !important;
+	background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%) !important;
+}
+.login_btn{
+	width: 100%;
+	/*background-color: #FBAB7E !important;*/
+    background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%) !important;
+    border: 1px solid #495057;
+}

@@ -1,7 +1,7 @@
 
 import { makeStyles } from '@material-ui/core/styles';
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -58,6 +58,29 @@ const useStyles = makeStyles((theme) => ({
       }),
       marginLeft: 0,
     },
+
+    
+    // CSS SELECT FILTRE
+    formControl: {
+       margin: theme.spacing(1),
+       minWidth: 120,
+     },
+     selectEmpty: {
+       marginTop: theme.spacing(1),
+     },
+     select_orange:{
+       color: ' #c9794b',
+     },
+
+     //Excel
+     excel:{
+      position: 'fixed',
+      backgroundColor: 'transparent',
+      bottom: '5%',
+      right: '3%',
+      zIndex: 1,
+     },
+     
   }));
 
   export default useStyles;

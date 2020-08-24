@@ -1,34 +1,45 @@
 .App {
-    font-family: sans-serif;
-    text-align: center;
-  }
-  
-  .tabs {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .tab-btn {
-    display: block;
-    flex: 1;
-    padding: 8px 20px;
-    background: #eee;
-    border: 0;
-  }
-  
-  .tab-indicator-container {
-    display: flex;
-    background: #eee;
-    margin-bottom: 10px;
-  }
-  
-  .tab-indicator {
-    height: 3px;
-    background: #007bff;
-    transition: transform 0.2s;
-  }
-  
-  .tab-content {
-    padding: 10px;
-  }
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  border-color: #303f9f;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 500;
+  line-height: 1.75;
+}
+.tab-btn {
+  flex: 1;
+  padding: 8px 20px;
+  background-color: #c9794b;
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.tab-indicator-container {
+  display: flex;
+  background: #eee;
+  margin-bottom: 10px;
+}
+
+.tab-indicator {
+  height: 5px;
+  background: #4b9bc9;
+  transition: transform 0.2s;
+}
+
+.tab-content {
+  padding: 10px;
+}
+
+
+.MuiTableRow-root.Mui-selected, .MuiTableRow-root.Mui-selected:hover {
+    background-color: rgb(201 121 75 / 0.08) !important;
+}
+.MuiCheckbox-colorSecondary.Mui-checked {
+    color: #c9794b !important;
+}

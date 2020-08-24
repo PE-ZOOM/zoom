@@ -1,0 +1,8 @@
+a{
+	text-decoration: none !important;
+}
+.quote{
+	display: inline-block;
+	transform: translate(0%, 20%);
+	font-size: xxx-large;
+}

@@ -7,12 +7,12 @@ import { NavContext } from '../../contexts/NavContext';
 import UpdateUser from '../connexion/UpdateUser';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Dashboard from './Dashboard';
 
 const Main = (props) => {
 
   const { user } = useContext(UserContext);
   const { idgasi } = user;
-  
   // isOnline =1 or 0
   useEffect(() => {
     if (idgasi !== undefined) {
@@ -39,6 +39,7 @@ const Main = (props) => {
   //   const { user } = useContext(UserContext);
   const classes = useStyles();
   const { open, show, handleClose } = useContext(NavContext);
+
   return (
     <div className={classes.root}>
       <NavbarV />
@@ -52,6 +53,7 @@ const Main = (props) => {
         {props.children}
 
         <UpdateUser show={show} handleClose={handleClose} />
+       
       </main>
     </div>
   );

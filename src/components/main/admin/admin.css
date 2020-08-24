@@ -1,0 +1,27 @@
+.flexbox{
+	display: flex;
+	justify-content: space-around;
+}
+.div_elmt{
+	margin-top: 50px;
+	border: 1px solid #cf8961;
+	border-radius: 10px;
+}
+.div_elmt_p{
+	font-size: 25px;
+	transform: translate(14px, -25px);
+    position: absolute;
+    background-color: #fafafa;
+    padding: 5px;
+    color:#cf8961;;
+}
+.div_elmt_wrapper{
+	padding-top: 20px;
+	padding-bottom: 10px;
+}
+.div_elmt_chart{
+	width: 60%;
+}
+.MuiAlert-message{
+	text-align: left;
+}
