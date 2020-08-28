@@ -128,7 +128,7 @@ const DashBoard = () => {
 		Jalon_Mois 		= jalon.reduce((total, currentValue) => total + currentValue[Object.keys(jalon[0])[3]], 0)
 
 	}
-	if(efo.length > 0){
+	if(efo.length > 0 && efo[1]){
 		EFO_C = Object.values(efo[0])[0];
 		EFO_O = Object.values(efo[1])[0];
 	}

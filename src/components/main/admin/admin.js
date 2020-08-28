@@ -1,25 +1,46 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { Redirect } from "react-router-dom"
-// import Button from '@material-ui/core/Button';
-// import SaveIcon from '@material-ui/icons/Save';
-// import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Cookies from 'js-cookie';
-// import Snackbar from '@material-ui/core/Snackbar';
-// import CloseIcon from '@material-ui/icons/Close';
-// import IconButton from '@material-ui/core/IconButton';
-// import Tooltip from '@material-ui/core/Tooltip';
 import Load from '../../load/Load'
+import Truncate from '../../load/truncate'
 import axios from 'axios';
-import "./admin.css";
 import {Line} from 'react-chartjs-2';
-
 import { isUserPermitted } from '../../../utils/permissions';
 import { LOAD_DATA, DISPLAY_STRUCTURE } from '../../../utils/permissionsTypes';
 import { UserContext } from '../../../contexts/UserContext';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
+import "./admin.css";
+
+
+function useInterval(callback, delay) {
+  const savedCallback = useRef();
+
+  // Remember the latest function.
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
+
 
 const Admin = props => {
   const [histoS, setHistoS] = useState()
   const [histoM, setHistoM] = useState()
+  const [maj, setMAJ] = useState()
+  const [nbLigne, setNbLigne] = useState([{efo:0,portefeuille:0,activites:0}])
+
   var DoughnutDataE = [];
   var DoughnutLabelE = [];
   var DoughnutDataE_M = [];
@@ -31,6 +52,34 @@ const Admin = props => {
     var isAdmin = true;
   }
   
+
+   const [trun, setTrun] = useState(1);
+
+  const handleClickTrunCate = (event) => {
+    axios({
+        method: 'get',
+        url: '/load/truncate?t_activites',
+        headers: {
+          Authorization: 'Bearer ' + Cookies.get('authToken'),
+        },
+      }).then((res) => setTrun(0));
+    axios({
+        method: 'get',
+        url: '/load/truncate?t_efo',
+        headers: {
+          Authorization: 'Bearer ' + Cookies.get('authToken'),
+        },
+      }).then((res) => setTrun(0));
+    axios({
+        method: 'get',
+        url: '/load/truncate?t_portefeuille',
+        headers: {
+          Authorization: 'Bearer ' + Cookies.get('authToken'),
+        },
+      }).then((res) => setTrun(0));
+   };
+
+  // useInterval(() => {
 
   useEffect(() => {
       axios({
@@ -53,7 +102,30 @@ const Admin = props => {
     
   }, []);
 
+   // }, 5000);
+
+
+  useEffect(() => {
+      axios({
+        method: 'get',
+        url: '/load/historicMAJ',
+        headers: {
+          Authorization: 'Bearer ' + Cookies.get('authToken'),
+        },
+      }).then((res) => setMAJ(res.data));
+    
+  }, []);
+
+  // console.log(maj)
+  let t_act
+  let t_efo 
+  let t_port
+
   try{
+    t_port = "Dernière MaJ : " + Object.values(maj[0])[0]
+    t_efo = "Dernière MaJ : " + Object.values(maj[1])[0]
+    t_act = "Dernière MaJ : " + Object.values(maj[2])[0]
+
     for(var j=0;j<histoM.length;j++){
       DoughnutLabelE.push(Object.values(histoM[j])[1]);
       for(var z=0;z<histoS.length;z++){
@@ -68,7 +140,7 @@ const Admin = props => {
     }
   }
   catch(error){}
-
+// console.log(t_port)
 const Donut = {
   labels: DoughnutLabelE,
   datasets: [
@@ -119,45 +191,89 @@ const Donut = {
     
     return (
       <div className='AppAdmin'>
-      {isAdmin ? ( 
+      {t_port ? ( 
         <div>
-          <h1>Administration</h1>
-            <div className='flexbox'>
-          	<div>
-          		<h3>Importation des données</h3>
-          		<div className="div_elmt">
-          			<p className="div_elmt_p">T_Portefeuille</p>
-          			<div className="div_elmt_wrapper">
-           			<Load target='t_portefeuille' />
-          			</div>
-          		</div>
-          		<div className="div_elmt">
-          			<p className="div_elmt_p">T_EFO</p>
-          			<div className="div_elmt_wrapper">
-           			<Load target='t_efo' />
-          			</div>
-          		</div>
-          		<div className="div_elmt">
-          			<p className="div_elmt_p">T_activite</p>
-          			<div className="div_elmt_wrapper">
-           			<Load target='t_activites'/>
-          			</div>
-          		</div>
-          	</div>
-          	<div className="div_elmt_chart">
-          		<h3>Nombres de visites</h3>
-             <Line data={Donut}
-                  width={500}
-              />
-          	</div>
+          <div className="div_admin_elmt">
+            <h1>Administration</h1>
+              <div className="flexbox">
+                <div className="div_elmt">
+                  <p className="div_elmt_p">Importation</p>
+                  <Button className='btn_trun' variant="contained" color="primary" onClick={handleClickTrunCate}>
+                    Vider les bases
+                  </Button>
+                  <List>
+                    <Load title="Portefeuille"
+                          date={t_port}
+                          divider="false"
+                          target='/t_portefeuille'
+                          icone="1"
+                          stateprops={trun}
+                    />
+                    <Divider variant="inset" component="li" key={'d1'}/>
+                    <Load title="EFO"
+                          date={t_efo}
+                          divider="true"
+                          target='/t_efo'
+                          icone="2"
+                          stateprops={trun}
+                    />
+                   <Divider variant="inset" component="li" key={'d2'}/>
+                    <Load title="Activité"
+                          date={t_act}
+                          divider="false"
+                          target='/t_activites'
+                          icone="3"
+                          stateprops={trun}
+                    />
+                  </List>
+                </div>
+              	<div className="div_elmt_item2">
+                  <div className="div_elmt_chart">
+                		<h3>Nombres de visites</h3>
+                    <Line data={Donut}
+                        width={600}
+                    />
+                  </div>
+
+                  <div className="div_admin_alert">
+                    <div className="div_admin_alert-div">
+                      {nbLigne[0].efo}
+                    </div>
+                    <div className="div_admin_alert-div">
+
+                    </div>
+                    <div className="div_admin_alert-div">
+
+                    </div>
+                    <div className="div_admin_alert-div">
+
+                    </div>
+                    <div className="div_admin_alert-div">
+
+                    </div>
+                    <div className="div_admin_alert-div">
+
+                    </div>
+                  </div>
+
+              	</div>
+              </div>
+            
           </div>
-        </div> ):  <h1>Vous n'êtes pas autorisé à être ici {user.name} </h1>}
+         
+        </div>
+
+
+
+
+
+        ):  <h5>Chargement...</h5>}
         
       </div>
   
   );
     }else{
-      return (<Redirect to='/'/>);
+      return (<Redirect to='/home/admin'/>);
     }
 }
 

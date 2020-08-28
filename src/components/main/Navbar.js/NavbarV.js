@@ -140,6 +140,7 @@ export default function NavbarV() {
   const [sourceEfo, setSourceEfo] = useState('');
   const [countUsers, setCountUsers] = useState('');
   const [onlineUsers, setOnlineUsers] = useState('');
+  const [maj, setMAJ] = useState('');
 
   //count nav bar portefeuille
   const getCountPort = (fonction_id, p_user, ape_id) => {
@@ -172,6 +173,18 @@ export default function NavbarV() {
         // console.log('function_id missing');
     }
   };
+  useEffect(() => {
+      axios({
+        method: 'get',
+        url: '/load/historicMAJ',
+        headers: {
+          Authorization: 'Bearer ' + Cookies.get('authToken'),
+        },
+      }).then((res) => setMAJ(res.data));
+    
+  }, []);
+  let datemaj
+  try{datemaj = Object.values(maj[0])[0]}catch(error){}
 
   useEffect(() => {
     getCountPort(user.fonction_id, user.p_user, user.ape_id);
@@ -307,7 +320,7 @@ export default function NavbarV() {
             <MenuIcon />
           </IconButton>
           <Typography variant="subtitle1" noWrap>
-            Maj : 01/05/2020
+            Maj : {datemaj}
           </Typography>
           <div>
 

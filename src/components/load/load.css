@@ -1,0 +1,28 @@
+.flexbox{
+	display: flex;
+	justify-content: space-around;
+}
+
+.div_elmt_avatar{
+	background-color: #4b9bc9 !important;
+	width: 50px !important;
+    height: 50px !important;
+    margin-right: 10px;
+}
+.MuiAlert-message{
+	text-align: left;
+}
+.List_alert{
+	align-items: center;
+}
+.ListItem_item{
+	/*width: 80%;*/
+}
+.MuiDivider-inset{
+	margin-left: 20% !important;
+    margin-right: 20% !important;
+}
+.ListItem_alert{
+	border:1px solid red;    
+	margin: 2%;
+}
