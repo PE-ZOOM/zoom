@@ -11,7 +11,8 @@ import Select from '@material-ui/core/Select';
 import useStyles from '../../main/Navbar.js/filesForMaterialUi/useStyles';
 import Excel from '../../main/export/Excel';
 import Paper from '@material-ui/core/Paper';
-import TableContainer from '@material-ui/core/TableContainer'
+// import TableContainer from '@material-ui/core/TableContainer'
+import Skeleton from '@material-ui/lab/Skeleton'
 // import ref from '../../../image/ref.png';
 // import ape from '../../../image/ape.png';
 import './contact.css'
@@ -337,7 +338,6 @@ const Contacts = () => {
 			backgroundColor: color[1],
 		}]
 	};
-	// console.log(DoughnutData)
 
 	return (
 		
@@ -403,7 +403,12 @@ const Contacts = () => {
 			</FormControl>
 		</div> 
 		<div className="div_graph" >
-		<h2>{date}</h2>
+				{
+					(date==='undefined/undefined') 
+						? <Skeleton className="div_graph_date" variant="rect" width={100} height={20} />
+						: <h2>{date}</h2>
+				}
+			
 			<div className="Doughnut">
 				<Paper>
 					<Bar 
@@ -423,6 +428,7 @@ const Contacts = () => {
 			
 		</div>
 		<div>
+			{!(dataActi.length>0) && <Skeleton variant="rect"height={118} />}
 			<ContactTab dataActi={dataActi}/>	 	 
 		</div>
 		{(dataActi!==undefined && dataActi.length>0) &&

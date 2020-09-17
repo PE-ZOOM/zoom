@@ -481,8 +481,8 @@ export default function NavbarV() {
             </AccordionSummary>
             <AccordionDetails 
               className="Accordion_menu">
-              <ListItem button component={Link} to="diag" selected={selectedIndex === 9}
-              onClick={(event) => handleListItemClick(event, 9)}>
+              <ListItem button component={Link} to="diag" selected={selectedIndex === 11}
+              onClick={(event) => handleListItemClick(event, 11)}>
                 <ListItemIcon>
                   <SettingsOutlinedIcon />
                 </ListItemIcon>
@@ -490,13 +490,22 @@ export default function NavbarV() {
                   handleHistoric('Diagnostic');
                   }} />
               </ListItem>
-              <ListItem button component={Link} to="jalons" selected={selectedIndex === 0}
-              onClick={(event) => handleListItemClick(event, 0)}>
+              <ListItem button component={Link} to="jalons" selected={selectedIndex === 12}
+              onClick={(event) => handleListItemClick(event, 12)}>
                 <ListItemIcon>
                   <FlagOutlinedIcon />
                 </ListItemIcon>
                   <ListItemText primary="Jalons" onClick={() => {
                   handleHistoric('Jalons');
+                  }} />
+              </ListItem>
+              <ListItem button component={Link} to="defm" selected={selectedIndex === 13}
+              onClick={(event) => handleListItemClick(event, 13)}>
+                <ListItemIcon>
+                  <SettingsOutlinedIcon />
+                </ListItemIcon>
+                  <ListItemText primary="DEFM" onClick={() => {
+                  handleHistoric('DEFM');
                   }} />
               </ListItem>
               </AccordionDetails>
@@ -521,8 +530,8 @@ export default function NavbarV() {
             <AccordionDetails 
               className="Accordion_menu">
             
-              <ListItem button component={Link} to="efo" selected={selectedIndex === 2}
-                  onClick={(event) => handleListItemClick(event, 2)}>
+              <ListItem button component={Link} to="efo" selected={selectedIndex === 21}
+                  onClick={(event) => handleListItemClick(event, 21)}>
                   <ListItemIcon>
                       <HourglassEmptyRoundedIcon />
                   </ListItemIcon>
@@ -549,8 +558,8 @@ export default function NavbarV() {
             <AccordionDetails 
               className="Accordion_menu">
             
-              <ListItem button component={Link} to="contacts" selected={selectedIndex === 3}
-                  onClick={(event) => handleListItemClick(event, 3)}>
+              <ListItem button component={Link} to="contacts" selected={selectedIndex === 31}
+                  onClick={(event) => handleListItemClick(event, 31)}>
                   <ListItemIcon>
                       <PermContactCalendarOutlinedIcon />
                   </ListItemIcon>
@@ -558,8 +567,8 @@ export default function NavbarV() {
                         handleHistoric('Contacts');
                       }} />
               </ListItem>
-               <ListItem button component={Link} to="presta" selected={selectedIndex === 4}
-                  onClick={(event) => handleListItemClick(event, 4)}>
+               <ListItem button component={Link} to="presta" selected={selectedIndex === 32}
+                  onClick={(event) => handleListItemClick(event, 32)}>
                   <ListItemIcon>
                       <AirplayOutlinedIcon />
                   </ListItemIcon>

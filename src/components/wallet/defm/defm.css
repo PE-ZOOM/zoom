@@ -1,0 +1,39 @@
+.Headcell{
+	background-color:  #c9794b50;
+}
+.div-img_construction{
+  position: absolute;
+  bottom:0;
+  right: 0;
+}
+
+.div-img_construction img{
+	height: 100%;
+}
+.content{
+/*	display: flex;
+  align-items: center;
+  justify-content: center;*/
+}
+.paper_content{
+	margin: 2%;
+	position: relative;
+}
+.content .MuiTableContainer-root{
+	min-width: 250px;
+	height: auto;
+}
+.content .MuiIconButton-root{
+	margin-right: 0 !important;
+}
+.separateTable{
+	height: 20px;
+}
+.paper_legend{
+	font-style: italic;
+	margin:0;
+	padding:0;
+}
+.defm_graph{
+	margin-bottom: 5%;
+}

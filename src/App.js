@@ -10,6 +10,7 @@ import Contacts from './components/activites/contacts/Contacts';
 import Presta from './components/activites/prestations/Presta';
 import Efo from './components/training/Efo';
 import Diag from './components/wallet/diag/Diag';
+import Defm from './components/wallet/defm/Defm';
 import Jalons from './components/wallet/jalons/Jalons';
 import Load from './components/load/Load';
 import UpdateUser from './components/connexion/UpdateUser';
@@ -39,8 +40,9 @@ function App() {
 							path="/home/:route"
 							render={() => (
 								<Main>
-									<PrivateRoute path="/home/main" component={Dashboard}/>
+									<PrivateRoute path="/home/main" component={Dashboard}/> 
 									<PrivateRoute path="/home/diag" component={Diag} />
+									<PrivateRoute path="/home/defm" component={Defm} />
 									<PrivateRoute path="/home/jalons" component={Jalons} />
 									<PrivateRoute path="/home/efo" component={Efo} />
 									<PrivateRoute path="/home/contacts" component={Contacts} />

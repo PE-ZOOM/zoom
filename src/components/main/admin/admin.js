@@ -1,85 +1,27 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Redirect } from "react-router-dom"
 import Cookies from 'js-cookie';
 import Load from '../../load/Load'
-import Truncate from '../../load/truncate'
 import axios from 'axios';
 import {Line} from 'react-chartjs-2';
-import { isUserPermitted } from '../../../utils/permissions';
-import { LOAD_DATA, DISPLAY_STRUCTURE } from '../../../utils/permissionsTypes';
 import { UserContext } from '../../../contexts/UserContext';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
 import "./admin.css";
-
-
-function useInterval(callback, delay) {
-  const savedCallback = useRef();
-
-  // Remember the latest function.
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  // Set up the interval.
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-    if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay]);
-}
-
 
 const Admin = props => {
   const [histoS, setHistoS] = useState()
   const [histoM, setHistoM] = useState()
   const [maj, setMAJ] = useState()
-  const [nbLigne, setNbLigne] = useState([{efo:0,portefeuille:0,activites:0}])
-
   var DoughnutDataE = [];
   var DoughnutLabelE = [];
   var DoughnutDataE_M = [];
-  var DoughnutLabelE_M = [];
   const { user } = useContext(UserContext);
 
   var isAdmin = false;
   if(user.fonction==='Admin'){
-    var isAdmin = true;
+    isAdmin = true;
   }
-  
-
-   const [trun, setTrun] = useState(1);
-
-  const handleClickTrunCate = (event) => {
-    axios({
-        method: 'get',
-        url: '/load/truncate?t_activites',
-        headers: {
-          Authorization: 'Bearer ' + Cookies.get('authToken'),
-        },
-      }).then((res) => setTrun(0));
-    axios({
-        method: 'get',
-        url: '/load/truncate?t_efo',
-        headers: {
-          Authorization: 'Bearer ' + Cookies.get('authToken'),
-        },
-      }).then((res) => setTrun(0));
-    axios({
-        method: 'get',
-        url: '/load/truncate?t_portefeuille',
-        headers: {
-          Authorization: 'Bearer ' + Cookies.get('authToken'),
-        },
-      }).then((res) => setTrun(0));
-   };
-
-  // useInterval(() => {
 
   useEffect(() => {
       axios({
@@ -121,10 +63,11 @@ const Admin = props => {
   let t_efo 
   let t_port
 
+
   try{
-    t_port = "Dernière MaJ : " + Object.values(maj[0])[0]
+    t_port = "Dernière MaJ : " + Object.values(maj[2])[0]
     t_efo = "Dernière MaJ : " + Object.values(maj[1])[0]
-    t_act = "Dernière MaJ : " + Object.values(maj[2])[0]
+    t_act = "Dernière MaJ : " + Object.values(maj[0])[0]
 
     for(var j=0;j<histoM.length;j++){
       DoughnutLabelE.push(Object.values(histoM[j])[1]);
@@ -198,32 +141,26 @@ const Donut = {
               <div className="flexbox">
                 <div className="div_elmt">
                   <p className="div_elmt_p">Importation</p>
-                  <Button className='btn_trun' variant="contained" color="primary" onClick={handleClickTrunCate}>
-                    Vider les bases
-                  </Button>
                   <List>
                     <Load title="Portefeuille"
                           date={t_port}
-                          divider="false"
                           target='/t_portefeuille'
                           icone="1"
-                          stateprops={trun}
+                          clear={true}
                     />
-                    <Divider variant="inset" component="li" key={'d1'}/>
+                    <Divider variant="inset" component="li" key={10}/>
                     <Load title="EFO"
                           date={t_efo}
-                          divider="true"
                           target='/t_efo'
                           icone="2"
-                          stateprops={trun}
+                          clear={true}
                     />
-                   <Divider variant="inset" component="li" key={'d2'}/>
+                    <Divider variant="inset" component="li" key={20}/>
                     <Load title="Activité"
                           date={t_act}
-                          divider="false"
                           target='/t_activites'
                           icone="3"
-                          stateprops={trun}
+                          clear={false}
                     />
                   </List>
                 </div>
@@ -231,29 +168,20 @@ const Donut = {
                   <div className="div_elmt_chart">
                 		<h3>Nombres de visites</h3>
                     <Line data={Donut}
-                        width={600}
                     />
                   </div>
 
                   <div className="div_admin_alert">
-                    <div className="div_admin_alert-div">
-                      {nbLigne[0].efo}
-                    </div>
-                    <div className="div_admin_alert-div">
-
-                    </div>
-                    <div className="div_admin_alert-div">
-
-                    </div>
-                    <div className="div_admin_alert-div">
-
-                    </div>
-                    <div className="div_admin_alert-div">
-
-                    </div>
-                    <div className="div_admin_alert-div">
-
-                    </div>
+                    <ul>
+                    <li> Graphique en temps réel
+                    </li>
+                    <li> Ajouter alerte admin
+                    </li>
+                    <li> Ajouter ORE a valider portefeuille ?
+                    </li>
+                    <li> DEFM
+                    </li>
+                    </ul>
                   </div>
 
               	</div>

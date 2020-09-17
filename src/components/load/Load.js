@@ -1,179 +1,19 @@
-// import React, { Component } from "react";
-// import CSVReader from "react-csv-reader";
-// import Cookies from 'js-cookie';
-// // import "./App.css";
-// import Loader from "./Loader";
-// import "./load.css";
-// import { Alert , AlertTitle } from '@material-ui/lab';
-
-
-// import { makeStyles } from '@material-ui/core/styles';
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-// import Avatar from '@material-ui/core/Avatar';
-// import HourglassEmptyRoundedIcon from '@material-ui/icons/HourglassEmptyRounded';
-// import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
-// import PermContactCalendarOutlinedIcon from '@material-ui/icons/PermContactCalendarOutlined';
-// import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
-// import ContactMailOutlinedIcon from '@material-ui/icons/ContactMailOutlined';
-
-// // import LinearProgress from '@material-ui/core/LinearProgress';
-// // import CsvError from "./components/csvError";
-// // import Table from "./components/table";
-
-// class Load extends Component {
-
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       loading: false, 
-//       error: false,
-//       finish: false,
-//       msgErr:"",
-//     };
-//     this.target = props.target;
-//     this.title = props.title;
-//     this.icone = props.icone;
-//     this.divider = props.divider;
-//     this.date = props.date;
-//   }
-//   // :::::::: CSV parser ::::::::::
-//   papaparseOptions = {
-//     header: true,
-//     dynamicTyping: true,
-//     skipEmptyLines: true,
-//     transformHeader: (header) => header.toLowerCase().replace(/\W/g, "_"),
-//   };
-//   //::::::::::::::::::::::::::::::::
-
-//   //::::::::: for putting all data in CSV to MySQL :::::::::::
-//   handleForce = (data, fileInfo) => {
-//     const regDate= new RegExp(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/);
-//     this.setState({ error: false });
-//     this.setState({ loading: true });
-//     for(var i=0; i<data.length;i++){
-//       Object.entries(data[i]).map(([k, v]) => {
-//         if(regDate.test(v)){
-//           var date = v.split('/')
-//           data[i][k] = date[2] + '-' + date[1] + '-' + date[0] //Formatage de la date en YYYY-MM-DD
-//         }
-//       });
-//     }
-
-//     let d = JSON.stringify({ ...data });
-//     fetch("/load/"+this.target, {
-//       method: "POST",
-//       headers: {
-//         Accept: "application/json",
-//         "Content-Type": "application/json",
-//         Authorization: 'Bearer ' + Cookies.get('authToken')
-
-//       },
-//       body: d,
-//     })
-//       .then((response) => {
-//         this.setState({ loading: false })
-//         return response.json();
-//         // if (response.ok) {
-//         //   return response.json();
-//         // } else {
-//         //   throw new Error("Something went wrong");
-//         // }
-//       })
-//       .then((responseJson) => {
-//         console.log("Etape 3")
-//         this.setState({ finish: true });
-//         console.log(responseJson)
-//         if(responseJson.err === 'true')
-//           {
-//             this.setState({ error: true });
-//             responseJson.errno===1366?this.setState({ msgErr: "Verifier que le fichier soit bien enregistrer en CSV UTF-8. Sur Excel : Enregistrer sous > Format CSV UTF8" }):this.setState({ msgErr: responseJson.error });
-            
-//           };
-//       })
-//   };
-//   //:::::::::::::::: End of POST call to save data ::::::::::::::
-
-
-
-  
-
-//   render() {
-//     // if (this.state.loading) return <Loader />;
-//     // if (this.state.error) return <CsvError />;
-//     return (
-
-//           <ListItem key={this.icone}>
-//             <ListItemAvatar> 
-//               <Avatar className="div_elmt_avatar">
-//                 {this.icone==1
-//                   ?<AccountBalanceWalletOutlinedIcon fontSize="small"/>
-//                   :this.icone==2
-//                     ? <ContactMailOutlinedIcon fontSize="small"/>
-//                     : <PermContactCalendarOutlinedIcon fontSize="small"/>
-//                 }
-//               </Avatar>
-//             </ListItemAvatar>
-
-//             <div>
-//               <ListItemText primary={this.title} secondary={this.date} />
-//               {(this.state.loading)?<Loader />:(this.state.finish)?
-//                 [(!this.state.error) 
-//                   ? <Alert key={this.icone} className="List_alert"><AlertTitle>Upload Réussi !</AlertTitle>La mise à jours de la table {this.target} à bien été éffectuée.</Alert> 
-//                   : <div><Alert key={this.icone} severity="error" className="List_alert"><AlertTitle>Erreur</AlertTitle>{this.state.msgErr}</Alert>
-//                   <CSVReader
-//                       cssClass="react-csv-input"
-//                       onFileLoaded={this.handleForce}
-//                       parserOptions={this.papaparseOptions}
-//                       url={this.target}
-//                     /></div> ]:
-//                   <CSVReader
-//                       cssClass="react-csv-input"
-//                       onFileLoaded={this.handleForce}
-//                       parserOptions={this.papaparseOptions}
-//                       url={this.target}
-//                     />}
-//             </div>
-//           </ListItem> 
-
-            
-
-
-
- 
-
-      
-//     );
-//   }
-// }
-
-// export default Load;
-
-
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 
 import { CSVReader } from 'react-papaparse'
 // import CSVReader from "react-csv-reader";
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import Loader from "./Loader";
 import "./load.css";
 import { Alert , AlertTitle } from '@material-ui/lab';
-import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import HourglassEmptyRoundedIcon from '@material-ui/icons/HourglassEmptyRounded';
-import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import PermContactCalendarOutlinedIcon from '@material-ui/icons/PermContactCalendarOutlined';
 import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
 import ContactMailOutlinedIcon from '@material-ui/icons/ContactMailOutlined';
 import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 // const buttonRef = React.createRef()
@@ -191,7 +31,9 @@ class Load extends Component {
       finish: false,
       msgErr:"",
       nbLigne:this.props.stateprops,
-      stateprops:'',
+      clear:this.props.clear,
+      nb_iteration:0,
+      count_resp:0,
     };
     this.buttonRef = React.createRef()
   }
@@ -217,7 +59,6 @@ class Load extends Component {
 
 
   updateLigne() {
-    console.log("test")
     var self = this;
     axios.get(`/load/nbligne?${this.props.target}`)
     .then((response) => {
@@ -233,11 +74,19 @@ class Load extends Component {
   }
 
   handleOnFileLoad = (data, fileInfo) => {
-    this.setState({ finish: false, loading: true, error:false });
     let d_arr =[]
+    let i = 0; // Boucle For
+    let data_lenght = data.length //Boucle de FOR - FormatDate
+
+    let j = 0; //Compteur découpage du fichier - Boucle WHILE
+    let z = 0; //Compteur découpage du fichier - Boucle WHILE
+    let d_arr_length ;
+
+    let count_resp_max = 0;
+
     //:::::::::::::::: Mise en forme de la Date :::::::::::::: 
-    const regDate= new RegExp(/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/);
-    for(var i=0; i<data.length;i++){
+    const regDate= new RegExp(/^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{4}$/);
+    for(i; i<data_lenght;i++){
       Object.entries(data[i].data).map(([k, v]) => {
         if(regDate.test(v)){
           var date = v.split('/')
@@ -248,19 +97,25 @@ class Load extends Component {
     }
 
     //:::::::::::::::: Découpage du tableau (trop de données d'un coup pour le serveur & navigateur) :::::::::::::: 
-    var j = 0;
-    var z = 0;
 
-    while(z!==d_arr.length){
-      z<1?j=0:j+=40000;
-      z+=40000
-      if(d_arr.length<z){
+    count_resp_max = Math.ceil(d_arr.length/20000);
+    d_arr_length = d_arr.length
+    this.setState({ finish: false, loading: true, error:false, nb_iteration:count_resp_max });
+
+
+    while(z!==d_arr_length){
+      z<1?j=0:j+=20000;
+      z+=20000
+      if(d_arr_length<z){
         z=d_arr.length
       }
-      //:::::::::::::::: Envoi autant de requetes de 40k lignes de données que necessaire :::::::::::::: 
+      //:::::::::::::::: Envoi autant de requetes de 20k lignes de données que necessaire :::::::::::::: 
+      // Compter le nombre d'itération pour la reception des données
+      //  max:Math.ceil(d_arr.length/20000) 
       let d = JSON.stringify({ ...d_arr.slice(j,z) });
-      console.log(d_arr.slice(j,z))
-      fetch("/load/"+this.props.target, {
+      // let d = {data: JSON.stringify({ ...d_arr.slice(j,z) }), count: count, total: Math.ceil(d_arr.length/20000)}
+      fetch("/load/"+this.props.target.slice(1), {
+        // fetch("/load/"+this.props.target+'/'+count+':'+Math.ceil(d_arr.length/20000), {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -274,8 +129,51 @@ class Load extends Component {
           return response.json();
         })
         .then((responseJson) => {
-          this.setState({ loading: false, finish: true });
-          console.log(responseJson)
+          this.setState({
+            count_resp:this.state.count_resp + 1
+          });
+          if(this.state.count_resp===count_resp_max){
+            this.setState({ loading: false, finish: true, count_resp: 0});
+            this.updateLigne() //A mettre a chaque itération, serveur pas assez puissant ?
+
+            // METTRE A JOUR LA TABLE MAJ
+            
+
+          }
+
+          if(responseJson.err === 'true')
+            {
+              this.setState({ error: true });
+              z = d_arr_length; //Mettre fin à la boucle while
+              responseJson.errno===1366?this.setState({ msgErr: "Verifier que le fichier soit bien enregistrer en CSV UTF-8. Sur Excel : Enregistrer sous > Format CSV UTF8" }):this.setState({ msgErr: responseJson.error });
+              console.log(responseJson.error)
+            };
+        })
+   
+    }
+  }
+ 
+  handleOnError = (err, file, inputElem, reason) => {
+    console.log(err)
+  } 
+  handleClickTrunCate = (event) => {
+    fetch("/load/truncate?"+this.props.target.slice(1), {
+        // fetch("/load/"+this.props.target+'/'+count+':'+Math.ceil(d_arr.length/20000), {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: 'Bearer ' + Cookies.get('authToken')
+
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((responseJson) => {
+          this.updateLigne()
+          // this.setState({nbLigne:0});
+
           if(responseJson.err === 'true')
             {
               this.setState({ error: true });
@@ -283,22 +181,57 @@ class Load extends Component {
               console.log(responseJson.error)
             };
         })
-      
-            
-      
-    this.updateLigne()
-    }
   }
- 
-  handleOnError = (err, file, inputElem, reason) => {
-    console.log(err)
-  } 
+
+    handleClickMaJ = (event) => {
+
+      // A METTRE APRES UN ENREGISTREMENT DE DONNEES POUR METTRE A JOUR LA TABLE MAJ
+
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+
+      today = yyyy + '-' + mm + '-' + dd;
+
+
+      let d = JSON.stringify({data:today,
+                              table:this.props.target.slice(1)});
+
+      fetch("/load/maj?", {
+              // fetch("/load/"+this.props.target+'/'+count+':'+Math.ceil(d_arr.length/20000), {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: 'Bearer ' + Cookies.get('authToken')
+
+                },
+                body: d,
+              })
+              .then((response) => {
+                return response.json();
+              })
+              .then((responseJson) => {
+                // this.updateLigne()
+                // this.setState({nbLigne:0});
+
+                if(responseJson.err === 'true')
+                  {
+                    this.setState({ error: true });
+                  };
+              })
+    }
 
   render() {
     // if (this.state.loading) return <Loader />;
     // if (this.state.error) return <CsvError />;
     return (
+
       <ListItem key={this.props.icone.toString()}>
+
+
+
         <ListItemAvatar > 
           <Avatar className="div_elmt_avatar">
             {this.props.icone===1
@@ -318,80 +251,97 @@ class Load extends Component {
                 variant="body2"
                 color="textPrimary"
               >
-                {this.props.date}
+                { this.props.date
+
+                }
               </Typography>
-              {" - " + this.state.nbLigne + " lignes."}
+              {" " + this.state.nbLigne + " lignes."}
             </React.Fragment>
           }
            />
-           {(this.state.finish) &&
+           {
+              (this.state.finish) &&
               [(!this.state.error) ? <Alert className="List_alert"><AlertTitle>Upload Réussi !</AlertTitle>La mise à jours de la table {this.props.target} à bien été éffectuée.</Alert> 
-                :<Alert  severity="error" className="List_alert"><AlertTitle>Erreur</AlertTitle>{this.state.msgErr}</Alert>]}
+                :<Alert  severity="error" className="List_alert"><AlertTitle>Erreur</AlertTitle>{this.state.msgErr}</Alert>]
+            }
+            {
 
+              // Si base vidable (porps) + nbligne > 0
+              // Affiche bouton vider la table
+              // sinon affiche CSVReader
 
+              (this.state.clear && this.state.nbLigne > 0) 
 
-            <CSVReader
-              ref={this.buttonRef}
-              onFileLoad={this.handleOnFileLoad}
-              onError={this.handleOnError}
-              onChange={this.handleOnChange}
-              noDrag
-              config={{
-                header: true,
-                // preview:4,
-                dynamicTyping: true,
-                skipEmptyLines: true,
-                transformHeader: (header) => header.toLowerCase().replace(/\W/g, "_"),
-              }}
-              onRemoveFile={this.handleOnRemoveFile}
-            >
-              {({ file }) => (
-                <aside
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    marginBottom: 10
+              ? 
+              
+                <Button className='btn_trun' variant="contained" color="primary" onClick={this.handleClickTrunCate}>
+                  Vider
+                </Button> 
+
+              : 
+
+                <CSVReader
+                  ref={this.buttonRef}
+                  onFileLoad={this.handleOnFileLoad}
+                  onError={this.handleOnError}
+                  onChange={this.handleOnChange}
+                  noDrag
+                  config={{
+                    header: true,
+                    // preview:4,
+                    dynamicTyping: true,
+                    skipEmptyLines: true,
+                    transformHeader: (header) => header.toLowerCase().replace(/\W/g, "_"),
                   }}
+                  onRemoveFile={this.handleOnRemoveFile}
                 >
-                  
-                  <div
-                    style={{
-                      borderWidth: 1,
-                      borderStyle: 'solid',
-                      borderColor: '#ccc',
-                      // height: 45,
-                      // lineHeight: 2.5,
-                      // marginTop: 5,
-                      // marginBottom: 5,
-                      paddingLeft: 13,
-                      paddingTop: 3,
-                      width: '60%'
-                    }}
-                  >
-                    {file && file.name}
-                  </div>
-                  <Button
-                    type='button'
-                    onClick={this.handleOpenDialog}
-                    style={{
-                      fonSsize: '10px',
-                      borderRadius: 0,
-                      marginLeft: 0,
-                      marginRight: 0,
-                      width: '40%',
-                      paddingLeft: 0,
-                      paddingRight: 0,
-                      color: 'white',
-                      background: '#c9794b'
-                    }}
-                  >
-                    Choisir
-                  </Button>
-                </aside>
-              )}
-          </CSVReader>
-
-          {(this.state.loading) && <p>Parsing ok.<br/>Enregistrement des données, veillez patienter... :</p>}
+                  {({ file }) => (
+                    <aside
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        marginBottom: 10
+                      }}
+                    >
+                      
+                      <div
+                        style={{
+                          borderWidth: 1,
+                          borderStyle: 'solid',
+                          borderColor: '#ccc',
+                          // height: 45,
+                          // lineHeight: 2.5,
+                          // marginTop: 5,
+                          // marginBottom: 5,
+                          paddingLeft: 13,
+                          paddingTop: 3,
+                          width: '60%'
+                        }}
+                      >
+                        {file && file.name}
+                      </div>
+                      <Button
+                        type='button'
+                        onClick={this.handleOpenDialog}
+                        style={{
+                          fonSsize: '10px',
+                          borderRadius: 0,
+                          marginLeft: 0,
+                          marginRight: 0,
+                          width: '40%',
+                          paddingLeft: 0,
+                          paddingRight: 0,
+                          color: 'white',
+                          background: '#c9794b'
+                        }}
+                      >
+                        Choisir
+                      </Button>
+                    </aside>
+                  )}
+              </CSVReader>
+            }
+          {(this.state.loading) && <p>Parsing ok.<br/>Enregistrement des données, veillez patienter... {this.state.count_resp}/{this.state.nb_iteration}</p>}
         </div>
         {/*<Card variant="outlined">
           <Alert variant="outlined" severity="info">

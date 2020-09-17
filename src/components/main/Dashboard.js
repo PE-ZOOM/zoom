@@ -5,25 +5,19 @@ import Cookies from 'js-cookie';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
 import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom';
 
+import AlertR from './chart/Alert'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 // import TableHead from '@material-ui/core/TableHead'; 	
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
@@ -32,8 +26,6 @@ import Jalon from "../../image/card/jalonprojet.jpg";
 import Activite from "../../image/card/activite.jpg";
 import EFO from "../../image/card/EFO.jpg";
 import './dashboard.css'
-
-import TB_Card from './Card'
 
 // import "./excel.css";
 const useStyles = makeStyles((theme) => ({
@@ -65,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
 		width:'100%',
 		height: 'auto',
 		marginBottom: '2%',
+	},
+	div_card:{
+		marginBottom:'2%',
 	}
 }));
 
@@ -74,14 +69,28 @@ const DashBoard = () => {
 	const [ jalon, setJalon ] = useState([]);
 	const [ activite, setActivite ] = useState([]);
 	const [ efo, setEfo ] = useState([]);
-	// var nbDE = 0;
+
+	const [ loadJalon, setLoadJalon ] = useState(false);
+	const [ loadEFO, setLoadEFO ] = useState(false);
+	const [ loadActivite, setLoadActivite ] = useState(false);
+
+	const [ jalon_Sans, setJalon_Sans ] = useState(0);
+	const [ Jalon_Mois, setJalon_Mois ] = useState(0);
+	const [ Jalon_Depasse, setJalon_Depasse ] = useState(0);
+	const [ ORE, setORE ] = useState(0);
+
+	const [ EFO_C, setEFO_C ] = useState(0);
+	const [ EFO_O, setEFO_O ] = useState(0);
+	const [ nb_DE, setNb_DE ] = useState(0);
 	
 	useEffect(() => {
 		var filtre;
 		if(user.fonction_id===1){
 			filtre='dc_dernieragentreferent='+user.p_user 
-		}else if(user.fonction_id===6){
+		}else if(user.fonction_id>4){
 			filtre=''
+		}else if(user.fonction_id===4){
+			filtre='dt='+user.fonction
 		}
 		else{
 			filtre='dc_structureprincipalede='+user.ape_id
@@ -114,37 +123,68 @@ const DashBoard = () => {
 		})
 		.then((res) =>  setActivite(res.data));
 
+		axios({
+			method: 'get',
+			url: `/dashboard/ore?${filtre}`,
+			headers: {
+				Authorization: 'Bearer ' + Cookies.get('authToken')
+			}
+		})
+		.then((res) =>  setORE(res.data[0].NbORE));
+
 	}, [user])
-	var Jalon_Depasse 	= 0;
-	var Jalon_Mois 		= 0;
-	var jalon_Sans 		= 0;
-	var EFO_C 			= 0;
-	var EFO_O 			= 0;
-	var nb_DE 			= 0;
 
-	if(jalon.length > 0){
-		jalon_Sans 		= jalon.reduce((total, currentValue) => total + currentValue[Object.keys(jalon[0])[1]], 0)
-		Jalon_Depasse 	= jalon.reduce((total, currentValue) => total + currentValue[Object.keys(jalon[0])[2]], 0)
-		Jalon_Mois 		= jalon.reduce((total, currentValue) => total + currentValue[Object.keys(jalon[0])[3]], 0)
 
-	}
+	useEffect(() => {
+		if(!loadJalon && jalon.length > 0){
+			setLoadJalon(true)
+			setJalon_Sans	(jalon.reduce((total, currentValue) => total + currentValue[Object.keys(jalon[0])[1]], 0))
+			setJalon_Depasse(jalon.reduce((total, currentValue) => total + currentValue[Object.keys(jalon[0])[2]], 0))
+			setJalon_Mois	(jalon.reduce((total, currentValue) => total + currentValue[Object.keys(jalon[0])[3]], 0))
+		}
+		if(!loadEFO && efo.length > 0){
+			setLoadEFO(true)
+			setEFO_C(Object.values(efo[0])[0]);
+			setEFO_O(Object.values(efo[1])[0]);
+		}
+		if(!loadActivite && activite.length > 0){
+			setLoadActivite(true); 
+			setNb_DE(Object.values(activite[0])[0]);
+		}
+	}, [jalon, efo, activite])
+
 	if(efo.length > 0 && efo[1]){
-		EFO_C = Object.values(efo[0])[0];
-		EFO_O = Object.values(efo[1])[0];
-	}
-	if(activite.length > 0){
-		nb_DE = Object.values(activite[0])[0];
 	}
 	// console.log(ja)
 	// (jalon)
+	const data = {
+	labels: [
+		'Red',
+		'Blue',
+		'Yellow'
+	],
+	datasets: [{
+		data: [300, 50, 100],
+		backgroundColor: [
+		'#FF6384',
+		'#36A2EB',
+		'#FFCE56'
+		],
+		hoverBackgroundColor: [
+		'#FF6384',
+		'#36A2EB',
+		'#FFCE56'
+		]
+	}]
+};
 
   	return (
-  		<div xs={12} className={classes.test}>
+  		<div xs={12}>
   			<Paper className={classes.citation}>
   				<h5><p className="quote">‟</p> Une petite phrasounette pour dire qu'il faut regarder les autres alertes aussi ! <p className="quote">”</p></h5>
   			</Paper>
-  			<div className={classes.test}>
-				<Grid container justify="center" spacing={2}>
+  			<div className={classes.div_card}>
+				<Grid container justify="center" alignItems="stretch" spacing={2}>
 					
 					{/* 
 					<TB_Card 
@@ -174,24 +214,27 @@ const DashBoard = () => {
 										<Table size="small" aria-label="a dense table">
 											<TableBody>
 												<TableRow>
-													<TableCell align="left">Sans Jalon :</TableCell>
+													<TableCell align="left">Sans Jalon : </TableCell>
 													<TableCell align="right">
-													    {jalon_Sans===0
-															?<Chip
-														        label={jalon_Sans}
-														        color="primary"
-														      />
-															:<Chip
-														        label={jalon_Sans}
-														        color="secondary"
-														      />
-														} 
+														{loadJalon ? 
+													    	jalon_Sans===0
+																?<Chip
+															        label={jalon_Sans}
+															        color="primary"
+															      />
+																:<Chip
+															        label={jalon_Sans}
+															        color="secondary"
+															      />
+														:<CircularProgress />}
+
 													</TableCell>
 												</TableRow> 
 												<TableRow>
 													<TableCell align="left">Jalon dépassé :</TableCell>
 													<TableCell align="right">
-														{Jalon_Depasse===0
+														{loadJalon ? 
+															Jalon_Depasse===0
 															?<Chip
 														        label={Jalon_Depasse}
 														        color="primary"
@@ -200,13 +243,14 @@ const DashBoard = () => {
 														        label={Jalon_Depasse}
 														        color="secondary"
 														      />
-														}
+														:<CircularProgress />}
 													</TableCell>
 												</TableRow> 
 												<TableRow>
 													<TableCell align="left">Jalon entre 0 et 30 Jrs :</TableCell>
 													<TableCell align="right">
-														{Jalon_Mois===0
+														{loadJalon ? 
+															Jalon_Mois===0
 															?<Chip
 														        label={Jalon_Mois}
 														        color="primary"
@@ -215,7 +259,7 @@ const DashBoard = () => {
 														        label={Jalon_Mois}
 														        color="secondary"
 														      />
-														}
+														:<CircularProgress />}
 													</TableCell>
 												</TableRow> 
 												 
@@ -244,7 +288,8 @@ const DashBoard = () => {
 												<TableRow>
 													<TableCell align="left">EFO C :</TableCell>
 													<TableCell align="right">
-													     {EFO_C===0
+													     {loadEFO ?
+													     	EFO_C===0
 															?<Chip
 														        label={EFO_C}
 														        color="primary"
@@ -253,13 +298,14 @@ const DashBoard = () => {
 														        label={EFO_C}
 														        color="secondary"
 														      />
-														} 
+														:<CircularProgress />} 
 													</TableCell>
 												</TableRow>
 												<TableRow>
 													<TableCell align="left">EFO O :</TableCell>
 													<TableCell align="right">
-													     {EFO_O===0
+													     {loadEFO ?
+													     	EFO_O===0
 															?<Chip
 														        label={EFO_O}
 														        color="primary"
@@ -268,7 +314,7 @@ const DashBoard = () => {
 														        label={EFO_O}
 														        color="secondary"
 														      />
-														} 
+														:<CircularProgress />} 
 													</TableCell>
 												</TableRow>
 											</TableBody>
@@ -296,7 +342,8 @@ const DashBoard = () => {
 												<TableRow>
 													<TableCell align="left">Nb DE sans contact :</TableCell>
 													<TableCell align="right">
-													    {nb_DE===0
+													    {loadActivite ?
+													    	nb_DE===0
 															?<Chip
 														        label={nb_DE}
 														        color="primary"
@@ -305,7 +352,7 @@ const DashBoard = () => {
 														        label={nb_DE}
 														        color="secondary"
 														      />
-														} 
+														:<CircularProgress />} 
 													</TableCell>
 												</TableRow>
 											</TableBody>
@@ -316,6 +363,23 @@ const DashBoard = () => {
 					</Grid>	
 
 				</Grid>
+			</div>
+
+			<div>
+				<Paper>  				
+				    <Grid container justify="space-evenly" spacing={5}>
+						<AlertR title="ORE à valdier"
+								data={ORE}
+						/>
+					    <AlertR title="Autres"
+								data={473}
+						/>
+						<AlertR title="Autres bis"
+								data={1}
+						/>
+						
+				    </Grid>
+			    </Paper>
 			</div>
 
   		</div>

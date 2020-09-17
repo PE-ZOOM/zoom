@@ -13,6 +13,7 @@ import useStyles from '../../main/Navbar.js/filesForMaterialUi/useStyles';
 import {Bar} from 'react-chartjs-2';
 import {Pie} from 'react-chartjs-2';
 import Paper from '@material-ui/core/Paper';
+import Skeleton from '@material-ui/lab/Skeleton'
 import './prestas.css'
 
 // import ref from '../../../image/ref.png';
@@ -400,6 +401,7 @@ const Presta = () => {
 			</div>
 			
 			<div>
+				{!(dataActi.length>0) && <Skeleton variant="rect"height={118} />}
 				<PrestaTab dataActi={dataActi}/>	 	 
 			</div>
 			{(dataActi!==undefined && dataActi.length>0) &&

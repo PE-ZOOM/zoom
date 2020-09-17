@@ -10,7 +10,10 @@
     margin-bottom: 20px;
     margin-top: 20px;
 }*/
-.box{margin:1%;}
+.box{
+    margin:1%;
+    width: 100%;
+}
 .color1 {
     background-color:#6D6875
 }

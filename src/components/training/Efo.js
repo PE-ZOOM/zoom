@@ -417,11 +417,9 @@ const Efo = () => {
 			label_Efo_byDate += (Object.values(Efo_byDate[0])[1])?Object.values(Efo_byDate[0])[1]:''
 			label_Efo_byDate += " > 365 jours"
 	}
-	// console.log(label_Efo_byDate)
-
-	if(efo_c_o){
+	if(efo_c_o && efo_c_o[0] !== null && efo_c_o[0] !== undefined){
 		data = {
-			labels: [Object.values(efo_c_o[0])[1], Object.values(efo_c_o[1])[1]],
+			labels: [	Object.values(efo_c_o[0])[1], Object.values(efo_c_o[1])[1]],
 			datasets: [{
 				data: [Object.values(efo_c_o[0])[0], Object.values(efo_c_o[1])[0]],
 				backgroundColor: ['#e76f51', '#264653'],
@@ -432,7 +430,6 @@ const Efo = () => {
 		};
 	}
 	
-		console.log(dataEfo)
 
 	return (
 		

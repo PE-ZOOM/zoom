@@ -7,7 +7,6 @@ import { NavContext } from '../../contexts/NavContext';
 import UpdateUser from '../connexion/UpdateUser';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import Dashboard from './Dashboard';
 
 const Main = (props) => {
 

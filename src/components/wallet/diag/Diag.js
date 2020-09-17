@@ -279,7 +279,6 @@ const Diag = () => {
 	const  handleChangeMod = (event) => { 
 		const name = event.target.name;
 		const value = event.target.value;
-		console.log(name)
 		setDataDiagMod({...dataDiagMod, [name]: value })
 		changeOne(name,value)
 	}
@@ -296,7 +295,6 @@ const Diag = () => {
 
 	const changeOne = (namecol,val) => {
 		const sourceone = `/count/diag?${namecol}=${val}` + sourceUser
-		
 		// console.log(sourceone)
 		axios({
 		   method: 'get',
@@ -325,8 +323,6 @@ const Diag = () => {
 	const handleClick = (event, name) => {
 		const selectedIndex = selected.indexOf(name);
 		let newSelected = [];
-
-		console.log("handleClick")
 		if (selectedIndex === -1) {
 			newSelected = newSelected.concat(selected, name);
 		} else if (selectedIndex === 0) {
@@ -339,6 +335,8 @@ const Diag = () => {
 				selected.slice(selectedIndex + 1),
 			);
 		}
+		
+		console.log(newSelected)
 		setSelected(newSelected);
 	}; 
 	//end
@@ -362,6 +360,7 @@ const Diag = () => {
 				filterName.push(`${namefield(selected[i])}=${dataDiagMod[selected[i]]}`)
 				
 			}
+			// console.log(checkedUrl)
 				  const sourcemulti = url + checkedUrl + sourceUser
 				  axios({
 				  method: 'get',
@@ -371,6 +370,8 @@ const Diag = () => {
 				  }
 			  })
 			  .then(res => {setmulti(res.data[0].nb)}, setCheckUrl(checkedUrl+ sourceUser),setFilter(filterName))
+			  
+			console.log(sourcemulti)
 		  } else {
 			setmulti(0)
 			setFilter([])
@@ -379,7 +380,6 @@ const Diag = () => {
 
 	useEffect(() => {
 		getResultMulti()
-		console.log("qsd")
 	}
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	, [selected])
@@ -467,9 +467,7 @@ const Diag = () => {
 	const [value, setValue] = React.useState(0);
 
 	const handleChangePaper = (event, newValue) => {
-	setValue(newValue);
-
-	console.log("handleChangePaper")
+		setValue(newValue);
 	}
 
 

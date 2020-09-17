@@ -6,6 +6,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import './jalon.css'
 import useStyles from '../../main/Navbar.js/filesForMaterialUi/useStyles';
+
+import Skeleton from '@material-ui/lab/Skeleton'
 // import {Pie} from 'react-chartjs-2';
 // import ide from '../../../image/ide.png';
 // import ref from '../../../image/ref.png';
@@ -182,9 +184,10 @@ const Jalons = () => {
 		</div>
 		<div className="container-jalon">
 		
-			<div className="box">
+			<div className="box">{!(dataJalon.length>0) && <Skeleton variant="rect"height={500} />}
 				<JalonTab dataJalon={dataJalon} color={color}/>	 	 
 			</div>
+			<Skeleton variant="rect"height={118} />
 			<div className="Doughnut">
 				<JalonPie data={dataPie} color={color}/>
 			</div>
