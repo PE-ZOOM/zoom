@@ -18,7 +18,11 @@ import clsx from 'clsx';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import PropTypes from 'prop-types';
+import Paper from '@material-ui/core/Paper';
 
+import Skeleton from '@material-ui/lab/Skeleton';
+import Box from '@material-ui/core/Box';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
@@ -58,7 +62,6 @@ const EnhancedTableToolbar = (props) => {
         <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
           <h4>Résultat {numSelected} critères: {nb_DE} DE</h4>
         </Typography>
-
         <IconButton aria-label="delete" onClick={handle}>
           <DeleteIcon />
         </IconButton>
@@ -79,15 +82,15 @@ const Defm = () => {
   const classes2 = useStyles2(); //UseStyles de useStyles.js
   const { user } = useContext(UserContext);
 
-  const [ axe,        setAxe          ] = useState([]);
-  const [ modeAccomp,  setModeAccomp  ] = useState([]);
   const [ ancienneteInscr,  setAncienneteInscr  ] = useState([]);
-  const [ infoDivers,  setInfoDivers  ] = useState([{tel:'Telephone', nb:0}, {mail:'Mail', nb:0}, {cv:'CV en ligne', nb:0}, {demat:'Demat', nb:0}]);
-
-  const [ multi,      setMulti        ] = useState(0);
-  const [ sourceUser, setSourceUser   ] = useState('soon');
-  const [ selected,   setSelected     ] = useState([]);
-  const [ chkURL,     setChkURL       ] = useState('')
+  const [ loading,          setLoading          ] = useState(false)
+  const [ axe,              setAxe              ] = useState([]);
+  const [ modeAccomp,       setModeAccomp       ] = useState([]);
+  const [ infoDivers,       setInfoDivers       ] = useState([{tel:'Telephone', nb:0}, {mail:'Mail', nb:0}, {cv:'CV en ligne', nb:0}, {demat:'Demat', nb:0}]);
+  const [ multi,            setMulti            ] = useState(0);
+  const [ sourceUser,       setSourceUser       ] = useState('soon');
+  const [ selected,         setSelected         ] = useState([]);
+  const [ chkURL,           setChkURL           ] = useState('')
 
   useEffect(() => {
     getFindUrl(user.fonction_id, user.p_user,user.ape_id)
@@ -211,7 +214,7 @@ const Defm = () => {
           Authorization: 'Bearer ' + Cookies.get('authToken')
         }
       })
-      .then(res => {setMulti(res.data[0].nb)})
+      .then(res => {setLoading(false);setMulti(res.data[0].nb)})
 
     inscript_arr = [];
 
@@ -223,6 +226,7 @@ const Defm = () => {
 
   useEffect(() => {
     getResultMulti()
+    setLoading(true)
   }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   , [selected])
@@ -432,7 +436,10 @@ const Defm = () => {
 
     return (
       <div>
+        <div className="toolbar">
         <EnhancedTableToolbar numSelected={selected.length} handle={deselect} nb_DE={multi.toLocaleString()}/>
+        {(loading) &&  <CircularProgress />}
+          </div>
       <div className='div-img_construction'><img src={img} alt='En construction'/></div>
         <div className={classes2.excel}>
           <Excel
@@ -445,7 +452,7 @@ const Defm = () => {
           <Grid item xs={12}>
             <Grid container justify="center" alignItems="flex-start">
                 
-                {(axe.length > 1) &&<DefmTab 
+                {(axe.length > 1) ? <DefmTab 
                   
                   uniqueKey={1}
                   data={axe} 
@@ -458,9 +465,20 @@ const Defm = () => {
                   aide=""
                   format="(%)"
                   onSelectAllClick={handleSelectAllClick}
-                />}
+                />
+                    
+                    
+                : 
+                <Paper className='paper_content'>
+                  <Skeleton variant="rect" width={210} height={50} />
+                  
+                  <Skeleton variant="circle" className='skeleton_graph' width={100} height={100} />
+                </Paper>
+
+
+                }
                 
-                {(ancienneteInscr.length > 1) &&<DefmTab 
+                {(ancienneteInscr.length > 1) ? <DefmTab 
                   uniqueKey={2}
                   data={ancienneteInscr} 
                   selected={selected}
@@ -472,7 +490,14 @@ const Defm = () => {
                   aide=""
                   format="(%)"
                   onSelectAllClick={handleSelectAllClick}
-                />}
+                />
+                : 
+                  <Paper className='paper_content'>
+                    <Skeleton variant="rect" width={210} height={50} />
+                    
+                    <Skeleton variant="circle" className='skeleton_graph' width={100} height={100} />
+                  </Paper>
+                }
                   {(modeAccomp.length > 1) &&<DefmTab 
                     uniqueKey={3}
                     data={modeAccomp} 
@@ -486,7 +511,8 @@ const Defm = () => {
                     format=""
                     onSelectAllClick={handleSelectAllClick}
                   /> }
-                  {(infoDivers.length > 1) &&<DefmTab 
+
+                  { /*(infoDivers.length > 1) &&<DefmTab 
                     uniqueKey={4}
                     data={infoDivers} 
                     selected={selected}
@@ -498,7 +524,7 @@ const Defm = () => {
                     aide=""
                     format=""
                     // onSelectAllClick={handleSelectAllClick}
-                  /> }
+                  /> */}
               </Grid>
           </Grid>
         </Grid>

@@ -299,7 +299,7 @@ const Contacts = () => {
 	    	DoughnutLabelE.push(key);
 	    })
 
-    for (const [key, value] of Object.entries(dataActi[0])) {
+    	for (const [key, value] of Object.entries(dataActi[0])) {
 			if(key.includes('tx')){
 				if(key.includes('entrant')){
 					var value1 = parseInt(value.slice(0,value.length -1))

@@ -248,6 +248,7 @@ const Presta = () => {
 	}
 	
 	// console.log(dataActi)
+
 	var value1 = []
 	var label1 = []
 	var title1 = []
@@ -256,63 +257,43 @@ const Presta = () => {
 	var label2 = []
 	var title2 = []
 
-	try {
-    	for (const [key, value] of Object.entries(dataActi[0])) {
-			if(key.includes('ACTIV') || key.includes('Prestas')|| key.includes('Regards')|| key.includes('Vers1')|| key.includes('Valoriser')){
-					value1.push(value)
-					label1.push(key.replace('_',' '))
-			}else if(key.includes('annee') || key.includes('mois')){
-				title1.push(value)
-			}
-		}
-
-		for (const [key, value] of Object.entries(dataActi[1])) {
-			if(key.includes('ACTIV') || key.includes('Prestas')|| key.includes('Regards')|| key.includes('Vers1')|| key.includes('Valoriser')){
-					value2.push(value)
-					label2.push(key.replace('_',' '))
-			}else if(key.includes('annee') || key.includes('mois')){
-				title2.push(value)
-			}
-		}
-		// console.log(dataActi[0])
-		
-    } catch(error){}
-		// const test= () => {
-		// 	console.log(dataActi)
-		// 	console.log(checkUrl)
-		// }
-	// console.log(label1)
-	const data = {
-		labels: label1,
-		datasets: [{
-			label: title1[1] + '/' + title1[0],
-			type:'bar',
-			data: value1,
-			fill: false,
-			backgroundColor: color[0],
-		},{
-			type: 'bar',
-			label:  title1[1] + '/' + title1[0],
-			data: value2,
-			fill: false,
-			backgroundColor: color[1],
-		}]
-	};
-
 	const options = {
 		legend: {position: 'right',}
 	}
 
-	const dataPie = {
-		labels: label1,
+	const data = {
+		labels: '',
 		datasets: [{
-			data: value1,
-			backgroundColor: color,
-			// hoverBackgroundColor: DoughnutHoverColor,
-			// hoverBorderColor:DoughnutColor,
-			hoverBorderWidth:2
+			type:'bar',
+			label: '1',
+			data: 0,
+		},{
+			type: 'bar',
+			label:  '2',
+			data: 0,
 		}]
 	};
+	if(dataActi.length > 0){
+
+		Object.keys(dataActi[0]).map((lbl) => {
+			if(lbl.includes('ACTIV') || lbl.includes('Prestas')|| lbl.includes('Regards')|| lbl.includes('Vers1')|| lbl.includes('Valoriser')){
+				label1.push(lbl.replaceAll('_',' '))
+			}
+		})
+		data['labels'] = label1
+		for(var z=0; z<dataActi.length; z++){
+			value1 = []
+			Object.entries(dataActi[z]).map((k)=>{
+				if(k[0].includes('ACTIV') || k[0].includes('Prestas')|| k[0].includes('Regards')|| k[0].includes('Vers1')|| k[0].includes('Valoriser')){
+					value1.push(k[1])
+				}
+			})
+			data['datasets'][z].data = value1
+			data['datasets'][z].label = dataActi[z]['mois'] + '/' + dataActi[z]['annee']
+			data['datasets'][z].backgroundColor = color[z]
+		}
+		
+    } 
 
 	return (
 		
@@ -337,7 +318,7 @@ const Presta = () => {
 						<MenuItem 
 						key={option.dc_structureprincipalesuivi}
 						value={option.dc_structureprincipalesuivi}
-						>{option.dc_structureprincipalesuivi}</MenuItem>
+						>{option.libelle_ape}</MenuItem>
 						))}
 						</Select>
 				</FormControl>
@@ -383,20 +364,20 @@ const Presta = () => {
 			
 			<div className="div_graph">
 				<div className="Doughnut">
-					<Paper>
+					 <Paper>
 						<Bar data={data} 
-							width={500}  
-				        	height={200}
-							options={{ maintainAspectRatio: false}} 
+							width={800}  
+				        	// height={200}
+							options={{ maintainAspectRatio: true}} 
 						/>
-					</Paper>
-					<Paper>
+					</Paper> 
+					{/*<Paper>
 				        <Pie data={dataPie} 
 				        	width={500}
 			        		height={200}
 			        		options={options}
 				        />
-					</Paper>
+					</Paper>*/}
 				</div>
 			</div>
 			

@@ -6,17 +6,21 @@ a{
 	transform: translate(0%, 20%);
 	font-size: xxx-large;
 }
-.circleAlert{
-	border: 10px solid #f00;
+.Alert{
+	/*border: 10px solid #f00;
     border-radius: 100px;
-    width: 120px;
-    height: 120px;
     overflow: hidden;
-    /*line-height: 20px;*/padding: 15px; 
+    padding: 15px; */
+/*
+    width: 100px;
+    height: 100px;*/
+    padding: 2%;
+    margin: 2%;
+
 }
-.circleAlert_titre{
-	font-size: xx-large;
+.Alert_titre{
+	font-size: x-large;
 }
-.circleAlert_desc{
+.Alert_desc{
 	font-size: x-large;
 }

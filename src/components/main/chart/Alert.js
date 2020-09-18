@@ -1,24 +1,19 @@
 import React, {useState} from "react";
+import CountUp from 'react-countup';
+
+import Paper from '@material-ui/core/Paper';
 
 function AlertR({data, color, title}) {
 
-	const [ isHide, setIsHide ] = useState(true);
-
-	const showDetail = (e) => {
-		setIsHide(false)
-	 }
-	 const hideDetail = (e) => {
-		setIsHide(true)
-	 }
-
 	return (
-		<div className='circleAlert' onMouseOver={showDetail} onMouseLeave={hideDetail}>	
-			<div className="circleAlert_content"> 
-				{(isHide) ? <p className="circleAlert_titre">{data}</p> : 
-				<p className="circleAlert_desc">{title}</p> 
-				}
+		// <div className='circleAlert' onMouseOver={showDetail} onMouseLeave={hideDetail}>	
+
+			<div className="Alert_content"> 
+				<p className="Alert_titre"><CountUp end={data} duration={4}/></p> 
+				<p className="Alert_titre">{title}</p> 
 			</div>
-		</div>
+	
+		// </div>
 	);
 }
 

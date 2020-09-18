@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import Login from './components/connexion/Login';
 import RegisterUser from './components/connexion/RegisterUser';
 import Main from './components/main/Main';
-import Dashboard from './components/main/Dashboard';
+import Dashboard from './components/main/dashboard/Dashboard';
 // import Contacts from './components/activites/contacts/Contacts2';
 import Contacts from './components/activites/contacts/Contacts';
 import Presta from './components/activites/prestations/Presta';

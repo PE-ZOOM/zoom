@@ -1,5 +1,5 @@
 import React, { useContext,useState, useEffect } from 'react';
-import { UserContext } from '../../contexts/UserContext';
+import { UserContext } from '../../../contexts/UserContext';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Link } from 'react-router-dom';
 
-import AlertR from './chart/Alert'
+import AlertR from './../chart/Alert'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -22,10 +22,15 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
 
-import Jalon from "../../image/card/jalonprojet.jpg";
-import Activite from "../../image/card/activite.jpg";
-import EFO from "../../image/card/EFO.jpg";
+import imgJalon from "../../../image/card/jalonprojet.jpg";
+import imgActivite from "../../../image/card/activite.jpg";
+import imgEFO from "../../../image/card/EFO.jpg";
 import './dashboard.css'
+
+import TB_Card from "./card/Card"
+
+import Skeleton from '@material-ui/lab/Skeleton'
+import CountUp from 'react-countup';
 
 // import "./excel.css";
 const useStyles = makeStyles((theme) => ({
@@ -54,8 +59,10 @@ const useStyles = makeStyles((theme) => ({
 		textDecoration: 'none',
 	},
 	citation:{
-		width:'100%',
+		width:'70%',
 		height: 'auto',
+		marginRight: 'auto',
+		marginLeft:  'auto',
 		marginBottom: '2%',
 	},
 	div_card:{
@@ -65,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
 
 const DashBoard = () => {
 	const classes = useStyles();
+
 	const { user } = useContext(UserContext);
 	const [ jalon, setJalon ] = useState([]);
 	const [ activite, setActivite ] = useState([]);
@@ -85,6 +93,7 @@ const DashBoard = () => {
 	
 	useEffect(() => {
 		var filtre;
+
 		if(user.fonction_id===1){
 			filtre='dc_dernieragentreferent='+user.p_user 
 		}else if(user.fonction_id>4){
@@ -96,52 +105,54 @@ const DashBoard = () => {
 			filtre='dc_structureprincipalede='+user.ape_id
 		}
 
-		axios({
-			method: 'get',
-			url: `/dashboard/jalon?${filtre}`,
-			headers: {
-				Authorization: 'Bearer ' + Cookies.get('authToken')
-			}
-		})
-		.then((res) =>  setJalon(res.data));
+		if(Object.entries(user).length !== 0){
 
-		axios({
-			method: 'get',
-			url: `/dashboard/efo?${filtre}`,
-			headers: {
-				Authorization: 'Bearer ' + Cookies.get('authToken')
-			}
-		})
-		.then((res) =>  setEfo(res.data));
+			axios({
+				method: 'get',
+				url: `/dashboard/jalon?${filtre}`,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken')
+				}
+			})
+			.then((res) =>  setJalon(res.data));
 
-		axios({
-			method: 'get',
-			url: `/dashboard/activite?${filtre}`,
-			headers: {
-				Authorization: 'Bearer ' + Cookies.get('authToken')
-			}
-		})
-		.then((res) =>  setActivite(res.data));
+			axios({
+				method: 'get',
+				url: `/dashboard/efo?${filtre}`,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken')
+				}
+			})
+			.then((res) =>  setEfo(res.data));
 
-		axios({
-			method: 'get',
-			url: `/dashboard/ore?${filtre}`,
-			headers: {
-				Authorization: 'Bearer ' + Cookies.get('authToken')
-			}
-		})
-		.then((res) =>  setORE(res.data[0].NbORE));
+			axios({
+				method: 'get',
+				url: `/dashboard/activite?${filtre}`,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken')
+				}
+			})
+			.then((res) =>  setActivite(res.data));
 
+			axios({
+				method: 'get',
+				url: `/dashboard/ore?${filtre}`,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken')
+				}
+			})
+			.then((res) =>  setORE(res.data[0].NbORE));
+		}
 	}, [user])
 
 
 	useEffect(() => {
-		if(!loadJalon && jalon.length > 0){
-			setLoadJalon(true)
-			setJalon_Sans	(jalon.reduce((total, currentValue) => total + currentValue[Object.keys(jalon[0])[1]], 0))
-			setJalon_Depasse(jalon.reduce((total, currentValue) => total + currentValue[Object.keys(jalon[0])[2]], 0))
-			setJalon_Mois	(jalon.reduce((total, currentValue) => total + currentValue[Object.keys(jalon[0])[3]], 0))
-		}
+		// if(!loadJalon && jalon.length > 0){
+		// 	setLoadJalon(true)
+		// 	// setJalon_Sans	(jalon.reduce((total, currentValue) => total + currentValue[Object.keys(jalon[0])[1]], 0))
+		// 	// setJalon_Depasse(jalon.reduce((total, currentValue) => total + currentValue[Object.keys(jalon[0])[2]], 0))
+		// 	// setJalon_Mois	(jalon.reduce((total, currentValue) => total + currentValue[Object.keys(jalon[0])[3]], 0))
+		// }
 		if(!loadEFO && efo.length > 0){
 			setLoadEFO(true)
 			setEFO_C(Object.values(efo[0])[0]);
@@ -180,12 +191,35 @@ const DashBoard = () => {
 
   	return (
   		<div xs={12}>
+
   			<Paper className={classes.citation}>
   				<h5><p className="quote">‟</p> Une petite phrasounette pour dire qu'il faut regarder les autres alertes aussi ! <p className="quote">”</p></h5>
   			</Paper>
   			<div className={classes.div_card}>
 				<Grid container justify="center" alignItems="stretch" spacing={2}>
+
 					
+					{(jalon.length > 0) 
+					&& <TB_Card 
+		  				data={jalon} 
+		  				link='jalons'
+		  				img={imgJalon}
+		  				title='Jalons'
+		  			/>}
+		  			
+		  			{(efo.length > 0) && <TB_Card 
+		  				data={efo} 
+		  				link='efo'
+		  				img={imgEFO}
+		  				title='EFO'
+		  			/>}
+		  		
+		  			{(activite.length > 0) && <TB_Card 
+		  				data={activite} 
+		  				link='contacts'
+		  				img={imgActivite}
+		  				title='Activités'
+		  			/>}
 					{/* 
 					<TB_Card 
 						cle={5}
@@ -194,7 +228,7 @@ const DashBoard = () => {
 						link="jalons"
 
 						/>
-					*/}
+				
 
 					<Grid key={0} item component={Link} to="jalons">
 							<Card className={classes.paper} component={Paper}>
@@ -203,7 +237,7 @@ const DashBoard = () => {
 										component="img"
 										alt="Jalon"
 										height="140"
-										image={Jalon}
+										image={imgJalon}
 										title="Jalon"
 									/>
 									<Typography gutterBottom variant="h5" component="h2" className={classes.textImg}>
@@ -269,6 +303,7 @@ const DashBoard = () => {
 								</CardActionArea>
 							</Card>
 					</Grid>	
+			
 					<Grid key={1} item component={Link} to="efo">
 						<Card className={classes.paper} component={Paper}>
 							<CardActionArea>
@@ -276,7 +311,7 @@ const DashBoard = () => {
 									component="img"
 									alt="EFO"
 									height="140"
-									image={EFO}
+									image={imgEFO}
 									title="EFO"
 								/>
 								<Typography gutterBottom variant="h5" component="h2" className={classes.textImg}>
@@ -330,7 +365,7 @@ const DashBoard = () => {
 									component="img"
 									alt="Activite"
 									height="140"
-									image={Activite}
+									image={imgActivite}
 									title="Activite"
 								/>
 								<Typography gutterBottom variant="h5" component="h2" className={classes.textImg}>
@@ -361,26 +396,32 @@ const DashBoard = () => {
 							</CardActionArea>
 						</Card>
 					</Grid>	
-
+*/ }
 				</Grid>
 			</div>
+				
+			{ /* <div>
 
-			<div>
-				<Paper>  				
-				    <Grid container justify="space-evenly" spacing={5}>
-						<AlertR title="ORE à valdier"
-								data={ORE}
-						/>
-					    <AlertR title="Autres"
-								data={473}
-						/>
-						<AlertR title="Autres bis"
-								data={1}
-						/>
-						
+
+				    <Grid container justify="center">
+				    	<Paper className="Alert">
+							<AlertR title="ORE à valdier"
+									data={ORE}
+							/>
+						</Paper>
+					    <Paper className="Alert">
+							<AlertR title="ORE à valdier"
+									data={473}
+							/>
+						</Paper>
+						<Paper className="Alert">
+							<AlertR title="ORE à valdier"
+									data={9999}
+							/>
+						</Paper>
 				    </Grid>
-			    </Paper>
 			</div>
+		*/ }
 
   		</div>
 		

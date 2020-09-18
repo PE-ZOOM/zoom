@@ -15,7 +15,9 @@ import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import Activite from "../../image/card/activite.jpg";
+import Activite from "../../../../image/card/activite.jpg";
+
+import CountUp from 'react-countup';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -40,44 +42,59 @@ const useStyles = makeStyles((theme) => ({
 const TB_Card = (props) => {
 
 	const classes = useStyles();
-	console.log(props.objet[0])
   	return (	
-
-  		<div>
-		<h1>TEST</h1>
-			
-			<Grid key={props.cle} item component={Link} to={props.link}>
+			<Grid key={0} item component={Link} to={props.link}>
 				<Card className={classes.paper} component={Paper}>
 					<CardActionArea>
 						<CardMedia
 							component="img"
-							alt={props.label}
+							alt={props.title}
 							height="140"
-							image={Activite}
-							title={props.label}
+							image={props.img}
+							title={props.title}
 						/>
-						<Typography className={classes.textImg} gutterBottom variant="h5" component="h2">
-							{props.label}
+						<Typography gutterBottom variant="h5" component="h2" className={classes.textImg}>
+							{props.title}
 						</Typography>
 						<CardContent>
+							
 							<Table size="small" aria-label="a dense table">
 								<TableBody>
-									<TableRow>
-										<TableCell align="left">Nb DE sans contact :</TableCell>
-										<TableCell align="right">
-											<Chip
-										        label={props.objet.SJ}
-										        color="secondary"
-										      />
-										</TableCell>
-									</TableRow>
+								{
+									props.data.map((k)=>{
+										if(k.lbl !== null){
+										
+										return(
+												<TableRow key={k.nb}>
+													<TableCell align="left">{k.lbl}</TableCell>
+													<TableCell align="right">
+													    {
+													    
+													    	k.nb===0
+															?<Chip
+														        label={k.nb}
+														        color="primary"
+														      />
+															:
+															<Chip
+														        label={<CountUp end={k.nb} duration={5}/>}
+														        color="secondary"
+														      />
+													} 
+													</TableCell>
+												</TableRow> 
+											)
+										}
+										
+									})
+
+								}
 								</TableBody>
 							</Table>
-						</CardContent>
+						</CardContent> 
 					</CardActionArea>
 				</Card>
-			</Grid>
-		</div>
+		</Grid>	
 
 	);
 }
