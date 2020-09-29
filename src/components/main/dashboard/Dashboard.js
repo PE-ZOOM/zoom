@@ -72,20 +72,21 @@ const useStyles = makeStyles((theme) => ({
 
 const DashBoard = () => {
 	const classes = useStyles();
+	
 
 	const { user } = useContext(UserContext);
 	const [ jalon, setJalon ] = useState([]);
-	const [ activite, setActivite ] = useState([]);
+	// const [ activite, setActivite ] = useState([]);
 	const [ efo, setEfo ] = useState([]);
 
 	const [ loadJalon, setLoadJalon ] = useState(false);
 	const [ loadEFO, setLoadEFO ] = useState(false);
-	const [ loadActivite, setLoadActivite ] = useState(false);
+	// const [ loadActivite, setLoadActivite ] = useState(false);
 
 	const [ jalon_Sans, setJalon_Sans ] = useState(0);
 	const [ Jalon_Mois, setJalon_Mois ] = useState(0);
 	const [ Jalon_Depasse, setJalon_Depasse ] = useState(0);
-	const [ ORE, setORE ] = useState(0);
+	// const [ ORE, setORE ] = useState(0);
 
 	const [ EFO_C, setEFO_C ] = useState(0);
 	const [ EFO_O, setEFO_O ] = useState(0);
@@ -125,23 +126,23 @@ const DashBoard = () => {
 			})
 			.then((res) =>  setEfo(res.data));
 
-			axios({
-				method: 'get',
-				url: `/dashboard/activite?${filtre}`,
-				headers: {
-					Authorization: 'Bearer ' + Cookies.get('authToken')
-				}
-			})
-			.then((res) =>  setActivite(res.data));
+			// axios({
+			// 	method: 'get',
+			// 	url: `/dashboard/activite?${filtre}`,
+			// 	headers: {
+			// 		Authorization: 'Bearer ' + Cookies.get('authToken')
+			// 	}
+			// })
+			// .then((res) =>  setActivite(res.data));
 
-			axios({
-				method: 'get',
-				url: `/dashboard/ore?${filtre}`,
-				headers: {
-					Authorization: 'Bearer ' + Cookies.get('authToken')
-				}
-			})
-			.then((res) =>  setORE(res.data[0].NbORE));
+			// axios({
+			// 	method: 'get',
+			// 	url: `/dashboard/ore?${filtre}`,
+			// 	headers: {
+			// 		Authorization: 'Bearer ' + Cookies.get('authToken')
+			// 	}
+			// })
+			// .then((res) =>  setORE(res.data[0].NbORE));
 		}
 	}, [user])
 
@@ -154,15 +155,19 @@ const DashBoard = () => {
 		// 	// setJalon_Mois	(jalon.reduce((total, currentValue) => total + currentValue[Object.keys(jalon[0])[3]], 0))
 		// }
 		if(!loadEFO && efo.length > 0){
+			// console.log(efo)
 			setLoadEFO(true)
 			setEFO_C(Object.values(efo[0])[0]);
-			setEFO_O(Object.values(efo[1])[0]);
+			if(efo.length > 1){
+				setEFO_O(Object.values(efo[1])[0]);
+			}
 		}
-		if(!loadActivite && activite.length > 0){
-			setLoadActivite(true); 
-			setNb_DE(Object.values(activite[0])[0]);
-		}
-	}, [jalon, efo, activite])
+		// if(!loadActivite && activite.length > 0){
+		// 	setLoadActivite(true); 
+		// 	setNb_DE(Object.values(activite[0])[0]);
+		// }
+	// }, [jalon, efo, activite])
+	}, [jalon, efo])
 
 	if(efo.length > 0 && efo[1]){
 	}
@@ -213,14 +218,14 @@ const DashBoard = () => {
 		  				img={imgEFO}
 		  				title='EFO'
 		  			/>}
-		  		
+		  		{/* 
 		  			{(activite.length > 0) && <TB_Card 
 		  				data={activite} 
 		  				link='contacts'
 		  				img={imgActivite}
 		  				title='Activités'
 		  			/>}
-					{/* 
+					
 					<TB_Card 
 						cle={5}
 						label="Jalon"

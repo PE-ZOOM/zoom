@@ -411,6 +411,7 @@ const Efo = () => {
 			// hoverBorderColor:DoughnutColor,
 			hoverBorderWidth:2
 		}]
+		
 	};
 	if(Efo_byDate){
 		var label_Efo_byDate = "Nombre de EFO " 
@@ -419,9 +420,9 @@ const Efo = () => {
 	}
 	if(efo_c_o && efo_c_o[0] !== null && efo_c_o[0] !== undefined){
 		data = {
-			labels: [	Object.values(efo_c_o[0])[1], Object.values(efo_c_o[1])[1]],
+			labels: [	(efo_c_o[0] !== undefined)?Object.values(efo_c_o[0])[1]:'', (efo_c_o[1] !== undefined)?Object.values(efo_c_o[1])[1]:'' ],
 			datasets: [{
-				data: [Object.values(efo_c_o[0])[0], Object.values(efo_c_o[1])[0]],
+				data: [(efo_c_o[0] !== undefined)?Object.values(efo_c_o[0])[0]:0, (efo_c_o[1] !== undefined)?Object.values(efo_c_o[1])[0]:0],
 				backgroundColor: ['#e76f51', '#264653'],
 				// hoverBackgroundColor: DoughnutHoverColor,
 				// hoverBorderColor:DoughnutColor,
