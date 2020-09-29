@@ -41,7 +41,7 @@ export default function PrestaTab({dataActi}) {
 
         <TableBody>
           {dataActi.map((row) => (
-            <TableRow key={row.annee+row.mois}>
+            <TableRow key={row.annee+''+row.mois}>
               <TableCell align="right">{row[Object.keys(dataActi[0])[0]].toLocaleString()}</TableCell> 
               <TableCell align="right">{row[Object.keys(dataActi[0])[1]].toLocaleString()}</TableCell>
               <TableCell align="right">{row[Object.keys(dataActi[0])[2]].toLocaleString()}</TableCell>

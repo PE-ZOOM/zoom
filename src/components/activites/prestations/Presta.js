@@ -10,7 +10,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Excel from '../../main/export/Excel';
 import useStyles from '../../main/Navbar.js/filesForMaterialUi/useStyles';
-import {Bar} from 'react-chartjs-2';
+import {Line} from 'react-chartjs-2';
 import {Pie} from 'react-chartjs-2';
 import Paper from '@material-ui/core/Paper';
 import Skeleton from '@material-ui/lab/Skeleton'
@@ -53,6 +53,9 @@ const Presta = () => {
 	const { user } = useContext(UserContext);
 
 	const [ dataActi, setDataActi ] = useState([]);
+
+	// const [ filterLine, setFilterLine] = useState([]);
+	// const [ sourceFilterLine, setSourceFilterLine] = useState('');
 
 	const [ sourceUser, setSourceUser ] = useState('soon');
 	const [ listeStructure, setListeStructure] = useState([]);
@@ -194,7 +197,17 @@ const Presta = () => {
 				   Authorization: 'Bearer ' + Cookies.get('authToken')
 			   }
 		   })
-		   .then(res => {setDataActi(res.data)}, setCheckUrl(`${sourceUser}&${sql}`))
+		   .then(res => {
+		   		setDataActi(res.data);
+		  //  		var temp_arr = [];
+		  //  		Object.keys(res.data[0]).map((lbl) => {
+				// 	if(lbl.includes('ACTIV') || lbl.includes('Prestas')|| lbl.includes('Regards')|| lbl.includes('Vers1')|| lbl.includes('Valoriser')){
+				// 		temp_arr.push(lbl.replaceAll('_',' '))
+				// 	}
+				// }); 
+				// setFilterLine(temp_arr);
+				// setSourceFilterLine(temp_arr[0]);
+		   	}, setCheckUrl(`${sourceUser}&${sql}`))
 		 }
 
 		 useEffect(() => {
@@ -256,44 +269,117 @@ const Presta = () => {
 	var value2 = []
 	var label2 = []
 	var title2 = []
-
+	var variable 
 	const options = {
 		legend: {position: 'right',}
 	}
 
 	const data = {
-		labels: '',
-		datasets: [{
-			type:'bar',
-			label: '1',
-			data: 0,
-		},{
-			type: 'bar',
-			label:  '2',
-			data: 0,
-		}]
+		labels: [],
+		datasets: []
 	};
-	if(dataActi.length > 0){
+	var first_iteration = true;
+	 if(dataActi.length > 0){
+	 	
+	 	// POUR EXEMPLE DE VARIATION DES DONNEES
+	 	// if(first_iteration)
+	 	// {
+	 	// 	dataActi.unshift(
+ 		//  		{
+ 		// 			annee: 2020,
+ 		// 			mois: 8,
+ 		// 			nb_de_affectes: 43,
+ 		//  			ACTIV_Créa: 120,
+ 		// 			ACTIV_Emploi: 15,
+ 		// 			ACTIV_Projet: 5,
+ 		// 			Regards_croisés: 30,
+ 		// 			Valoriser_son_image_pro: 95,
+ 		// 			Vers1métier: 0,
+ 		// 			Presta: 600,
+ 		// 			tx_prestation: "0.2%"
+ 		//  		}
+	 	// 	)
+	 	// 	dataActi.unshift(
+ 		//  		{
+ 		// 			annee: 2020,
+ 		// 			mois: 9,
+ 		// 			nb_de_affectes: 12456,
+ 		//  			ACTIV_Créa: 50,
+ 		// 			ACTIV_Emploi: 55,
+ 		// 			ACTIV_Projet: 35,
+ 		// 			Regards_croisés: 10,
+ 		// 			Valoriser_son_image_pro: 125,
+ 		// 			Vers1métier: 46,
+ 		// 			Presta: 921,
+ 		// 			tx_prestation: "0.99%"
+ 		//  		}
+	 	// 	 )
+	 	// }
+	 	// first_iteration = false;
+	 	
+	 	
+		var annee = dataActi[0].annee
+		var i =0;
 
-		Object.keys(dataActi[0]).map((lbl) => {
-			if(lbl.includes('ACTIV') || lbl.includes('Prestas')|| lbl.includes('Regards')|| lbl.includes('Vers1')|| lbl.includes('Valoriser')){
-				label1.push(lbl.replaceAll('_',' '))
+		for(var z=0; z<dataActi.length; z++){ // LOOP SUR TOUTES LES LIGNES DU TABLEAU DATAACTIV
+
+			if(annee === dataActi[z].annee){ // TRI SUR LA DERNIERE ANNEE
+				data['labels'].unshift(dataActi[z].mois) // RENSEIGNE LES MOIS CONNUS - UNSHIFT POUR INSERER AU DEBUT DU TABLEAU
+
+				Object.entries(dataActi[z]).map((v) => { // BOUCLE SUR CHAQUE COLONNE DU TABLEAU
+
+					
+					if(	v[0].includes('ACTIV') 	|| 
+						v[0].includes('Presta')	|| 
+						v[0].includes('Regards')|| 
+						v[0].includes('Vers1')	|| 
+						v[0].includes('Valoriser')
+						)
+					{
+
+						if(z===0){  // SI PREMIERE ITERATION, CREATION DES OBJETS LINE
+
+							data['datasets'].push(
+								{
+									label: v[0].replaceAll('_',' '), 
+									fill: false,
+									lineTension: 0,
+									backgroundColor: 'rgba(75,192,192,0.4)',
+									borderColor: color[i],
+									borderCapStyle: 'butt',
+									borderDash: [],
+									borderDashOffset: 0.0,
+									borderJoinStyle: 'miter',
+									pointBorderColor: color[i],
+									pointBackgroundColor: '#fff',
+									pointBorderWidth: 1,
+									pointHoverRadius: 5,
+									pointHoverBackgroundColor: 'rgba(220,220,220,1)',
+									pointHoverBorderColor: color[i],
+									pointHoverBorderWidth: 2,
+									pointRadius: 0.1,
+									pointHitRadius: 10,
+									data:[]
+								
+								}
+							)
+							i += 1;
+						} // END IF PREMIRE ITERATION
+
+						// BOUCLE SUR LES OBJETS LINE
+						// TEST SI LABEL DE L'OBJET CORRESPOND A LA LIGNE DE l'ITERATION v
+						// AJOUTER LA VALEUR AU DEBUT DU TABLEAU AVEC UNSHIFT
+						for(var z_data=0; z_data<data['datasets'].length; z_data++){ 
+							if(v[0].replaceAll('_',' ')===data['datasets'][z_data].label){
+								data['datasets'][z_data].data.unshift(v[1]) 
+							}
+						}
+
+					} // END IF INCLUDES
+				})
 			}
-		})
-		data['labels'] = label1
-		for(var z=0; z<dataActi.length; z++){
-			value1 = []
-			Object.entries(dataActi[z]).map((k)=>{
-				if(k[0].includes('ACTIV') || k[0].includes('Prestas')|| k[0].includes('Regards')|| k[0].includes('Vers1')|| k[0].includes('Valoriser')){
-					value1.push(k[1])
-				}
-			})
-			data['datasets'][z].data = value1
-			data['datasets'][z].label = dataActi[z]['mois'] + '/' + dataActi[z]['annee']
-			data['datasets'][z].backgroundColor = color[z]
 		}
-		
-    } 
+	}
 
 	return (
 		
@@ -364,12 +450,15 @@ const Presta = () => {
 			
 			<div className="div_graph">
 				<div className="Doughnut">
-					 <Paper>
-						<Bar data={data} 
-							width={800}  
-				        	// height={200}
+					<Paper>
+						<Line 
+							data={data} 
+							width={1000}  
+							height={300}  
 							options={{ maintainAspectRatio: true}} 
 						/>
+						
+
 					</Paper> 
 					{/*<Paper>
 				        <Pie data={dataPie} 
