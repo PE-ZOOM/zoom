@@ -21,7 +21,6 @@ import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 
 import Skeleton from '@material-ui/lab/Skeleton';
-import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useToolbarStyles = makeStyles((theme) => ({
@@ -86,7 +85,7 @@ const Defm = () => {
   const [ loading,          setLoading          ] = useState(false)
   const [ axe,              setAxe              ] = useState([]);
   const [ modeAccomp,       setModeAccomp       ] = useState([]);
-  const [ infoDivers,       setInfoDivers       ] = useState([{tel:'Telephone', nb:0}, {mail:'Mail', nb:0}, {cv:'CV en ligne', nb:0}, {demat:'Demat', nb:0}]);
+  // const [ infoDivers,       setInfoDivers       ] = useState([{tel:'Telephone', nb:0}, {mail:'Mail', nb:0}, {cv:'CV en ligne', nb:0}, {demat:'Demat', nb:0}]);
   const [ multi,            setMulti            ] = useState(0);
   const [ sourceUser,       setSourceUser       ] = useState('soon');
   const [ selected,         setSelected         ] = useState([]);
@@ -143,23 +142,18 @@ const Defm = () => {
           setSelected(newSelected);
         })
 
-       axios({
-        method:'get',
-        url: '/defm/divers?'+sourceUser,
-        headers: {
-             Authorization: 'Bearer ' + Cookies.get('authToken')
-           }
-       })
-       .then((res) =>  {
-          setInfoDivers(0)
+       // axios({
+       //  method:'get',
+       //  url: '/defm/divers?'+sourceUser,
+       //  headers: {
+       //       Authorization: 'Bearer ' + Cookies.get('authToken')
+       //     }
+       // })
+       // .then((res) =>  {
+       //    setInfoDivers(0)
 
-          // console.log(res.data)
-          // console.log(infoDivers)
-
-          // const newSelecteds = res.data.map((n) => "d/" + n.lbl);
-          // newSelected = newSelected.concat(selected, newSelecteds);
-          // setSelected(newSelected);
-        })
+       //   // CARD INFO DIVERS ?
+       //  })
 
     }
   }
@@ -173,8 +167,6 @@ const Defm = () => {
     let inscript_arr = []
     let inscript_arr_cache = []
     let acc_arr = []
-    var tabSupp = []
-    var tabInf = []
 
     // Range les données selon leurs types acc/inscript/axe de travail dans des tableaux
     if (selected.length>0){
@@ -367,73 +359,6 @@ const Defm = () => {
     
   }
 
-  // const exportApe = () => {
-    // setState({ open: true, ...{ vertical: 'bottom', horizontal: 'center' } });
-
-    // axios({
-    //   method: 'get', 
-    //   responseType: 'blob', 
-    //   url: '/diagxlsx/ape?' + chkURL,
-    //   headers: {
-    //     Authorization: 'Bearer ' + Cookies.get('authToken'),
-    //   }
-    // })
-    // .then((response) => {
-    //   const url = window.URL.createObjectURL(new Blob([response.data]));
-    //   const link = document.createElement('a');
-    //   link.href = url;
-    //   link.setAttribute('download', 'defmApe.xlsx'); 
-    //   document.body.appendChild(link);
-    //   link.click();
-    // });
-
-  // }
-
-  // ================================================================= GRAPH
-
-  // var DoughnutLabel = [];
-  // var DoughnutColor = ['#264653', '#2a9d8f', '#e9c46a', '#f4a261', '#e76f51', '#6f51e7', '#c4ffff', '#e76fff'];
-  // var DoughnutHoverColor = [];
-  // var DoughnutData = [];
-
-  // axe.map((key, index) => {
-  //   if(selected.indexOf(key.lbl)>-1){
-  //     console.log("OUUUUIIIII")
-  //     console.log(key.lbl)
-  //   }
-  //   DoughnutData.push(key.nb)
-  //   DoughnutLabel.push(key.lbl)
-  // })
-  // console.log(DoughnutData)
-  // console.log(DoughnutLabel)
-
-  //   var options ={
-  //     legend: {
-  //         position: 'right',
-  //     },
-  //     // cutoutPercentage:20,
-
-  // };
-
-  // const DoughnutEntrant = {
-  //   labels: DoughnutLabel,
-  //   datasets: [{
-  //     data: DoughnutData,
-  //     backgroundColor: DoughnutColor,
-  //     hoverBackgroundColor: DoughnutHoverColor,
-  //     hoverBorderColor:DoughnutColor,
-  //     hoverBorderWidth:2
-  //   }]
-  // };
-
-
-
-    // const nbJoursInscript = ["> 12 mois et < 24 mois","> 24 mois et < 36 mois","> 36 mois"];
-
-
-    // =================================================== FIN GRAPH
-  // console.log(axe.map((key) => console.log(Object.values(key).toString())))
-
     return (
       <div>
         <div className="toolbar">
@@ -459,7 +384,6 @@ const Defm = () => {
                   selected={selected}
                   handleClick={handleClick} 
                   isSelected={isSelected}
-                  selected={selected}
                   prefixe="axe/"
                   title="Axe de travail"
                   aide=""
@@ -484,7 +408,6 @@ const Defm = () => {
                   selected={selected}
                   handleClick={handleClick} 
                   isSelected={isSelected}
-                  selected={selected}
                   prefixe="i/"
                   title="Ancienneté d'inscription"
                   aide=""
@@ -504,7 +427,6 @@ const Defm = () => {
                     selected={selected}
                     handleClick={handleClick} 
                     isSelected={isSelected}
-                    selected={selected}
                     prefixe="acc/"
                     title="Modalité d'accompagnement"
                     aide=""
@@ -528,28 +450,6 @@ const Defm = () => {
               </Grid>
           </Grid>
         </Grid>
-
-          {/*  <Paper>
-                      <Tabs
-                        value={value}
-                        onChange={handleChangePaper}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        centered
-                        >
-                        <Tab className={choice===1 ? "on" : "off"} onClick={choice1} label="Axe de Travail" />
-                        <Tab className={choice===2 ? "on" : "off"} onClick={choice2} label="Code Validation Rome" />
-                        <Tab className={choice===3 ? "on" : "off"} onClick={choice3} label="Divers" />
-                      </Tabs>
-                    </Paper>
-                    <div className='content'>
-                    {(choice===1) && <AxeTab data={axe} handleClick={handleClick} isSelected={isSelected}/>}
-          
-                    {(choice===3) && <DiversTab data={axe} handleClick={handleClick} isSelected={isSelected} sourceUser={sourceUser}/>}
-                    </div>
-                  <div className='axeTravail'>
-                    
-                  </div> */}
       </div> 
     );
   }

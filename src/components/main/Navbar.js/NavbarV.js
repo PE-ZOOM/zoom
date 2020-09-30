@@ -429,7 +429,7 @@ export default function NavbarV() {
         <ListItem button onClick={handleShow}>
         <div className="card card-navbar">
             <div className="card-header">
-                <Avatar className="card-center"  alt={user.name} src={avatar} className={classes.orange} />
+                <Avatar  alt={user.name} src={avatar} className={classes.orange} />
             </div>
             <div className="card-body card-center">
                 <h5 className="card-title">{user.name}</h5>

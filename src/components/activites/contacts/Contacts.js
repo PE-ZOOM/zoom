@@ -3,7 +3,6 @@ import { UserContext } from '../../../contexts/UserContext';
 import ContactTab from './ContactTab';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-// import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -11,16 +10,11 @@ import Select from '@material-ui/core/Select';
 import useStyles from '../../main/Navbar.js/filesForMaterialUi/useStyles';
 import Excel from '../../main/export/Excel';
 import Paper from '@material-ui/core/Paper';
-// import TableContainer from '@material-ui/core/TableContainer'
 import Skeleton from '@material-ui/lab/Skeleton'
-// import ref from '../../../image/ref.png';
-// import ape from '../../../image/ape.png';
 import './contact.css'
 
 import {Bar} from 'react-chartjs-2';
-// import {Doughnut} from 'react-chartjs-2';
 import {Pie} from 'react-chartjs-2';
-// import {Polar} from 'react-chartjs-2';
 
 
 
@@ -289,15 +283,18 @@ const Contacts = () => {
 
 	var DoughnutDataS = [];
 	var DoughnutLabelS = [];
+
 	try {
-		Object.entries(DataDonughtS[0]).map(([key, value]) => {
-	    	DoughnutDataS.push(value);
+
+		for(const [key, value] of Object.entries(DataDonughtS[0])){
+			DoughnutDataS.push(value);
 	    	DoughnutLabelS.push(key);
-    	})
-    	Object.entries(DataDonughtE[0]).map(([key, value]) => {
-	    	DoughnutDataE.push(value);
+		}
+
+		for(const [key, value] of Object.entries(DataDonughtE[0])){
+			DoughnutDataE.push(value);
 	    	DoughnutLabelE.push(key);
-	    })
+		}
 
     	for (const [key, value] of Object.entries(dataActi[0])) {
 			if(key.includes('tx')){
@@ -313,6 +310,7 @@ const Contacts = () => {
 		// console.log(value2)
 		
     } catch(error){}
+
 	const date = DoughnutDataE[1] + '/' + DoughnutDataE[0]
 	// label1?label1.replace('_',' '):label1=''
 	const DoughnutTx = {

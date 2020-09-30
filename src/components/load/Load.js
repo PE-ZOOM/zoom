@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 import { CSVReader } from 'react-papaparse'
-// import CSVReader from "react-csv-reader";
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import "./load.css";
@@ -15,11 +14,6 @@ import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceW
 import ContactMailOutlinedIcon from '@material-ui/icons/ContactMailOutlined';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-
-// const buttonRef = React.createRef()
-// import LinearProgress from '@material-ui/core/LinearProgress';
-// import CsvError from "./components/csvError";
-// import Table from "./components/table";
 
 class Load extends Component {
 
@@ -87,12 +81,13 @@ class Load extends Component {
     //:::::::::::::::: Mise en forme de la Date :::::::::::::: 
     const regDate= new RegExp(/^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{4}$/);
     for(i; i<data_lenght;i++){
-      Object.entries(data[i].data).map(([k, v]) => {
-        if(regDate.test(v)){
-          var date = v.split('/')
-          data[i].data[k] = date[2] + '-' + date[1] + '-' + date[0] //Formatage de la date en YYYY-MM-DD
+      for(const [key, value] of Object.entries(data[i].data)){
+        if(regDate.test(value)){
+          var date = value.split('/')
+          data[i].data[key] = date[2] + '-' + date[1] + '-' + date[0] //Formatage de la date en YYYY-MM-DD
         }
-      });
+      }
+
       d_arr.push({ ...data[i].data })
     }
 
@@ -343,14 +338,6 @@ class Load extends Component {
             }
           {(this.state.loading) && <p>Parsing ok.<br/>Enregistrement des données, veillez patienter... {this.state.count_resp}/{this.state.nb_iteration}</p>}
         </div>
-        {/*<Card variant="outlined">
-          <Alert variant="outlined" severity="info">
-            Nombre de ligne
-          </Alert>
-        </Card>
-         <div className='ListItem_alert'>
-                  
-          </div> */}
       </ListItem> 
     );
   }
