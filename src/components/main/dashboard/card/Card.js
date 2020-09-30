@@ -15,7 +15,7 @@ import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import Activite from "../../../../image/card/activite.jpg";
+// import Activite from "../../../../image/card/activite.jpg";
 
 import CountUp from 'react-countup';
 
@@ -84,8 +84,7 @@ const TB_Card = (props) => {
 													</TableCell>
 												</TableRow> 
 											)
-										}
-										
+										}										
 									})
 
 								}

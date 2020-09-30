@@ -1,7 +1,5 @@
-import React, {useState} from "react";
+import React from "react";
 import CountUp from 'react-countup';
-
-import Paper from '@material-ui/core/Paper';
 
 function AlertR({data, color, title}) {
 
