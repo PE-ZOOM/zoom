@@ -26,11 +26,8 @@ import useStylesPanel from './filesForMaterialUi/useStylesPanel';
 import { NavContext } from '../../../contexts/NavContext';
 
 import Accordion from '@material-ui/core/Accordion'
-// import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import AccordionDetails from '@material-ui/core/AccordionActions'
-// import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary'
-// import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 
@@ -43,12 +40,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 
-// import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
-// import Button2 from 'react-bootstrap/Button'
-// import Modal from 'react-bootstrap/Modal'
-// import InputLabel from '@material-ui/core/InputLabel';
-// import FormControl from '@material-ui/core/FormControl';
-// import Select from '@material-ui/core/Select';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 
@@ -59,19 +50,10 @@ import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 import HourglassEmptyRoundedIcon from '@material-ui/icons/HourglassEmptyRounded';
 import AirplayOutlinedIcon from '@material-ui/icons/AirplayOutlined';
 import PermContactCalendarOutlinedIcon from '@material-ui/icons/PermContactCalendarOutlined';
-// import BackupOutlinedIcon from '@material-ui/icons/BackupOutlined';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 import avatar from '../../../image/avatar.png';
 import logo from '../../../image/zoom_logo.png';
-
-// const useStyles2 = makeStyles((theme) => ({
-//   root: {
-//     width: '100%',
-//     maxWidth: 360,
-//     backgroundColor: theme.palette.background.paper,
-//   },
-// }));
 
 
 function useInterval(callback, delay) {
@@ -95,19 +77,6 @@ function useInterval(callback, delay) {
 }
 
 export default function NavbarV() {
-  // const [show, setShow] = useState(false);
-
-  // const handleClose = () => setShow(false);
-  // const handleShow2 = () => setShow(true);
-
-  // const [ listeStructure, setListeStructure] = useState([]);
-
-  // const [ sourceFilter, setSourceFilter ] = useState({
-  //     dc_structureprincipalesuivi: 'all',
-  //     dc_modalitesuiviaccomp_id: 'all',
-  //     annee: 'all',
-  //   });
-
 
   const classes = useStyles();
   const classesP = useStylesPanel();
@@ -440,28 +409,6 @@ export default function NavbarV() {
             </div>
         </div>
         </ListItem>
-       
-        
-          {/* <ListItem button onClick={handleShow}>
-            <div className="card mb-3">
-              <div className="row no-gutters">
-                <div className="card-head">
-                  <Avatar alt={user.name} src="/broken-image.jpg" className={classes.orange} />
-                  {/* TODO: Understand why broken image is not functioning */}
-                  {/* <Avatar src="/broken-image.jpg" /> 
-                </div>
-                <div className="col-12">
-                  <div className="card-body">
-                    <h5 className="card-title">{user.name}</h5>
-                    <p className="card-text">{user.fonction}</p>
-                    {isUserPermitted(DISPLAY_STRUCTURE, user.fonction) && (
-                      <p className="card-text">{user.libelle_ape}</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ListItem> */}
 
           <Accordion
           expanded={expanded === 'panel1'}

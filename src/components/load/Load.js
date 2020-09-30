@@ -79,17 +79,17 @@ class Load extends Component {
     let count_resp_max = 0;
 
     //:::::::::::::::: Mise en forme de la Date :::::::::::::: 
-    const regDate= new RegExp(/^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{4}$/);
-    for(i; i<data_lenght;i++){
-      for(const [key, value] of Object.entries(data[i].data)){
-        if(regDate.test(value)){
-          var date = value.split('/')
-          data[i].data[key] = date[2] + '-' + date[1] + '-' + date[0] //Formatage de la date en YYYY-MM-DD
-        }
-      }
+    // const regDate= new RegExp(/^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{4}$/);
+    // for(i; i<data_lenght;i++){
+    //   for(const [key, value] of Object.entries(data[i].data)){
+    //     if(regDate.test(value)){
+    //       var date = value.split('/')
+    //       data[i].data[key] = date[2] + '-' + date[1] + '-' + date[0] //Formatage de la date en YYYY-MM-DD
+    //     }
+    //   }
 
-      d_arr.push({ ...data[i].data })
-    }
+    //   d_arr.push({ ...data[i].data })
+    // }
 
     //:::::::::::::::: Découpage du tableau (trop de données d'un coup pour le serveur & navigateur) :::::::::::::: 
 
