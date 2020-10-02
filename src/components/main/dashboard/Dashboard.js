@@ -11,7 +11,7 @@ import imgJalon from "../../../image/card/jalonprojet.jpg";
 // import imgActivite from "../../../image/card/activite.jpg";
 import imgEFO from "../../../image/card/EFO.jpg";
 import './dashboard.css'
-
+import Skeleton from '@material-ui/lab/Skeleton';
 import TbCard from "./card/Card"
 
 const useStyles = makeStyles((theme) => ({
@@ -121,24 +121,40 @@ const DashBoard = () => {
   			<Paper className={classes.citation}>
   				<h5><p className="quote">‟</p> Une petite phrasounette pour dire qu'il faut regarder les autres alertes aussi ! <p className="quote">”</p></h5>
   			</Paper>
+			  
   			<div className={classes.div_card}>
 				<Grid container justify="center" alignItems="stretch" spacing={2}>
-
-					
 					{(jalon.length > 0) 
-					&& <TbCard 
-		  				data={jalon} 
-		  				link='jalons'
-		  				img={imgJalon}
-		  				title='Jalons'
-		  			/>}
+					?
+						<TbCard 
+							data={jalon} 
+							link='jalons'
+							img={imgJalon}
+							title='Jalons'
+					  	/>
+					:
+						<Paper className='paper_content'>
+							<Skeleton variant="rect" width={250} height={150} />
+							<Skeleton variant="rect" className='skeleton_graph' height={20} />
+							<Skeleton variant="rect" className='skeleton_graph' height={20} />
+						</Paper>
+					}
 		  			
-		  			{(efo.length > 0) && <TbCard 
-		  				data={efo} 
-		  				link='efo'
-		  				img={imgEFO}
-		  				title='EFO'
-		  			/>}
+					{(efo.length > 0) 
+					?
+						<TbCard 
+							data={efo} 
+							link='efo'
+							img={imgEFO}
+							title='EFO'
+						/>
+					:
+						<Paper className='paper_content'>
+							<Skeleton variant="rect" width={250} height={150} />
+							<Skeleton variant="rect" className='skeleton_graph' height={20} />
+							<Skeleton variant="rect" className='skeleton_graph' height={20} />
+						</Paper>
+					}
 				</Grid>
 			</div>
 				

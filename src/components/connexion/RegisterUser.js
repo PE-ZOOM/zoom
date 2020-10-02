@@ -4,7 +4,7 @@ import SelectFonction from './Select/SelectFonction';
 import SelectTeam from './Select/SelectTeam';
 import SelectStructure from './Select/SelectStructure';
 import { isUserPermitted } from '../../utils/permissions';
-import { CONSEILLER, ELP } from '../../utils/permissionsTypes';
+import { CONSEILLER, ELD } from '../../utils/permissionsTypes';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -197,7 +197,7 @@ const RegisterUser = () => {
                                 /> 
                             </div>
                              }
-                            {isUserPermitted(ELP,  register.fonction_id) &&
+                            {isUserPermitted(ELD,  register.fonction_id) &&
                              <div>
                                 <SelectTeam
                                name = 'team_id'
