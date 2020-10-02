@@ -271,7 +271,7 @@ const Presta = () => {
 								
 								}
 							)
-							i += 1;
+							i<7?i += 1:i=0;
 						} // END IF PREMIRE ITERATION
 
 						// BOUCLE SUR LES OBJETS LINE

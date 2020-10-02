@@ -403,6 +403,7 @@ export default function NavbarV() {
             <div className="card-body card-center">
                 <h5 className="card-title">{user.name}</h5>
                     <p className="card-text">{user.fonction}</p>
+                    
                     {isUserPermitted(DISPLAY_STRUCTURE, user.fonction) && (
                       <p className="card-text">{user.libelle_ape}</p>
                     )}

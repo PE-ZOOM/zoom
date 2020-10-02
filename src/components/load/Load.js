@@ -69,11 +69,7 @@ class Load extends Component {
 
   handleOnFileLoad = (data, fileInfo) => {
     let d_arr =[]
-    let i = 0; // Boucle For
-    let data_lenght = data.length //Boucle de FOR - FormatDate
-
     let j = 0; //Compteur découpage du fichier - Boucle WHILE
-    let z = 0; //Compteur découpage du fichier - Boucle WHILE
     let d_arr_length ;
 
     let count_resp_max = 0;
@@ -97,8 +93,8 @@ class Load extends Component {
     d_arr_length = d_arr.length
     this.setState({ finish: false, loading: true, error:false, nb_iteration:count_resp_max });
 
-
-    while(z!==d_arr_length){
+    for (let z=0; z!==d_arr_length;z++){
+      
       z<1?j=0:j+=20000;
       z+=20000
       if(d_arr_length<z){
