@@ -11,10 +11,11 @@ import useStyles from '../../main/Navbar.js/filesForMaterialUi/useStyles';
 import Excel from '../../main/export/Excel';
 import Paper from '@material-ui/core/Paper';
 import Skeleton from '@material-ui/lab/Skeleton'
+import {Line} from 'react-chartjs-2';
 import './contact.css'
 
-import {Bar} from 'react-chartjs-2';
-import {Pie} from 'react-chartjs-2';
+// import {Bar} from 'react-chartjs-2';
+// import {Pie} from 'react-chartjs-2';
 
 
 
@@ -47,8 +48,8 @@ const Contacts = () => {
 	const [ listeYear, setListeYear] = useState([]);
 	const [ sourceUser, setSourceUser ] = useState('soon');
 	// console.log(listeStructure)
-	const [ DataDonughtE, setDataDonughtE ] = useState([]);
-	const [ DataDonughtS, setDataDonughtS ] = useState([]);
+	// const [ DataDonughtE, setDataDonughtE ] = useState([]);
+	// const [ DataDonughtS, setDataDonughtS ] = useState([]);
 
 	// load dropdown from database listestructure - listeYear - listeModAcc
     useEffect(() => {
@@ -131,23 +132,23 @@ const Contacts = () => {
 			})
 			.then((res) =>  setDataActi(res.data))
 
-			axios({
-				method: 'get',
-				url: `/activites/contactsEntrant?${sourceUser}`,
-				headers: {
-					Authorization: 'Bearer ' + Cookies.get('authToken')
-				}
-			})
-			.then((res) =>  setDataDonughtE(res.data))
+			// axios({
+			// 	method: 'get',
+			// 	url: `/activites/contactsEntrant?${sourceUser}`,
+			// 	headers: {
+			// 		Authorization: 'Bearer ' + Cookies.get('authToken')
+			// 	}
+			// })
+			// .then((res) =>  setDataDonughtE(res.data))
 
-			axios({
-				method: 'get',
-				url: `/activites/contactsSortant?${sourceUser}`,
-				headers: {
-					Authorization: 'Bearer ' + Cookies.get('authToken')
-				}
-			})
-			.then((res) =>  setDataDonughtS(res.data))
+			// axios({
+			// 	method: 'get',
+			// 	url: `/activites/contactsSortant?${sourceUser}`,
+			// 	headers: {
+			// 		Authorization: 'Bearer ' + Cookies.get('authToken')
+			// 	}
+			// })
+			// .then((res) =>  setDataDonughtS(res.data))
 		}
 	}	
 		
@@ -192,23 +193,23 @@ const Contacts = () => {
 		})
 		.then(res => {setDataActi(res.data)}, setCheckUrl(`${sourceUser}&${sql}`))
 
-		axios({
-				method: 'get',
-				url: `/activites/contactsEntrant?${sourceUser}&${sql}`,
-				headers: {
-					Authorization: 'Bearer ' + Cookies.get('authToken')
-				}
-			})
-			.then((res) =>  setDataDonughtE(res.data))
-			// console.log(DataDonughtE)
-			axios({
-				method: 'get',
-				url: `/activites/contactsSortant?${sourceUser}&${sql}`,
-				headers: {
-					Authorization: 'Bearer ' + Cookies.get('authToken')
-				}
-			})
-			.then((res) =>  setDataDonughtS(res.data))
+		// axios({
+		// 		method: 'get',
+		// 		url: `/activites/contactsEntrant?${sourceUser}&${sql}`,
+		// 		headers: {
+		// 			Authorization: 'Bearer ' + Cookies.get('authToken')
+		// 		}
+		// 	})
+		// 	.then((res) =>  setDataDonughtE(res.data))
+		// 	// console.log(DataDonughtE)
+		// 	axios({
+		// 		method: 'get',
+		// 		url: `/activites/contactsSortant?${sourceUser}&${sql}`,
+		// 		headers: {
+		// 			Authorization: 'Bearer ' + Cookies.get('authToken')
+		// 		}
+		// 	})
+		// 	.then((res) =>  setDataDonughtS(res.data))
 	}
 
 	useEffect(() => {
@@ -274,68 +275,141 @@ const Contacts = () => {
 
 
 
-	const options = {
-		// legend: {position: 'right',}
-	}
+	// const options = {
+	// 	// legend: {position: 'right',}
+	// }
 
-	var DoughnutDataE = [];
-	var DoughnutLabelE = [];
+	// var DoughnutDataE = [];
+	// var DoughnutLabelE = [];
 
-	var DoughnutDataS = [];
-	var DoughnutLabelS = [];
+	// var DoughnutDataS = [];
+	// var DoughnutLabelS = [];
 
-	try {
+	// try {
 
-		for(const [key, value] of Object.entries(DataDonughtS[0])){
-			DoughnutDataS.push(value);
-	    	DoughnutLabelS.push(key);
-		}
+	// 	for(const [key, value] of Object.entries(DataDonughtS[0])){
+	// 		DoughnutDataS.push(value);
+	//     	DoughnutLabelS.push(key);
+	// 	}
 
-		for(const [key, value] of Object.entries(DataDonughtE[0])){
-			DoughnutDataE.push(value);
-	    	DoughnutLabelE.push(key);
-		}
+	// 	for(const [key, value] of Object.entries(DataDonughtE[0])){
+	// 		DoughnutDataE.push(value);
+	//     	DoughnutLabelE.push(key);
+	// 	}
 
-    	for (const [key, value] of Object.entries(dataActi[0])) {
-			if(key.includes('tx')){
-				if(key.includes('entrant')){
-					var value1 = parseInt(value.slice(0,value.length -1))
-					var label1 = key.slice(0,key.length).charAt(0).toUpperCase() + key.slice(0,key.length).slice(1).replace('_',' ').replace('_',' ');
-				}else{
-					var value2 = parseInt(value.slice(0,value.length -1))
-					var label2 = key.slice(0,key.length).charAt(0).toUpperCase() + key.slice(0,key.length).slice(1).replace('_',' ').replace('_',' ');
-				}
-			}
-		}
-		// console.log(value2)
+    // 	for (const [key, value] of Object.entries(dataActi[0])) {
+	// 		if(key.includes('tx')){
+	// 			if(key.includes('entrant')){
+	// 				var value1 = parseInt(value.slice(0,value.length -1))
+	// 				var label1 = key.slice(0,key.length).charAt(0).toUpperCase() + key.slice(0,key.length).slice(1).replace('_',' ').replace('_',' ');
+	// 			}else{
+	// 				var value2 = parseInt(value.slice(0,value.length -1))
+	// 				var label2 = key.slice(0,key.length).charAt(0).toUpperCase() + key.slice(0,key.length).slice(1).replace('_',' ').replace('_',' ');
+	// 			}
+	// 		}
+	// 	}
+	// 	// console.log(value2)
 		
-    } catch(error){}
+    // } catch(error){}
 
-	const date = DoughnutDataE[1] + '/' + DoughnutDataE[0]
-	// label1?label1.replace('_',' '):label1=''
-	const DoughnutTx = {
-		labels: [label1 + ' (%)',label2 + ' (%)'],
-		datasets: [{
-			data: [value1,value2],
-			backgroundColor: color
-		}]
-	};
+	// const date = DoughnutDataE[1] + '/' + DoughnutDataE[0]
+	// // label1?label1.replace('_',' '):label1=''
+	// const DoughnutTx = {
+	// 	labels: [label1 + ' (%)',label2 + ' (%)'],
+	// 	datasets: [{
+	// 		data: [value1,value2],
+	// 		backgroundColor: color
+	// 	}]
+	// };
+	// const data = {
+	// 	labels: DoughnutLabelE.slice(2),
+	// 	datasets: [{
+	// 		label: 'Contacts entrant',
+	// 		type:'bar',
+	// 		data: DoughnutDataE.slice(2),
+	// 		fill: false,
+	// 		backgroundColor: color[0],
+	// 	},{
+	// 		type: 'bar',
+	// 		label: 'Contacts sortant',
+	// 		data: DoughnutDataS.slice(2),
+	// 		fill: false,
+	// 		backgroundColor: color[1],
+	// 	}]
+	// };
+
 	const data = {
-		labels: DoughnutLabelE.slice(2),
-		datasets: [{
-			label: 'Contacts entrant',
-			type:'bar',
-			data: DoughnutDataE.slice(2),
-			fill: false,
-			backgroundColor: color[0],
-		},{
-			type: 'bar',
-			label: 'Contacts sortant',
-			data: DoughnutDataS.slice(2),
-			fill: false,
-			backgroundColor: color[1],
-		}]
+		labels: [],
+		datasets: []
 	};
+
+
+	//année en cours
+	const dataActiAnneeEnCours = dataActi.filter(el => el.annee === dataActi[0].annee)
+	// console.log(dataActiAnneeEnCours)
+	
+	// colonnes pour schéma
+	const dataActiAnneeEnCoursColonnes = dataActiAnneeEnCours.map(obj => {
+		let result = {}
+		for (let key in obj){
+			if(!key.includes('annee') && !key.includes('mois') && !key.includes('nb_de_affectes') && !key.includes('tx_contact_entrant') && !key.includes('tx_contact_sortant')){
+				result[key] = obj[key] 
+			}}
+		return result
+	})
+	
+	// console.log(dataActiAnneeEnCoursColonnes)
+
+	if(dataActiAnneeEnCours.length > 0){ 	
+	 	
+		for(let z=0; z<dataActiAnneeEnCours.length; z++){ // LOOP SUR TOUTES LES LIGNES DU TABLEAU DATAACTIV
+
+				data['labels'].unshift(dataActiAnneeEnCours[z].mois) // RENSEIGNE LES MOIS CONNUS - UNSHIFT POUR INSERER AU DEBUT DU TABLEAU
+				Object.entries(dataActiAnneeEnCoursColonnes[z]).map((v, index) => { // BOUCLE SUR CHAQUE COLONNE DU TABLEAU
+					 
+						if(z===0){  // SI PREMIERE ITERATION, CREATION DES OBJETS LINE
+
+							data['datasets'].push(
+								{
+									label: v[0].replace(/_/g,' '), 
+									fill: false,
+									lineTension: 0,
+									backgroundColor: 'rgba(75,192,192,0.4)',
+									borderColor: color[index],
+									borderCapStyle: 'butt',
+									borderDash: [],
+									borderDashOffset: 0.0,
+									borderJoinStyle: 'miter',
+									pointBorderColor: color[index],
+									pointBackgroundColor: '#fff',
+									pointBorderWidth: 1,
+									pointHoverRadius: 5,
+									pointHoverBackgroundColor: 'rgba(220,220,220,1)',
+									pointHoverBorderColor: color[index],
+									pointHoverBorderWidth: 2,
+									pointRadius: 0.1,
+									pointHitRadius: 10,
+									data:[]
+								
+								}
+							)
+						} // END IF PREMIRE ITERATION
+
+						// BOUCLE SUR LES OBJETS LINE
+						// TEST SI LABEL DE L'OBJET CORRESPOND A LA LIGNE DE l'ITERATION v
+						// AJOUTER LA VALEUR AU DEBUT DU TABLEAU AVEC UNSHIFT
+						for(let z_data=0; z_data<data['datasets'].length; z_data++){ 
+							if(v[0].replace(/_/g,' ')===data['datasets'][z_data].label){
+								data['datasets'][z_data].data.unshift(v[1]) 
+							}
+						}
+
+					// } // END IF INCLUDES
+					return 'ok'; 
+				})
+			// }
+		}
+	}
 
 	return (
 		
@@ -400,7 +474,27 @@ const Contacts = () => {
 				</Select>
 			</FormControl>
 		</div> 
-		<div className="div_graph" >
+			
+			<div className="div_graph">
+				<div className="Doughnut">
+					<Paper>
+						<Line 
+							data={data} 
+							width={1000}  
+							height={300}  
+							options={{ maintainAspectRatio: true}} 
+						/>
+					</Paper> 
+					{/*<Paper>
+				        <Pie data={dataPie} 
+				        	width={500}
+			        		height={200}
+			        		options={options}
+				        />
+					</Paper>*/}
+				</div>
+			</div>
+		{/* <div className="div_graph" >
 				{
 					(date==='undefined/undefined') 
 						? <Skeleton className="div_graph_date" variant="rect" width={100} height={20} />
@@ -424,7 +518,7 @@ const Contacts = () => {
 			    </Paper>
 			</div>
 			
-		</div>
+		</div> */}
 		<div>
 			{!(dataActi.length>0) && <Skeleton variant="rect"height={118} />}
 			<ContactTab dataActi={dataActi}/>	 	 

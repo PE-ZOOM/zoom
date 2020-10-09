@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 		width: 300,
 	},
   	textImg: {
-		position: 'absolute',
+		position: 'relative',
 		top: '30%',
 		left: '50%',
 		transform: 'translate(-50%, -50%)',
@@ -39,55 +39,56 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const TB_Card = (props) => {
+const TbCard = ({link,title,img,data}) => {
 
 	const classes = useStyles();
   	return (	
-			<Grid key={0} item component={Link} to={props.link}>
+			<Grid key={0} item component={Link} to={link}>
 				<Card className={classes.paper} component={Paper}>
 					<CardActionArea>
 						<CardMedia
 							component="img"
-							alt={props.title}
+							alt={title}
 							height="140"
-							image={props.img}
-							title={props.title}
+							image={img}
+							title={title}
 						/>
 						<Typography gutterBottom variant="h5" component="h2" className={classes.textImg}>
-							{props.title}
+							{title}
 						</Typography>
 						<CardContent>
 							
 							<Table size="small" aria-label="a dense table">
 								<TableBody>
-								{
-									props.data.map((k)=>{
-										if(k.lbl !== null){
+
+								{data.map((row) => (
+           
+									// data.map((k)=>{
+									// 	if(k.lbl !== null){
 										
-										return(
-												<TableRow key={k.nb}>
-													<TableCell align="left">{k.lbl}</TableCell>
+												<TableRow key={row.lbl}>
+													<TableCell align="left">{row.lbl}</TableCell>
 													<TableCell align="right">
 													    {
 													    
-													    	k.nb===0
+													    	row.nb===0
 															?<Chip
-														        label={k.nb}
+														        label={row.nb}
 														        color="primary"
 														      />
 															:
 															<Chip
-														        label={<CountUp end={k.nb} duration={5}/>}
+														        label={<CountUp end={row.nb} duration={1}/>}
 														        color="secondary"
 														      />
 													} 
 													</TableCell>
 												</TableRow> 
-											)
-										}										
-									})
+											))
+										// }										
+									}
 
-								}
+								
 								</TableBody>
 							</Table>
 						</CardContent> 
@@ -98,4 +99,4 @@ const TB_Card = (props) => {
 	);
 }
 
-export default TB_Card
+export default TbCard
