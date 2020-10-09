@@ -10,3 +10,7 @@
 .div_table{
 	max-width: 400px;
 }
+
+.MuiPickersBasePicker-pickerView {
+	min-width: 350px!important;
+}

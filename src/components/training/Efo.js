@@ -17,16 +17,19 @@ import Paper from '@material-ui/core/Paper';
 // import ape from '../../image/ape.png';
 import './efo.css'
 
-
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 // import TableHead from '@material-ui/core/TableHead'; 	
 import TableRow from '@material-ui/core/TableRow';
+import 'date-fns';
+import Grid from '@material-ui/core/Grid';
+import DateFnsUtils from '@date-io/date-fns';
+import frLocale from 'date-fns/locale/fr';
+import {MuiPickersUtilsProvider,KeyboardDatePicker,} from '@material-ui/pickers';
 
-import Chip from '@material-ui/core/Chip';
+// import Chip from '@material-ui/core/Chip';
 
 // EXCEL
 import Excel from '../main/export/Excel';
@@ -46,24 +49,42 @@ const Efo = () => {
   const classes = useStyles();
 
   const [ sourceFilter, setSourceFilter ] = useState({
-	dc_situationde: 'all',
-	dc_parcours: 'all',
-	dc_categorie: 'all',
+	// dc_situationde: 'all',
+	// dc_parcours: 'all',
+	// dc_categorie: 'all',
 	dc_statutaction_id: 'all',
 	dc_lblformacode:'all',
+	dd_datepreconisation:'all',
 });
-
 	const { user } = useContext(UserContext);
 
 	const [ dataEfo, setDataEfo ] = useState([]);
-	const [ dataEfoTEST, setDataEfoTEST ] = useState([]);
-
+	const [ dataTop5, setDataTop5 ] = useState([]);
 
 	const [ sourceUser, setSourceUser ] = useState('soon');
     const [ listeStatutAction, setListeStatutAction] = useState([]);
   	// const [camembertFormation, setCamembertFormation] = useState();
   	const [efo_c_o, setEfo_c_o] = useState();
-  	const [Efo_byDate, setEfo_byDate] = useState(); 
+	// const [Efo_byDate, setEfo_byDate] = useState(); 
+	  
+	const [selectedDate, setSelectedDate] = React.useState(new Date('2018-01-01T00:00:00'));
+
+	function checkNumberDigits(myNumber)
+	{
+    return (myNumber < 10 ? "0" : "") + myNumber;
+	}
+ 
+	const handleDateChange = (date) => {
+		setSelectedDate(date);
+		
+    const year = date.getFullYear();
+    const month = checkNumberDigits(date.getMonth() + 1);
+    const day = date.getDate();
+    const datebonformat = `${year}-${month}-${day}`;
+		setSourceFilter({ ...sourceFilter, dd_datepreconisation: datebonformat });
+	};
+
+	// console.log(sourceFilter)
 
 
   	//   const handleDelete = () => {
@@ -159,14 +180,14 @@ const Efo = () => {
 			})
 			.then((res) =>  setEfo_c_o(res.data))
 
-			axios({
-				method: 'get',
-				url: `/efo/EFO_byDate?${sourceUser}`,
-				headers: {
-					Authorization: 'Bearer ' + Cookies.get('authToken')
-				}
-			})
-			.then((res) =>  setEfo_byDate(res.data))
+			// axios({
+			// 	method: 'get',
+			// 	url: `/efo/EFO_byDate?${sourceUser}`,
+			// 	headers: {
+			// 		Authorization: 'Bearer ' + Cookies.get('authToken')
+			// 	}
+			// })
+			// .then((res) =>  setEfo_byDate(res.data))
 			
 			axios({
 				method: 'get',
@@ -175,9 +196,11 @@ const Efo = () => {
 					Authorization: 'Bearer ' + Cookies.get('authToken')
 				}
 			})
-			.then((res) =>  setDataEfoTEST(res.data))
+			.then((res) =>  setDataTop5(res.data))
 		}
 	}, [sourceUser])
+
+	// console.log(dataTop5)
 
     //function source according to the user
     const getSourceUser = (fonction_id, p_user,ape_id) => {
@@ -275,7 +298,7 @@ const Efo = () => {
 		if(sourceUser !== 'soon'){
 			updateTable()
 		}
-		let sql_statutaction = Object.keys(sourceFilter)[3]+'='+Object.values(sourceFilter)[3]
+		// let sql_statutaction = Object.keys(sourceFilter)[3]+'='+Object.values(sourceFilter)[3]
 		// axios({
 		// 	method: 'get',
 		// 	url: `/efo/listeFormationDemandee?${sql_statutaction}`,
@@ -285,14 +308,14 @@ const Efo = () => {
 		// })
 		// .then((res) =>  setDataEfoTEST(res.data))
 
-		axios({
-			method: 'get',
-			url: `/efo/EFO_byDate?${sourceUser}&${sql_statutaction}`,
-			headers: {
-				Authorization: 'Bearer ' + Cookies.get('authToken')
-			}
-		})
-		.then((res) =>  setEfo_byDate(res.data))
+		// axios({
+		// 	method: 'get',
+		// 	url: `/efo/EFO_byDate?${sourceUser}&${sql_statutaction}`,
+		// 	headers: {
+		// 		Authorization: 'Bearer ' + Cookies.get('authToken')
+		// 	}
+		// })
+		// .then((res) =>  setEfo_byDate(res.data))
 
 	}
 	// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -385,14 +408,15 @@ const Efo = () => {
 	// if(camembertFormation){
 	// 	mlabel = camembertFormation
 	// }
+	//ici
 	try{
-		for(var i=0;i<=dataEfoTEST.length;i++){
-			mdata.push(dataEfoTEST[i]['Qte'])
-			mlabel.push(dataEfoTEST[i]['dc_lblformacode'])
+		for(var i=0;i<=dataTop5.length;i++){
+			mdata.push(dataTop5[i]['Qte'])
+			mlabel.push(dataTop5[i]['dc_lblformacode'])
 		}
 	}catch(error){}
-	if(dataEfoTEST){
-		mlabel = dataEfoTEST
+	if(dataTop5){
+		mlabel = dataTop5
 	}
 
 	const options = {
@@ -413,11 +437,11 @@ const Efo = () => {
 		}]
 		
 	};
-	if(Efo_byDate){
-		var label_Efo_byDate = "Nombre de EFO " 
-			label_Efo_byDate += (Object.values(Efo_byDate[0])[1])?Object.values(Efo_byDate[0])[1]:''
-			label_Efo_byDate += " > 365 jours"
-	}
+	// if(Efo_byDate){
+	// 	var label_Efo_byDate = "Nombre de EFO " 
+	// 		label_Efo_byDate += (Object.values(Efo_byDate[0])[1])?Object.values(Efo_byDate[0])[1]:''
+	// 		label_Efo_byDate += " > 365 jours"
+	// }
 	if(efo_c_o && efo_c_o[0] !== null && efo_c_o[0] !== undefined){
 		data = {
 			labels: [	(efo_c_o[0] !== undefined)?Object.values(efo_c_o[0])[1]:'', (efo_c_o[1] !== undefined)?Object.values(efo_c_o[1])[1]:'' ],
@@ -532,8 +556,8 @@ const Efo = () => {
 					))}
 					</Select>
 				</FormControl>
+
 				<FormControl variant="outlined" className={classes.formControl}>
-	
 				<TextField
 					name='dc_lblformacode'
 					label="Libellé Formacode"
@@ -544,14 +568,33 @@ const Efo = () => {
 					className={classes.select_orange}
 					/>	
 				</FormControl>
+
+				<FormControl variant="outlined" className={classes.formControl}>
+				<MuiPickersUtilsProvider utils={DateFnsUtils} locale={frLocale}>
+				<Grid container justify="space-around">
+							<KeyboardDatePicker
+							margin="normal"
+							id="date-picker-dialog"
+							label="Date de préconisation >"
+							format="dd/MM/yyyy"
+							value={selectedDate}
+							onChange={handleDateChange}
+							KeyboardButtonProps={{
+						'aria-label': 'change date',
+							}}
+						/>
+				</Grid>
+				</MuiPickersUtilsProvider>
+				</FormControl>	
                               
-
 			</div>
-
-
 			<div>
            
 			<EfoTab dataEfo={dataEfo}/>	 
+<br></br>
+<br></br>
+<br></br>
+<br></br>
 
 
 				<div className="div_graph_efo">
@@ -565,7 +608,7 @@ const Efo = () => {
 									<TableCell align="left">{row.Qte}</TableCell>
 								</TableRow>
 								))}
-								{Efo_byDate!==undefined &&
+								{/* {Efo_byDate!==undefined &&
 								<TableRow>
 								
 									<TableCell align="left">{label_Efo_byDate}</TableCell>
@@ -576,7 +619,7 @@ const Efo = () => {
 									      />
 									</TableCell>
 								</TableRow>
-								}
+								} */}
 							</TableBody>
 						</Table>
 					</TableContainer>

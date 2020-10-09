@@ -176,6 +176,7 @@ const Presta = () => {
 			updateTable()
 		} 
 	}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	, [sourceFilter,sourceUser])
 
 		//export excel
@@ -225,6 +226,8 @@ const Presta = () => {
 		datasets: []
 	};
 
+	//  console.log(dataActi)
+
 	if(dataActi.length > 0){ 	
 	 	
 		let annee = dataActi[0].annee
@@ -234,9 +237,8 @@ const Presta = () => {
 
 			if(annee === dataActi[z].annee){ // TRI SUR LA DERNIERE ANNEE
 				data['labels'].unshift(dataActi[z].mois) // RENSEIGNE LES MOIS CONNUS - UNSHIFT POUR INSERER AU DEBUT DU TABLEAU
-
+				// console.log(Object.entries(dataActi[z]))
 				Object.entries(dataActi[z]).map((v) => { // BOUCLE SUR CHAQUE COLONNE DU TABLEAU
-
 					
 					if(	v[0].includes('ACTIV') 		|| 
 						v[0].includes('Presta')		|| 
@@ -249,7 +251,7 @@ const Presta = () => {
 
 							data['datasets'].push(
 								{
-									label: v[0].replaceAll('_',' '), 
+									label: v[0].replace(/_/g,' '), 
 									fill: false,
 									lineTension: 0,
 									backgroundColor: 'rgba(75,192,192,0.4)',
@@ -271,14 +273,14 @@ const Presta = () => {
 								
 								}
 							)
-							i<7?i += 1:i=0;
+							i+=1;
 						} // END IF PREMIRE ITERATION
 
 						// BOUCLE SUR LES OBJETS LINE
 						// TEST SI LABEL DE L'OBJET CORRESPOND A LA LIGNE DE l'ITERATION v
 						// AJOUTER LA VALEUR AU DEBUT DU TABLEAU AVEC UNSHIFT
 						for(let z_data=0; z_data<data['datasets'].length; z_data++){ 
-							if(v[0].replaceAll('_',' ')===data['datasets'][z_data].label){
+							if(v[0].replace(/_/g,' ')===data['datasets'][z_data].label){
 								data['datasets'][z_data].data.unshift(v[1]) 
 							}
 						}

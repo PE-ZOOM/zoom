@@ -210,7 +210,7 @@ export default function NavbarV() {
       },
     }).then((res) => setCountUsers(res.data[0].count));
 
-  }, 5000);
+  }, 500000);
 
 
   useEffect(() => {
@@ -359,7 +359,7 @@ export default function NavbarV() {
             <IconButton>
               <a
                 className="mailto"
-                href="mailto:catblecon@gmail.com?subject=Hello%20Cathouuu!!!"
+                href="mailto:reunionperformance.97410@pole-emploi.fr?subject=Zoom"
               >
                 <MailIcon />
               </a>
@@ -434,7 +434,7 @@ export default function NavbarV() {
                 <ListItemIcon>
                   <SettingsOutlinedIcon />
                 </ListItemIcon>
-                  <ListItemText primary="Diagnostic" onClick={() => {
+                  <ListItemText primary="Diagnostic/Caractéristiques" onClick={() => {
                   handleHistoric('Diagnostic');
                   }} />
               </ListItem>
@@ -447,7 +447,7 @@ export default function NavbarV() {
                   handleHistoric('Jalons');
                   }} />
               </ListItem>
-              <ListItem button component={Link} to="defm" selected={selectedIndex === 13}
+              {/* <ListItem button component={Link} to="defm" selected={selectedIndex === 13}
               onClick={(event) => handleListItemClick(event, 13)}>
                 <ListItemIcon>
                   <SettingsOutlinedIcon />
@@ -455,7 +455,7 @@ export default function NavbarV() {
                   <ListItemText primary="DEFM" onClick={() => {
                   handleHistoric('DEFM');
                   }} />
-              </ListItem>
+              </ListItem> */}
               </AccordionDetails>
           </Accordion>
 

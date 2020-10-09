@@ -81,7 +81,7 @@ function JalonPie({data, color}) {
 
   return (
    <Paper>
-      <h2>Jalon (%)</h2>
+      <h4>Tous motifs confondus (%)</h4>
       <Pie data={DoughnutEntrant} 
           options={options}
           width={400}
