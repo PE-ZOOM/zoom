@@ -149,11 +149,23 @@ export default function NavbarV() {
         headers: {
           Authorization: 'Bearer ' + Cookies.get('authToken'),
         },
-      }).then((res) => setMAJ(res.data));
+      }).then((res) => {
+        if(res.data.length>0){
+          for (const [key] in res.data){
+            switch (res.data[key].tableMAJ) {
+              case 't_portefeuille':
+                setMAJ(res.data[key].Date)
+                break;
+              default:
+                console.log("Date introuvable");
+            }
+          }
+        }else{
+          setMAJ("??")
+        }
+      });
     
   }, []);
-  let datemaj
-  try{datemaj = Object.values(maj[0])[0]}catch(error){}
 
   useEffect(() => {
     getCountPort(user.fonction_id, user.p_user, user.ape_id);
@@ -289,7 +301,7 @@ export default function NavbarV() {
             <MenuIcon />
           </IconButton>
           <Typography variant="subtitle1" noWrap>
-            Maj : {datemaj}
+            Maj : {maj}
           </Typography>
           <div>
 
