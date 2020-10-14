@@ -10,9 +10,11 @@ import Divider from '@material-ui/core/Divider';
 import "./admin.css";
 
 const Admin = props => {
-  const [histoS, setHistoS] = useState()
-  const [histoM, setHistoM] = useState()
-  const [maj, setMAJ] = useState()
+  const [histoS, setHistoS] = useState() //A UTILISER POUR LE GRAPHIQUE
+  const [histoM, setHistoM] = useState() //A UTILISER POUR LE GRAPHIQUE
+  const [tablePort, setT_port] = useState()
+  const [tableEfo, setT_efo] = useState()
+  const [tableAct, setT_activ] = useState()
   var DoughnutDataE = [];
   var DoughnutLabelE = [];
   var DoughnutDataE_M = [];
@@ -54,36 +56,32 @@ const Admin = props => {
         headers: {
           Authorization: 'Bearer ' + Cookies.get('authToken'),
         },
-      }).then((res) => setMAJ(res.data));
+      }).then((res) => {
+        if(res.data.length>0){
+          for (const [key] in res.data){
+            switch (res.data[key].tableMAJ) {
+              case 't_activites':
+                setT_activ(res.data[key].Date)
+                break;
+              case 't_portefeuille':
+                setT_port(res.data[key].Date)
+                break;
+              case 't_efo':
+                setT_efo(res.data[key].Date)
+                break;
+              default:
+                console.log("Date introuvable");
+            }
+          }
+        }else{
+          setT_activ("??")
+          setT_efo("??")
+          setT_port("??")
+        }
+      });
     
   }, []);
 
-  // console.log(maj)
-  let t_act
-  let t_efo 
-  let t_port
-
-
-  try{
-    t_port = "Dernière MaJ : " + Object.values(maj[2])[0]
-    t_efo = "Dernière MaJ : " + Object.values(maj[1])[0]
-    t_act = "Dernière MaJ : " + Object.values(maj[0])[0]
-
-    for(var j=0;j<histoM.length;j++){
-      DoughnutLabelE.push(Object.values(histoM[j])[1]);
-      for(var z=0;z<histoS.length;z++){
-        if(Object.values(histoM[j])[1] === Object.values(histoS[z])[1]){
-          DoughnutDataE[j] = Object.values(histoS[z])[0]
-          z = histoS.length;
-        }else{
-          DoughnutDataE[j] = 0
-        }
-        DoughnutDataE_M[j] = Object.values(histoM[j])[0]
-      }
-    }
-  }
-  catch(error){}
-// console.log(t_port)
 const Donut = {
   labels: DoughnutLabelE,
   datasets: [
@@ -130,11 +128,14 @@ const Donut = {
     }
   ]
 };
+
+
+
     if(isAdmin){
     
     return (
       <div className='AppAdmin'>
-      {t_port ? ( 
+      {tablePort ? ( 
         <div>
           <div className="div_admin_elmt">
             <h1>Administration</h1>
@@ -143,21 +144,21 @@ const Donut = {
                   <p className="div_elmt_p">Importation</p>
                   <List>
                     <Load title="Portefeuille"
-                          date={t_port}
+                          date={tablePort}
                           target='/t_portefeuille'
                           icone="1"
                           clear={true}
                     />
                     <Divider variant="inset" component="li" key={10}/>
                     <Load title="EFO"
-                          date={t_efo}
+                          date={tableEfo}
                           target='/t_efo'
                           icone="2"
                           clear={true}
                     />
                     <Divider variant="inset" component="li" key={20}/>
                     <Load title="Activité"
-                          date={t_act}
+                          date={tableAct}
                           target='/t_activites'
                           icone="3"
                           clear={false}
@@ -185,9 +186,11 @@ const Donut = {
                   </div>
 
               	</div>
+                
               </div>
             
           </div>
+          
          
         </div>
 
