@@ -18,6 +18,7 @@ import Paper from '@material-ui/core/Paper';
 // import Activite from "../../../../image/card/activite.jpg";
 
 import CountUp from 'react-countup';
+//import { TitleTwoTone } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const TbCard = ({link,title,img,data}) => {
+const TbCard = ({link,title,img,data,bulle}) => {
 
 	const classes = useStyles();
   	return (	
@@ -53,7 +54,9 @@ const TbCard = ({link,title,img,data}) => {
 							image={img}
 							title={title}
 						/>
-						<Typography gutterBottom variant="h5" component="h2" className={classes.textImg}>
+						<Typography gutterBottom variant="h5" component="h2" className={classes.textImg} 
+						title={bulle}
+						>
 							{title}
 						</Typography>
 						<CardContent>

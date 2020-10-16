@@ -23,11 +23,13 @@ const DefmTab = ({data,selected,handleClick,isSelected, sourceUser, title, uniqu
 	var DoughnutHoverColor = [];
 	var DoughnutData = [];
 
+
     data.map((key, index) => {
     	if(isSelected(prefixe + key.lbl)){
     		(format==='(%)')?DoughnutData.push(key.tx):DoughnutData.push(key.nb)
     		DoughnutLabel.push(key.lbl)
-    	}
+		}
+		return 'ok'
     })
 
 	const DoughnutEntrant = {

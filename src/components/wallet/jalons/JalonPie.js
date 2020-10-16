@@ -4,32 +4,21 @@ import {Pie} from 'react-chartjs-2';
 import Paper from '@material-ui/core/Paper';
 
 
-// class JalonPie extends React.Component {
-//   constructor(props){
-//     super(props);
-//     this.data = props.data;
-//     this.color = props.color;
-//   }
-//   render(){
-//     return(
-//         <h1>TEST</h1>
-//       );
-//   }
-// }
-
 function JalonPie({data, color}) {
-  var DoughnutData = [];
-  var DoughnutLabel = [];
-  var DoughnutColor = [];
-  var DoughnutHoverColor = [];
+  let DoughnutData = [];
+  let DoughnutLabel = [];
+  let DoughnutColor = [];
+  let DoughnutHoverColor = [];
+
+  const couleur = ['#EFEBEB','#F76F6F','#F8A449','#E8F171','#BEE198']
 
   // console.log(data)
     try{
-      for(var i=0;i<=data.length;i++){
+      for(let i=0;i<=data.length;i++){
         DoughnutData.push(Math.round(Object.values(data[i])[1] * 100))
         DoughnutLabel.push(Object.values(data[i])[2])
-        DoughnutColor.push(color[i])
-        DoughnutHoverColor.push(color[i] + 'ba')
+        DoughnutColor.push(couleur[i])
+        DoughnutHoverColor.push(couleur[i] + 'ba')
       }
     }
     catch(error){

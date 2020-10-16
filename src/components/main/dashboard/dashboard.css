@@ -24,3 +24,7 @@ a{
 .Alert_desc{
 	font-size: x-large;
 }
+
+.MuiCardMedia-img {
+    object-fit: contain !important;
+}
