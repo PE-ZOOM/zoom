@@ -8,12 +8,15 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import imgJalon from "../../../image/card/jalon.jpeg";
-// import imgActivite from "../../../image/card/activite.jpg";
 import imgEFO from "../../../image/card/EFO.jpg";
 import imgORE from "../../../image/card/ore.jpeg";
+import imgEff from "../../../image/card/eff.jpg";
+
 import './dashboard.css'
-import Skeleton from '@material-ui/lab/Skeleton';
 import TbCard from "./card/TbCard"
+
+import ReactCardFlip from 'react-card-flip';
+import CardEffectifs from './card/CardEffectifs';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -61,7 +64,16 @@ const DashBoard = () => {
 	const [ dataDBJalon, setDataDBJalon ] = useState([]);
 	const [ dataDBEfo, setDataDBEfo ] = useState([]);
 	const [ dataDBOre, setDataDBOre ] = useState([]);
+	const [ dataDBEff, setDataDBEff ] = useState([]);
+	const [ dataDBCharge, setDataDBCharge ] = useState([]);
 	const [ sourceDB, setSourceDB ] = useState('soon');
+	const [ isFlipped, setIsFlipped ] = useState(false);
+	
+
+	const handleFlip = () => {
+		// e.preventDefault();
+		setIsFlipped (!isFlipped);
+		}
 
 	//function source according to the user
     const getSourceDB = (fonction_id, p_user,ape_id) => {
@@ -124,74 +136,35 @@ const DashBoard = () => {
 			}
 		})
 		.then((res) =>  setDataDBOre(res.data))
+
+		axios({
+			method: 'get',
+			url: '/dashboard/eff?' + sourceDB,
+			headers: {
+				Authorization: 'Bearer ' + Cookies.get('authToken')
+			}
+		})
+		.then((res) =>  setDataDBEff(res.data))
+
+		axios({
+			method: 'get',
+			url: '/dashboard/charge?' + sourceDB,
+			headers: {
+				Authorization: 'Bearer ' + Cookies.get('authToken')
+			}
+		})
+		.then((res) =>  setDataDBCharge(res.data))
 		   
 	   }
    }
 	   // eslint-disable-next-line react-hooks/exhaustive-deps
 	   , [sourceDB,user])	
 
-// console.log(dataDBJalon)
-	// const [ jalon, setJalon ] = useState([]);
-	// // const [ activite, setActivite ] = useState([]);
-	// const [ efo, setEfo ] = useState([]);
 
-	
-	// useEffect(() => {
-	// 	var filtre;
-
-	// 	if(user.fonction_id===1){
-	// 		filtre='dc_dernieragentreferent='+user.p_user 
-	// 	}else if(user.fonction_id>4){
-	// 		filtre=''
-	// 	}else if(user.fonction_id===4){
-	// 		filtre='dt='+user.fonction
-	// 	}
-	// 	else{
-	// 		filtre='dc_structureprincipalede='+user.ape_id
-	// 	}
-
-	// 	if(Object.entries(user).length !== 0){
-
-	// 		axios({
-	// 			method: 'get',
-	// 			url: `/dashboard/jalon?${filtre}`,
-	// 			headers: {
-	// 				Authorization: 'Bearer ' + Cookies.get('authToken')
-	// 			}
-	// 		})
-	// 		.then((res) =>  setJalon(res.data));
-
-	// 		axios({
-	// 			method: 'get',
-	// 			url: `/dashboard/efo?${filtre}`,
-	// 			headers: {
-	// 				Authorization: 'Bearer ' + Cookies.get('authToken')
-	// 			}
-	// 		})
-	// 		.then((res) =>  setEfo(res.data));
-
-			// axios({
-			// 	method: 'get',
-			// 	url: `/dashboard/activite?${filtre}`,
-			// 	headers: {
-			// 		Authorization: 'Bearer ' + Cookies.get('authToken')
-			// 	}
-			// })
-			// .then((res) =>  setActivite(res.data));
-
-			// axios({
-			// 	method: 'get',
-			// 	url: `/dashboard/ore?${filtre}`,
-			// 	headers: {
-			// 		Authorization: 'Bearer ' + Cookies.get('authToken')
-			// 	}
-			// })
-			// .then((res) =>  setORE(res.data[0].NbORE));
-	// 	}
-	// }, [user])
 
   	return (
-  		<div xs={12}>
+  		
+		  <div xs={12}>
 
   			<Paper className={classes.citation}>
   				<h5><p className="quote">‟</p> Quelques chiffres <p className="quote">”</p></h5>
@@ -200,79 +173,60 @@ const DashBoard = () => {
   			<div className={classes.div_card}>
 				<Grid container justify="center" alignItems="stretch" spacing={2}>
 					{(dataDBJalon.length > 0) 
-					?
+					&&
 						<TbCard 
 							data={dataDBJalon.filter(el => el.lbl !== null)}
 							link='main'
 							img={imgJalon}
 							title='Jalons'
+							bulle='DE en portefeuille'
 					  	/>
-					:
-						<Paper className='paper_content'>
-							<Skeleton variant="rect" width={250} height={150} />
-							<Skeleton variant="rect" className='skeleton_graph' height={20} />
-							<Skeleton variant="rect" className='skeleton_graph' height={20} />
-						</Paper>
 					}
 		  			
 					{(dataDBEfo.length > 0) 
-					?
+					&&
 						<TbCard 
 							data={dataDBEfo} 
 							link='main'
 							img={imgEFO}
 							title='EFO'
+							bulle='DE en portefeuille ou rattachés'
 						/>
-					:
-						<Paper className='paper_content'>
-							<Skeleton variant="rect" width={250} height={150} />
-							<Skeleton variant="rect" className='skeleton_graph' height={20} />
-							<Skeleton variant="rect" className='skeleton_graph' height={20} />
-						</Paper>
 					}
 
 					{(dataDBOre.length > 0) 
-					?
+					&&
 						<TbCard 
 							data={dataDBOre} 
 							link='main'
 							img={imgORE}
 							title='ORE'
+							bulle='DE en portefeuille'
 						/>
-					:
-						<Paper className='paper_content'>
-							<Skeleton variant="rect" width={250} height={150} />
-							<Skeleton variant="rect" className='skeleton_graph' height={20} />
-							<Skeleton variant="rect" className='skeleton_graph' height={20} />
-						</Paper>
 					}
+							
+						<ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
+								<CardEffectifs 
+									dataEff={dataDBEff} 
+									link='main'
+									img={imgEff}
+									title='Effectifs'
+									bulle='Un portefeuille est comptabilisé quand il y a plus de 10 DE'
+									flip={handleFlip}
+								/>
+								<CardEffectifs
+									dataEff={dataDBCharge}
+									link='main'
+									img={imgEff}
+									title='Charge moyenne'
+									bulle='Charge moyenne DE en portefeuille'
+									flip={handleFlip}
+								/>
+						</ReactCardFlip>
 				</Grid>
 			</div>
+		</div>
 				
-			{ /* <div>
-
-
-				    <Grid container justify="center">
-				    	<Paper className="Alert">
-							<AlertR title="ORE à valdier"
-									data={ORE}
-							/>
-						</Paper>
-					    <Paper className="Alert">
-							<AlertR title="ORE à valdier"
-									data={473}
-							/>
-						</Paper>
-						<Paper className="Alert">
-							<AlertR title="ORE à valdier"
-									data={9999}
-							/>
-						</Paper>
-				    </Grid>
-			</div>
-		*/ }
-
-  		</div>
 		
   );
 };

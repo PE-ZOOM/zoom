@@ -21,7 +21,7 @@ export default function JalonTab({dataJalon, color}) {
      <>
     {(dataJalon.length > 0) && (
     <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
+      <Table className={classes.table} aria-label="simple table" size='small'>
         <TableHead>
           <TableRow>
             <TableCell>Motif Jalon</TableCell>

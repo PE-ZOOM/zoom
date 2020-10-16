@@ -291,7 +291,17 @@ const Efo = () => {
 			   Authorization: 'Bearer ' + Cookies.get('authToken')
 		   }
 	   	})
-	   	.then(res => {setDataEfo(res.data[0])}, setCheckUrl(`${sourceUser}&${sql}`))
+		   .then(res => {setDataEfo(res.data[0])}, setCheckUrl(`${sourceUser}&${sql}`))
+		   
+		   axios({
+			method: 'get',
+			url: `/efo/listeFormationDemandee?${sourceUser}&${sql}`,
+			headers: {
+				Authorization: 'Bearer ' + Cookies.get('authToken')
+			}
+		})
+		.then((res) =>  setDataTop5(res.data))  
+
 	}
 	
 	useEffect(() => {
@@ -460,7 +470,7 @@ const Efo = () => {
 		
 	<div>
 		{/* <button onClick={test}></button> */}
-		<h4>Photo EFO en stock (conseillées ou souhaitées) DE en/hors portefeuille</h4>
+		<h4>Photo EFO en stock (conseillées ou souhaitées) DE en portefeuille ou rattachés</h4>
 			
 			<div>
 		
@@ -599,7 +609,7 @@ const Efo = () => {
 
 				<div className="div_graph_efo">
 					<TableContainer className="div_table" component={Paper}>
-						<h5>Top 5 formations</h5>
+						<h5>Top 5 besoins en formation</h5>
 						<Table size="small" aria-label="a dense table">
 							<TableBody>
 								{mlabel.map((row) => (
