@@ -24,6 +24,12 @@ const Login = () => {
     setLogin({...login, [name]: value })
     
   }
+  const  handleChangeIdgasi = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setLogin({...login, [name]: value.toLowerCase() })
+    
+  }
 
     useEffect(() => {
         if (Cookies.get('authToken')) 
@@ -58,7 +64,7 @@ const Login = () => {
                                     <span className="input-group-text"><AccountCircle /></span>
                                 </div>
                                 <input type="text" className="form-control" placeholder="IDGASI" required
-                                name="idgasi" value={login.idgasi} onChange={handleChange}>
+                                name="idgasi" value={login.idgasi} onChange={handleChangeIdgasi}>
                                 </input>
                                 
                             </div>    

@@ -70,6 +70,13 @@ const RegisterUser = () => {
         }
     }
 
+    const  handleChangeIdgasi = (event) => { 
+        const name = event.target.name;
+        const value = event.target.value;
+        setRegister({...register, [name]: value.toLowerCase() })
+        }
+    
+
 
 //     const handleSubmit = (event) => {
 //     event.preventDefault();
@@ -134,7 +141,7 @@ const RegisterUser = () => {
                                     <span className="input-group-text"><i className="fas fa-user"></i></span>
                                 </div>
                                 <input type="text" className="form-control" placeholder="idgasi" required
-                                name="idgasi" value={register.idgasi} onChange={handleChange}>
+                                name="idgasi" value={register.idgasi} onChange={handleChangeIdgasi}>
                                 </input>
                             </div>    
                            

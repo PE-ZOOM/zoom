@@ -39,6 +39,8 @@ const Contacts = () => {
 		dc_structureprincipalesuivi: 'all',
 		dc_modalitesuiviaccomp_id: 'all',
 		annee: 'all',
+		nom_complet: 'all'
+
 	});
 
 	const { user } = useContext(UserContext);
@@ -46,6 +48,7 @@ const Contacts = () => {
 	const [ listeStructure, setListeStructure] = useState([]);
     const [ listeModAcc, setListeModAcc] = useState([]);
 	const [ listeYear, setListeYear] = useState([]);
+	const [listeRef, setListeRef] = useState([]);
 	const [ sourceUser, setSourceUser ] = useState('soon');
 	// console.log(listeStructure)
 	// const [ DataDonughtE, setDataDonughtE ] = useState([]);
@@ -81,6 +84,15 @@ const Contacts = () => {
 				}
 			})
 			.then((res) =>  setListeYear(res.data));
+
+			axios({
+				method: 'get',
+				url: `/activites/listeref?${sourceUser}`,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken')
+				}
+			})
+			.then((res) =>  setListeRef(res.data));
 		
     }
 	}, [sourceUser])
@@ -418,6 +430,25 @@ const Contacts = () => {
 		<h5>(sans situation, rattaché, en portefeuille)</h5>
 		
 		<div>
+			<FormControl variant="outlined" className={classes.formControl}>
+					<InputLabel id="demo-simple-select-outlined-label" className={classes.select_orange}>Référent</InputLabel>
+					<Select
+					name="nom_complet"
+					value={sourceFilter.nom_complet}
+					onChange={handleChange}
+					label="Référent"
+					className={classes.select_orange}
+					>
+					<MenuItem value="all"><em>Tous</em></MenuItem>
+					{listeRef.map(option => (
+					<MenuItem 
+					key={option.nom_complet}
+					value={option.nom_complet}
+					>{option.nom_complet}</MenuItem>
+					))}
+					</Select>
+			</FormControl> 
+
 			
 			<FormControl variant="outlined" className={classes.formControl}>
 				<InputLabel id="demo-simple-select-outlined-label" className={classes.select_orange}>Structure</InputLabel>

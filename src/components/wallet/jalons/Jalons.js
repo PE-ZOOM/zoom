@@ -160,7 +160,7 @@ const Jalons = () => {
 	return (
 		
 	<div>
-		<h4>Photo Jalons DE en portefeuille</h4>
+		<h4>Photo Echeance Jalons DE en portefeuille</h4>
 		<div className={classes.excel}>
 			<Excel
 				handleIDE={exportIDE}
