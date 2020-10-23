@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+// import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -23,10 +23,10 @@ const useStyles = makeStyles((theme) => ({
 	},
   	textImg: {
 		position: 'relative',
-		top: '30%',
-		left: '50%',
-		transform: 'translate(-50%, -50%)',
-		backgroundColor: '#4b9bc9cc',
+		// top: '30%',
+		// left: '50%',
+		// transform: 'translate(-50%, -50%)',
+		backgroundColor: '#4b9bc9',
     	width: '100%',
     	color: 'white',
 	},
@@ -36,27 +36,30 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const CardEffectifs = ({link,title,img,dataEff,bulle,flip}) => {
+const CardEffectifs = ({link,title,dataEff,bulle,flip,titleflip}) => {
 
 	const classes = useStyles();
   	return (	
 			<Grid key={0} item component={Link} to={link}>
 				<Card className={classes.paper} component={Paper}>
 					<CardActionArea>
-						<CardMedia 
+						{/* <CardMedia 
 							component="img"
 							alt={title}
 							height="140"
 							image={img}
 							title={title}
 							onClick={flip}
-						/>
+						/> */}
+						<Typography gutterBottom variant="h5" component="h2">
+							<br></br>
+						</Typography>
 						
 						<Typography gutterBottom variant="h5" component="h2" className={classes.textImg}
 						title={bulle}>
 							{title}
 						</Typography>
-						<CardContent>
+						<CardContent onClick={flip} title={titleflip}>
 							<EffectifsTab 
 							dataEff = {dataEff} />
 						</CardContent> 

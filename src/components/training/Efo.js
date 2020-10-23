@@ -28,6 +28,7 @@ import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import frLocale from 'date-fns/locale/fr';
 import {MuiPickersUtilsProvider,KeyboardDatePicker,} from '@material-ui/pickers';
+// import Autocomplete from '@material-ui/lab/Autocomplete';
 
 // import Chip from '@material-ui/core/Chip';
 
@@ -55,8 +56,11 @@ const Efo = () => {
 	dc_statutaction_id: 'all',
 	dc_lblformacode:'all',
 	dd_datepreconisation:'all',
+	nom_ref:'all',
 });
 	const { user } = useContext(UserContext);
+
+	const [listeRef, setListeRef] = useState([]);
 
 	const [ dataEfo, setDataEfo ] = useState([]);
 	const [ dataTop5, setDataTop5 ] = useState([]);
@@ -143,20 +147,20 @@ const Efo = () => {
 	// 	}
 	// }, [sourceUser])
 
-	// load dropdown from database listeformacode
-	//    useEffect(() => {
-	// 	if(sourceUser !== 'soon'){	
-	// 		axios({
-	// 			method: 'get',
-	// 			url: `/efo/listeformacode?${sourceUser}`,
-	// 			headers: {
-	// 				Authorization: 'Bearer ' + Cookies.get('authToken')
-	// 			}
-	// 		})
-	// 		.then((res) =>  setListeformacode(res.data));
+	//load dropdown from database listeREF
+	   useEffect(() => {
+		if(sourceUser !== 'soon'){	
+			axios({
+				method: 'get',
+				url: `/efo/listeref?${sourceUser}`,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken')
+				}
+			})
+			.then((res) =>  setListeRef(res.data));
 		
-	// }
-	// }, [sourceUser])
+	}
+	}, [sourceUser])
 
 	// load dropdown from database listeStatutAction
 	// console.log(sourceUser)
@@ -546,6 +550,25 @@ const Efo = () => {
 					))}
 					</Select>
 				</FormControl> */}
+
+				<FormControl variant="outlined" className={classes.formControl}>
+					<InputLabel id="demo-simple-select-outlined-label"className={classes.select_orange}>Référent</InputLabel>
+					<Select
+					name="nom_ref"
+					value={sourceFilter.nom_ref}
+					onChange={handleChange}
+					label="Référent"
+					className={classes.select_orange}
+					>
+					<MenuItem value="all"><em>Tous</em></MenuItem>
+					{listeRef.map(option => (
+					<MenuItem 
+					key={option.nom_ref}
+					value={option.nom_ref}
+					>{option.nom_ref}</MenuItem>
+					))}
+					</Select>
+				</FormControl> 
 
 
 				<FormControl variant="outlined" className={classes.formControl}>

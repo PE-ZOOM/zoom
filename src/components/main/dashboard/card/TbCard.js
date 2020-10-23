@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 		top: '30%',
 		left: '50%',
 		transform: 'translate(-50%, -50%)',
-		backgroundColor: '#4b9bc9cc',
+		backgroundColor: '#09090A',
     	width: '100%',
     	color: 'white',
 	},

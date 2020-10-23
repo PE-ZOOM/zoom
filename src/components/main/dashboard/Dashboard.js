@@ -5,12 +5,12 @@ import Cookies from 'js-cookie';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+// import Paper from '@material-ui/core/Paper';
 
-import imgJalon from "../../../image/card/jalon.jpeg";
-import imgEFO from "../../../image/card/EFO.jpg";
-import imgORE from "../../../image/card/ore.jpeg";
-import imgEff from "../../../image/card/eff.jpg";
+import imgJalon from "../../../image/card/jalon2.jpg";
+import imgEFO from "../../../image/card/efo2.jpeg";
+import imgORE from "../../../image/card/deal.jpeg";
+// import imgEff from "../../../image/card/equipe.jpeg";
 
 import './dashboard.css'
 import TbCard from "./card/TbCard"
@@ -68,6 +68,7 @@ const DashBoard = () => {
 	const [ dataDBCharge, setDataDBCharge ] = useState([]);
 	const [ sourceDB, setSourceDB ] = useState('soon');
 	const [ isFlipped, setIsFlipped ] = useState(false);
+	
 	
 
 	const handleFlip = () => {
@@ -161,14 +162,13 @@ const DashBoard = () => {
 	   , [sourceDB,user])	
 
 
-
-  	return (
+	  	return (
   		
 		  <div xs={12}>
 
-  			<Paper className={classes.citation}>
+  			{/* <Paper className={classes.citation}>
   				<h5><p className="quote">‟</p> Quelques chiffres <p className="quote">”</p></h5>
-  			</Paper>
+  			</Paper> */}
 			  
   			<div className={classes.div_card}>
 				<Grid container justify="center" alignItems="stretch" spacing={2}>
@@ -178,7 +178,7 @@ const DashBoard = () => {
 							data={dataDBJalon.filter(el => el.lbl !== null)}
 							link='main'
 							img={imgJalon}
-							title='Jalons'
+							title='Echéance Jalons'
 							bulle='DE en portefeuille'
 					  	/>
 					}
@@ -209,18 +209,20 @@ const DashBoard = () => {
 								<CardEffectifs 
 									dataEff={dataDBEff} 
 									link='main'
-									img={imgEff}
-									title='Effectifs'
+									// img={imgEff}
+									title='Nombre de portefeuilles par MSA'
 									bulle='Un portefeuille est comptabilisé quand il y a plus de 10 DE'
 									flip={handleFlip}
+									titleflip='Cliquer pour voir la charge moyenne'
 								/>
 								<CardEffectifs
 									dataEff={dataDBCharge}
 									link='main'
-									img={imgEff}
-									title='Charge moyenne'
+									// img={imgEff}
+									title='Nombre moyen de DE par portefeuille'
 									bulle='Charge moyenne DE en portefeuille'
 									flip={handleFlip}
+									titleflip='Cliquer pour voir le nombre de portefeuille'
 								/>
 						</ReactCardFlip>
 				</Grid>

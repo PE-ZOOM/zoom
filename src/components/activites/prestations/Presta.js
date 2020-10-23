@@ -24,6 +24,7 @@ const Presta = () => {
 		dc_structureprincipalesuivi: 'all',
 		dc_modalitesuiviaccomp_id: 'all',
 		annee: 'all',
+		nom_complet: 'all',
 	});
 
 	const { user } = useContext(UserContext);
@@ -32,55 +33,51 @@ const Presta = () => {
 	const [ listeStructure, setListeStructure] = useState([]);
 	const [ listeModAcc,	setListeModAcc	 ] = useState([]);
 	const [ listeYear, 		setListeYear	 ] = useState([]);
+	const [listeRef, setListeRef] = useState([]);
 
-   // load dropdown from database listestructure
-    useEffect(() => {
-		if(sourceUser !== 'soon'){
+   // load dropdown from database 
+   useEffect(() => {
+	if(sourceUser !== 'soon'){
 
-			axios({
-				method: 'get',
-				url: `/activites/listestructure?${sourceUser}`,
-				headers: {
-					Authorization: 'Bearer ' + Cookies.get('authToken')
-				}
-			})
-			.then((res) =>  setListeStructure(res.data));
-		
-    	}
-	}, [sourceUser])
+		axios({
+			method: 'get',
+			url: `/activites/listestructure?${sourceUser}`,
+			headers: {
+				Authorization: 'Bearer ' + Cookies.get('authToken')
+			}
+		})
+		.then((res) =>  setListeStructure(res.data));
 
+		axios({
+			method: 'get',
+			url: `/activites/listemodeacc?${sourceUser}`,
+			headers: {
+				Authorization: 'Bearer ' + Cookies.get('authToken')
+			}
+		})
+		.then((res) =>  setListeModAcc(res.data));
 
-	// load dropdown from database listeModAcc
-	useEffect(() => {
-		if(sourceUser !== 'soon'){
+		axios({
+			method: 'get',
+			url: `/activites/listeyear?${sourceUser}`,
+			headers: {
+				Authorization: 'Bearer ' + Cookies.get('authToken')
+			}
+		})
+		.then((res) =>  setListeYear(res.data));
 
-			axios({
-				method: 'get',
-				url: `/activites/listemodeacc?${sourceUser}`,
-				headers: {
-					Authorization: 'Bearer ' + Cookies.get('authToken')
-				}
-			})
-			.then((res) =>  setListeModAcc(res.data));
-		
-		}
-	}, [sourceUser])
+		axios({
+			method: 'get',
+			url: `/activites/listeref?${sourceUser}`,
+			headers: {
+				Authorization: 'Bearer ' + Cookies.get('authToken')
+			}
+		})
+		.then((res) =>  setListeRef(res.data));
+	
+}
+}, [sourceUser])
 
-		// load dropdown from database listeYear
-	useEffect(() => {
-		if(sourceUser !== 'soon'){
-
-			axios({
-				method: 'get',
-				url: `/activites/listeyear?${sourceUser}`,
-				headers: {
-					Authorization: 'Bearer ' + Cookies.get('authToken')
-				}
-			})
-			.then((res) =>  setListeYear(res.data));
-		
-		}
-	}, [sourceUser])
 
 
     //function source according to the user
@@ -302,6 +299,24 @@ const Presta = () => {
 		<h5>(sans situation,rattaché,en portefeuille)</h5>
 		
 			<div>
+			<FormControl variant="outlined" className={classes.formControl}>
+					<InputLabel id="demo-simple-select-outlined-label" className={classes.select_orange}>Référent</InputLabel>
+					<Select
+					name="nom_complet"
+					value={sourceFilter.nom_complet}
+					onChange={handleChange}
+					label="Référent"
+					className={classes.select_orange}
+					>
+					<MenuItem value="all"><em>Tous</em></MenuItem>
+					{listeRef.map(option => (
+					<MenuItem 
+					key={option.nom_complet}
+					value={option.nom_complet}
+					>{option.nom_complet}</MenuItem>
+					))}
+					</Select>
+			</FormControl> 
 
 				<FormControl variant="outlined" className={classes.formControl}>
 						<InputLabel className={classes.select_orange}>Structure</InputLabel>

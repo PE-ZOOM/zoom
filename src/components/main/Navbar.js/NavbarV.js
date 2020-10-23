@@ -1,4 +1,5 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+// import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
 import { isUserPermitted } from '../../../utils/permissions';
 import { LOAD_DATA, DISPLAY_STRUCTURE } from '../../../utils/permissionsTypes';
@@ -19,9 +20,9 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import MailIcon from '@material-ui/icons/Mail';
-import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+// import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import useStyles from './filesForMaterialUi/useStyles';
-import StyledBadge from './filesForMaterialUi/StyleBadge';
+//import StyledBadge from './filesForMaterialUi/StyleBadge';
 import useStylesPanel from './filesForMaterialUi/useStylesPanel';
 import { NavContext } from '../../../contexts/NavContext';
 
@@ -36,9 +37,9 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import './navbarV.css';
 import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+// import Menu from '@material-ui/core/Menu';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
@@ -56,25 +57,25 @@ import avatar from '../../../image/avatar.png';
 import logo from '../../../image/zoom_logo.png';
 
 
-function useInterval(callback, delay) {
-  const savedCallback = useRef();
+// function useInterval(callback, delay) {
+//   const savedCallback = useRef();
 
-  // Remember the latest function.
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
+//   // Remember the latest function.
+//   useEffect(() => {
+//     savedCallback.current = callback;
+//   }, [callback]);
 
-  // Set up the interval.
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-    if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay]);
-}
+//   // Set up the interval.
+//   useEffect(() => {
+//     function tick() {
+//       savedCallback.current();
+//     }
+//     if (delay !== null) {
+//       let id = setInterval(tick, delay);
+//       return () => clearInterval(id);
+//     }
+//   }, [delay]);
+// }
 
 export default function NavbarV() {
 
@@ -107,8 +108,8 @@ export default function NavbarV() {
   const [countEfo, setCountEfo] = useState([]);
   const [source, setSource] = useState('');
   const [sourceEfo, setSourceEfo] = useState('');
-  const [countUsers, setCountUsers] = useState('');
-  const [onlineUsers, setOnlineUsers] = useState('');
+  // const [countUsers, setCountUsers] = useState('');
+  // const [onlineUsers, setOnlineUsers] = useState('');
   const [maj, setMAJ] = useState('');
 
   //count nav bar portefeuille
@@ -145,25 +146,12 @@ export default function NavbarV() {
   useEffect(() => {
       axios({
         method: 'get',
-        url: '/load/historicMAJ',
+        url: `/load/historicMAJ?tableMAJ=T_Portefeuille`,
         headers: {
           Authorization: 'Bearer ' + Cookies.get('authToken'),
         },
-      }).then((res) => {
-        if(res.data.length>0){
-          for (const [key] in res.data){
-            switch (res.data[key].tableMAJ) {
-              case 't_portefeuille':
-                setMAJ(res.data[key].Date)
-                break;
-              default:
-                console.log("Date introuvable");
-            }
-          }
-        }else{
-          setMAJ("??")
-        }
-      });
+      })
+      .then((res) =>  setMAJ(res.data[0].Date))
     
   }, []);
 
@@ -213,16 +201,16 @@ export default function NavbarV() {
     }
   };
 
-  useInterval(() => {
-    axios({
-      method: 'get',
-      url: '/users/onlineusers',
-      headers: {
-        Authorization: 'Bearer ' + Cookies.get('authToken'),
-      },
-    }).then((res) => setCountUsers(res.data[0].count));
+  // useInterval(() => {
+  //   axios({
+  //     method: 'get',
+  //     url: '/users/onlineusers',
+  //     headers: {
+  //       Authorization: 'Bearer ' + Cookies.get('authToken'),
+  //     },
+  //   }).then((res) => setCountUsers(res.data[0].count));
 
-  }, 500000);
+  // }, 500000);
 
 
   useEffect(() => {
@@ -239,15 +227,15 @@ export default function NavbarV() {
     }
   }, [user.fonction_id, user.p_user, user.ape_id, sourceEfo]);
 
-  const UserConnected = () => {
-    axios({
-      method: 'get',
-      url: '/users/showonlineusers',
-      headers: {
-        Authorization: 'Bearer ' + Cookies.get('authToken'),
-      },
-    }).then((res) => setOnlineUsers(res.data));
-  };
+  // const UserConnected = () => {
+  //   axios({
+  //     method: 'get',
+  //     url: '/users/showonlineusers',
+  //     headers: {
+  //       Authorization: 'Bearer ' + Cookies.get('authToken'),
+  //     },
+  //   }).then((res) => setOnlineUsers(res.data));
+  // };
 
   const handleHistoric = (link) => {
     const jsDate = new Date();
@@ -316,9 +304,10 @@ export default function NavbarV() {
           </Link>
           )}
           </div>
+
           <List>
 
-            {isUserPermitted(LOAD_DATA, user.fonction) ? (
+            {/* {isUserPermitted(LOAD_DATA, user.fonction) ? (
               <PopupState variant="popover" popupId="demo-popup-menu">
                 {(popupState) => (
                   <React.Fragment>
@@ -338,7 +327,7 @@ export default function NavbarV() {
                       </div>
                     </Button>
                     <Menu {...bindMenu(popupState)} className="menu">
-                      {/* /count/showonlineusers */}
+                    
                       {onlineUsers.length > 0 &&
                         onlineUsers.map((user) => (
                           <MenuItem key={user.idgasi} className="menu-item">
@@ -350,7 +339,7 @@ export default function NavbarV() {
                         onClick={popupState.close}
                         className="menu-close"
                       >
-                        {/* close */}
+                        
                       </MenuItem>
                     </Menu>
                   </React.Fragment>
@@ -366,7 +355,7 @@ export default function NavbarV() {
                   <SupervisedUserCircleIcon />
                 </StyledBadge>
               </IconButton>
-            )}
+            )} */}
 
             <IconButton>
               <a
