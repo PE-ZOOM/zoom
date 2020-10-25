@@ -59,8 +59,13 @@ class Load extends Component {
 
   updateLigne() {
     let self = this;
-    // console.log(this.props.target)
-    axios.get(`/load/nbligne?${this.props.target}`)
+    axios({
+      method: 'get',
+      url: `/load/nbligne?${this.props.target}`,
+      headers: {
+        Authorization: 'Bearer ' + Cookies.get('authToken'),
+      },
+    })
     .then((response) => {
       self.setState({nbLigne: response.data[0].nblig})
     })
