@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
-import { CSVReader } from 'react-papaparse'
-// import CSVReader from "react-csv-reader";
+// import { CSVReader } from 'react-papaparse'
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import "./load.css";
@@ -15,11 +14,8 @@ import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceW
 import ContactMailOutlinedIcon from '@material-ui/icons/ContactMailOutlined';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
-// const buttonRef = React.createRef()
-// import LinearProgress from '@material-ui/core/LinearProgress';
-// import CsvError from "./components/csvError";
-// import Table from "./components/table";
 
 class Load extends Component {
 
@@ -32,10 +28,13 @@ class Load extends Component {
       msgErr:"",
       nbLigne:this.props.stateprops,
       clear:this.props.clear,
-      nb_iteration:0,
-      count_resp:0,
+      selectedFile: null,
+      filename: 'Choisir un fichier',
+      dateMaJ: props.date,
+      warningCount:''
     };
-    this.buttonRef = React.createRef()
+    // this.buttonRef = React.createRef()
+    this.hiddenFileInput = React.createRef()
   }
   
     // :::::::: CSV parser ::::::::::
@@ -53,110 +52,123 @@ class Load extends Component {
     this.updateLigne()
 
   }
-  componentDidUpdate() {
-    // this.updateLigne()
-  }
+  // componentDidUpdate() {
+  //   // this.updateLigne()
+  // }
 
 
   updateLigne() {
-    var self = this;
-    axios.get(`/load/nbligne?${this.props.target}`)
+    let self = this;
+    axios({
+      method: 'get',
+      url: `/load/nbligne?${this.props.target}`,
+      headers: {
+        Authorization: 'Bearer ' + Cookies.get('authToken'),
+      },
+    })
     .then((response) => {
-      self.setState({nbLigne: response.data[0].efo})
+      self.setState({nbLigne: response.data[0].nblig})
     })
   }
 
-  handleOpenDialog = (e) => {
-    // Note that the ref is set async, so it might be null at some point 
-    if (this.buttonRef.current) {
-      this.buttonRef.current.open(e)
-    }
+  uploadMAJ(table) {
+   
+    // A METTRE APRES UN ENREGISTREMENT DE DONNEES POUR METTRE A JOUR LA TABLE MAJ
+
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
+    var todayFR = dd + '/' + mm + '/' + yyyy
+
+    let d = JSON.stringify({data:today,
+                            table:this.props.target.slice(1)});
+
+    fetch("/load/maj?", {
+            // fetch("/load/"+this.props.target+'/'+count+':'+Math.ceil(d_arr.length/20000), {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: 'Bearer ' + Cookies.get('authToken')
+
+              },
+              body: d,
+            })
+            .then((response) => {
+              return response.json();
+            })
+            .then((responseJson) => {
+              if(responseJson.err === 'true')
+              {
+                this.setState({ error: true });
+              }else{
+                // const dateMaJ = responseJson.arr[0].match(/\d+/g)
+                // console.log(todayFR)
+                this.setState({ dateMaJ: todayFR });
+              }
+            })
   }
 
-  handleOnFileLoad = (data, fileInfo) => {
-    let d_arr =[]
-    let i = 0; // Boucle For
-    let data_lenght = data.length //Boucle de FOR - FormatDate
+  
+ 
+    handleOnError = (err, file, inputElem, reason) => {
+      console.log(err)
+    } 
 
-    let j = 0; //Compteur découpage du fichier - Boucle WHILE
-    let z = 0; //Compteur découpage du fichier - Boucle WHILE
-    let d_arr_length ;
 
-    let count_resp_max = 0;
 
-    //:::::::::::::::: Mise en forme de la Date :::::::::::::: 
-    const regDate= new RegExp(/^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{4}$/);
-    for(i; i<data_lenght;i++){
-      Object.entries(data[i].data).map(([k, v]) => {
-        if(regDate.test(v)){
-          var date = v.split('/')
-          data[i].data[k] = date[2] + '-' + date[1] + '-' + date[0] //Formatage de la date en YYYY-MM-DD
-        }
-      });
-      d_arr.push({ ...data[i].data })
+    handleChangeUploadFile = (event) => {
+      // Lorsqu'un fichier est selectionné
+      // console.log(event.target.files[0].name)
+      // console.log(event.target.files[0])
+      this.setState({
+        selectedFile: event.target.files[0],
+        loaded: 0,
+        filename: event.target.files[0].name,
+      })
     }
 
-    //:::::::::::::::: Découpage du tableau (trop de données d'un coup pour le serveur & navigateur) :::::::::::::: 
-
-    count_resp_max = Math.ceil(d_arr.length/20000);
-    d_arr_length = d_arr.length
-    this.setState({ finish: false, loading: true, error:false, nb_iteration:count_resp_max });
-
-
-    while(z!==d_arr_length){
-      z<1?j=0:j+=20000;
-      z+=20000
-      if(d_arr_length<z){
-        z=d_arr.length
-      }
-      //:::::::::::::::: Envoi autant de requetes de 20k lignes de données que necessaire :::::::::::::: 
-      // Compter le nombre d'itération pour la reception des données
-      //  max:Math.ceil(d_arr.length/20000) 
-      let d = JSON.stringify({ ...d_arr.slice(j,z) });
-      // let d = {data: JSON.stringify({ ...d_arr.slice(j,z) }), count: count, total: Math.ceil(d_arr.length/20000)}
-      fetch("/load/"+this.props.target.slice(1), {
-        // fetch("/load/"+this.props.target+'/'+count+':'+Math.ceil(d_arr.length/20000), {
-        method: "POST",
+    handleClickUploadFile = () => {
+      // Lors du clicque sur Valider
+      this.setState({ finish: false, loading: true, error:false });
+      const data = new FormData() 
+      data.append('file', this.state.selectedFile)
+      this.uploadMAJ(this.props.target.slice(1))
+      axios({
+        method: 'post',
+        data: data,
+        url: "/load/"+this.props.target.slice(1),
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: 'Bearer ' + Cookies.get('authToken')
-
+          Authorization: 'Bearer ' + Cookies.get('authToken'),
         },
-        body: d,
-      })
-        .then((response) => {
-          return response.json();
-        })
-        .then((responseJson) => {
-          this.setState({
-            count_resp:this.state.count_resp + 1
-          });
-          if(this.state.count_resp===count_resp_max){
-            this.setState({ loading: false, finish: true, count_resp: 0});
-            this.updateLigne() //A mettre a chaque itération, serveur pas assez puissant ?
-
-            // METTRE A JOUR LA TABLE MAJ
-            
-
-          }
-
-          if(responseJson.err === 'true')
+        validateStatus: (status) => {
+          return true; // Truc bizarre pour que le CallBack s'execute
+        },
+        }).catch(error => {
+    
+        }).then((res) => {
+            if(res.data.err === 'true')
             {
               this.setState({ error: true });
-              z = d_arr_length; //Mettre fin à la boucle while
-              responseJson.errno===1366?this.setState({ msgErr: "Verifier que le fichier soit bien enregistrer en CSV UTF-8. Sur Excel : Enregistrer sous > Format CSV UTF8" }):this.setState({ msgErr: responseJson.error });
-              console.log(responseJson.error)
-            };
-        })
-   
-    }
+              res.data.errno===1366?this.setState({ msgErr: "Verifier que le fichier soit bien enregistrer en CSV UTF-8." }):this.setState({ msgErr: res.data.error });
+            }else{
+              this.setState({ loading: false, finish: true, nbLigne: res.data.arr.affectedRows, warningCount: res.data.arr.warningCount });
+            }
+
+
+          });
   }
- 
-  handleOnError = (err, file, inputElem, reason) => {
-    console.log(err)
-  } 
+  
+  handleClickHidden = event => {
+    // Bouton input caché pour changer le style du bouton, renvoi le click vers le input
+    this.hiddenFileInput.current.click();
+  };
+
   handleClickTrunCate = (event) => {
+    // Requete pour effacer les tables
     fetch("/load/truncate?"+this.props.target.slice(1), {
         // fetch("/load/"+this.props.target+'/'+count+':'+Math.ceil(d_arr.length/20000), {
         method: "POST",
@@ -171,102 +183,61 @@ class Load extends Component {
           return response.json();
         })
         .then((responseJson) => {
-          this.updateLigne()
-          // this.setState({nbLigne:0});
-
-          if(responseJson.err === 'true')
-            {
-              this.setState({ error: true });
-              responseJson.errno===1366?this.setState({ msgErr: "Verifier que le fichier soit bien enregistrer en CSV UTF-8. Sur Excel : Enregistrer sous > Format CSV UTF8" }):this.setState({ msgErr: responseJson.error });
-              console.log(responseJson.error)
-            };
+          if(responseJson.err !== 'true')
+          {
+            this.setState({ loading: false, finish: false, nbLigne: 0, filename: 'Choisir un fichier'});
+          
+          }else{
+            console.log(responseJson.err)
+          }
         })
   }
 
-    handleClickMaJ = (event) => {
-
-      // A METTRE APRES UN ENREGISTREMENT DE DONNEES POUR METTRE A JOUR LA TABLE MAJ
-
-      var today = new Date();
-      var dd = String(today.getDate()).padStart(2, '0');
-      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-      var yyyy = today.getFullYear();
-
-      today = yyyy + '-' + mm + '-' + dd;
-
-
-      let d = JSON.stringify({data:today,
-                              table:this.props.target.slice(1)});
-
-      fetch("/load/maj?", {
-              // fetch("/load/"+this.props.target+'/'+count+':'+Math.ceil(d_arr.length/20000), {
-              method: "POST",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                Authorization: 'Bearer ' + Cookies.get('authToken')
-
-                },
-                body: d,
-              })
-              .then((response) => {
-                return response.json();
-              })
-              .then((responseJson) => {
-                // this.updateLigne()
-                // this.setState({nbLigne:0});
-
-                if(responseJson.err === 'true')
-                  {
-                    this.setState({ error: true });
-                  };
-              })
-    }
 
   render() {
+    
     // if (this.state.loading) return <Loader />;
     // if (this.state.error) return <CsvError />;
     return (
-
-      <ListItem key={this.props.icone.toString()}>
-
-
+      
+      // <ListItem key={this.props.icone.toString()}>
+      <ListItem>
 
         <ListItemAvatar > 
           <Avatar className="div_elmt_avatar">
-            {this.props.icone===1
+            {
+            this.props.icone==='1'
               ?<AccountBalanceWalletOutlinedIcon fontSize="small"/>
-              :this.props.icone===2
+              :this.props.icone==='2'
                 ? <ContactMailOutlinedIcon fontSize="small"/>
                 : <PermContactCalendarOutlinedIcon fontSize="small"/>
             }
           </Avatar>
         </ListItemAvatar>
 
-        <div className="ListItem_item" >
+        <div className="ListItem_item">
           <ListItemText primary={this.props.title} secondary={
-            <React.Fragment>
+            <>
               <Typography
                 component="span"
                 variant="body2"
                 color="textPrimary"
               >
-                { this.props.date
-
-                }
+                {"Dernière MaJ : "+ this.state.dateMaJ}
               </Typography>
               {" " + this.state.nbLigne + " lignes."}
-            </React.Fragment>
+            </>
           }
            />
+           
            {
               (this.state.finish) &&
-              [(!this.state.error) ? <Alert className="List_alert"><AlertTitle>Upload Réussi !</AlertTitle>La mise à jours de la table {this.props.target} à bien été éffectuée.</Alert> 
-                :<Alert  severity="error" className="List_alert"><AlertTitle>Erreur</AlertTitle>{this.state.msgErr}</Alert>]
+              ((!this.state.error) ? <Alert className="List_alert"><AlertTitle>Upload Réussi !</AlertTitle>La mise à jours de la table {this.props.target} a bien été éffectuée. Warnings: {this.state.warningCount}</Alert> 
+                :<Alert  severity="error" className="List_alert"><AlertTitle>Erreur</AlertTitle>{this.state.msgErr}</Alert>)
             }
             {
 
-              // Si base vidable (porps) + nbligne > 0
+              // Si base vidable (props) + nbligne > 0
               // Affiche bouton vider la table
               // sinon affiche CSVReader
 
@@ -279,8 +250,84 @@ class Load extends Component {
                 </Button> 
 
               : 
-
-                <CSVReader
+                <div>  
+                              <div className="form-group files">
+                                <input type="file" ref={this.hiddenFileInput} style={{display: 'none'}} className="form-control" multiple="" onChange={this.handleChangeUploadFile}/>
+                                <aside
+                                    style={{
+                                      display: 'flex',
+                                      flexDirection: 'row',
+                                      marginBottom: 10
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        borderWidth: 1,
+                                        borderStyle: 'solid',
+                                        borderColor: '#ccc',
+                                        // height: 45,
+                                        // lineHeight: 2.5,
+                                        // marginTop: 5,
+                                        // marginBottom: 5,
+                                        paddingLeft: 13,
+                                        paddingTop: 3,
+                                        width: '80%'
+                                      }}
+                                    >
+                                      {this.state.filename}
+                                      
+                                      
+                                    </div>
+                                    
+                                    
+                                    <Button
+                                      type='button'
+                                      onClick={this.handleClickHidden}
+                                      style={{
+                                        fonSsize: '10px',
+                                        borderRadius: 0,
+                                        marginLeft: 0,
+                                        marginRight: 0,
+                                        width: '40%',
+                                        paddingLeft: 0,
+                                        paddingRight: 0,
+                                        color: 'white',
+                                        background: '#c9794b'
+                                      }}
+                                    >
+                                      Choisir
+                                    </Button>
+                                   
+                                  </aside>
+                                  {(this.state.selectedFile !== null) &&
+                                    
+                                      ((this.state.loading === true)
+                                        ? <LinearProgress /> 
+                                        :
+                                          <Button
+                                              type='button'
+                                              onClick={this.handleClickUploadFile}
+                                              style={{
+                                                fonSsize: '10px',
+                                                borderRadius: 0,
+                                                marginLeft: 0,
+                                                marginRight: 0,
+                                                width: '40%',
+                                                paddingLeft: 0,
+                                                paddingRight: 0,
+                                                color: 'white',
+                                                background: '#4bc9b2'
+                                              }}
+                                            >
+                                              Valider
+                                        </Button> )
+                                  }
+                                {/* <button type="button" className="btn btn-success btn-block" onClick={this.handleClickUploadFile}>CHOISIR</button>  */}
+                              </div>
+                              
+                        
+                
+                {/* <CSVReader
                   ref={this.buttonRef}
                   onFileLoad={this.handleOnFileLoad}
                   onError={this.handleOnError}
@@ -339,18 +386,12 @@ class Load extends Component {
                       </Button>
                     </aside>
                   )}
-              </CSVReader>
+              </CSVReader> */}
+              </div>
             }
-          {(this.state.loading) && <p>Parsing ok.<br/>Enregistrement des données, veillez patienter... {this.state.count_resp}/{this.state.nb_iteration}</p>}
+          {/* {(this.state.loading) && <p>Parsing ok.<br/>Enregistrement des données, veillez patienter... {this.state.count_resp}/{this.state.nb_iteration}</p>} */}
+    
         </div>
-        {/*<Card variant="outlined">
-          <Alert variant="outlined" severity="info">
-            Nombre de ligne
-          </Alert>
-        </Card>
-         <div className='ListItem_alert'>
-                  
-          </div> */}
       </ListItem> 
     );
   }

@@ -1,4 +1,5 @@
-import React, { useContext, useState, useEffect, useRef } from 'react';
+// import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
 import { isUserPermitted } from '../../../utils/permissions';
 import { LOAD_DATA, DISPLAY_STRUCTURE } from '../../../utils/permissionsTypes';
@@ -19,18 +20,15 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import MailIcon from '@material-ui/icons/Mail';
-import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+// import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
 import useStyles from './filesForMaterialUi/useStyles';
-import StyledBadge from './filesForMaterialUi/StyleBadge';
+//import StyledBadge from './filesForMaterialUi/StyleBadge';
 import useStylesPanel from './filesForMaterialUi/useStylesPanel';
 import { NavContext } from '../../../contexts/NavContext';
 
 import Accordion from '@material-ui/core/Accordion'
-// import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import AccordionDetails from '@material-ui/core/AccordionActions'
-// import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary'
-// import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 
@@ -39,16 +37,10 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import './navbarV.css';
 import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+// import Menu from '@material-ui/core/Menu';
+// import MenuItem from '@material-ui/core/MenuItem';
+// import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 
-// import GetAppOutlinedIcon from '@material-ui/icons/GetAppOutlined';
-// import Button2 from 'react-bootstrap/Button'
-// import Modal from 'react-bootstrap/Modal'
-// import InputLabel from '@material-ui/core/InputLabel';
-// import FormControl from '@material-ui/core/FormControl';
-// import Select from '@material-ui/core/Select';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 
@@ -59,55 +51,33 @@ import FlagOutlinedIcon from '@material-ui/icons/FlagOutlined';
 import HourglassEmptyRoundedIcon from '@material-ui/icons/HourglassEmptyRounded';
 import AirplayOutlinedIcon from '@material-ui/icons/AirplayOutlined';
 import PermContactCalendarOutlinedIcon from '@material-ui/icons/PermContactCalendarOutlined';
-// import BackupOutlinedIcon from '@material-ui/icons/BackupOutlined';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 import avatar from '../../../image/avatar.png';
 import logo from '../../../image/zoom_logo.png';
 
-// const useStyles2 = makeStyles((theme) => ({
-//   root: {
-//     width: '100%',
-//     maxWidth: 360,
-//     backgroundColor: theme.palette.background.paper,
-//   },
-// }));
 
+// function useInterval(callback, delay) {
+//   const savedCallback = useRef();
 
-function useInterval(callback, delay) {
-  const savedCallback = useRef();
+//   // Remember the latest function.
+//   useEffect(() => {
+//     savedCallback.current = callback;
+//   }, [callback]);
 
-  // Remember the latest function.
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  // Set up the interval.
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-    if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay]);
-}
+//   // Set up the interval.
+//   useEffect(() => {
+//     function tick() {
+//       savedCallback.current();
+//     }
+//     if (delay !== null) {
+//       let id = setInterval(tick, delay);
+//       return () => clearInterval(id);
+//     }
+//   }, [delay]);
+// }
 
 export default function NavbarV() {
-  // const [show, setShow] = useState(false);
-
-  // const handleClose = () => setShow(false);
-  // const handleShow2 = () => setShow(true);
-
-  // const [ listeStructure, setListeStructure] = useState([]);
-
-  // const [ sourceFilter, setSourceFilter ] = useState({
-  //     dc_structureprincipalesuivi: 'all',
-  //     dc_modalitesuiviaccomp_id: 'all',
-  //     annee: 'all',
-  //   });
-
 
   const classes = useStyles();
   const classesP = useStylesPanel();
@@ -138,8 +108,8 @@ export default function NavbarV() {
   const [countEfo, setCountEfo] = useState([]);
   const [source, setSource] = useState('');
   const [sourceEfo, setSourceEfo] = useState('');
-  const [countUsers, setCountUsers] = useState('');
-  const [onlineUsers, setOnlineUsers] = useState('');
+  // const [countUsers, setCountUsers] = useState('');
+  // const [onlineUsers, setOnlineUsers] = useState('');
   const [maj, setMAJ] = useState('');
 
   //count nav bar portefeuille
@@ -176,15 +146,14 @@ export default function NavbarV() {
   useEffect(() => {
       axios({
         method: 'get',
-        url: '/load/historicMAJ',
+        url: `/load/historicMAJ?tableMAJ=T_Portefeuille`,
         headers: {
           Authorization: 'Bearer ' + Cookies.get('authToken'),
         },
-      }).then((res) => setMAJ(res.data));
+      })
+      .then((res) =>  setMAJ(res.data[0].Date))
     
   }, []);
-  let datemaj
-  try{datemaj = Object.values(maj[0])[0]}catch(error){}
 
   useEffect(() => {
     getCountPort(user.fonction_id, user.p_user, user.ape_id);
@@ -232,16 +201,16 @@ export default function NavbarV() {
     }
   };
 
-  useInterval(() => {
-    axios({
-      method: 'get',
-      url: '/users/onlineusers',
-      headers: {
-        Authorization: 'Bearer ' + Cookies.get('authToken'),
-      },
-    }).then((res) => setCountUsers(res.data[0].count));
+  // useInterval(() => {
+  //   axios({
+  //     method: 'get',
+  //     url: '/users/onlineusers',
+  //     headers: {
+  //       Authorization: 'Bearer ' + Cookies.get('authToken'),
+  //     },
+  //   }).then((res) => setCountUsers(res.data[0].count));
 
-  }, 5000);
+  // }, 500000);
 
 
   useEffect(() => {
@@ -258,15 +227,15 @@ export default function NavbarV() {
     }
   }, [user.fonction_id, user.p_user, user.ape_id, sourceEfo]);
 
-  const UserConnected = () => {
-    axios({
-      method: 'get',
-      url: '/users/showonlineusers',
-      headers: {
-        Authorization: 'Bearer ' + Cookies.get('authToken'),
-      },
-    }).then((res) => setOnlineUsers(res.data));
-  };
+  // const UserConnected = () => {
+  //   axios({
+  //     method: 'get',
+  //     url: '/users/showonlineusers',
+  //     headers: {
+  //       Authorization: 'Bearer ' + Cookies.get('authToken'),
+  //     },
+  //   }).then((res) => setOnlineUsers(res.data));
+  // };
 
   const handleHistoric = (link) => {
     const jsDate = new Date();
@@ -320,7 +289,7 @@ export default function NavbarV() {
             <MenuIcon />
           </IconButton>
           <Typography variant="subtitle1" noWrap>
-            Maj : {datemaj}
+            Maj : {maj}
           </Typography>
           <div>
 
@@ -335,9 +304,10 @@ export default function NavbarV() {
           </Link>
           )}
           </div>
+
           <List>
 
-            {isUserPermitted(LOAD_DATA, user.fonction) ? (
+            {/* {isUserPermitted(LOAD_DATA, user.fonction) ? (
               <PopupState variant="popover" popupId="demo-popup-menu">
                 {(popupState) => (
                   <React.Fragment>
@@ -357,7 +327,7 @@ export default function NavbarV() {
                       </div>
                     </Button>
                     <Menu {...bindMenu(popupState)} className="menu">
-                      {/* /count/showonlineusers */}
+                    
                       {onlineUsers.length > 0 &&
                         onlineUsers.map((user) => (
                           <MenuItem key={user.idgasi} className="menu-item">
@@ -369,7 +339,7 @@ export default function NavbarV() {
                         onClick={popupState.close}
                         className="menu-close"
                       >
-                        {/* close */}
+                        
                       </MenuItem>
                     </Menu>
                   </React.Fragment>
@@ -385,12 +355,12 @@ export default function NavbarV() {
                   <SupervisedUserCircleIcon />
                 </StyledBadge>
               </IconButton>
-            )}
+            )} */}
 
             <IconButton>
               <a
                 className="mailto"
-                href="mailto:catblecon@gmail.com?subject=Hello%20Cathouuu!!!"
+                href="mailto:reunionperformance.97410@pole-emploi.fr?subject=Zoom"
               >
                 <MailIcon />
               </a>
@@ -429,39 +399,18 @@ export default function NavbarV() {
         <ListItem button onClick={handleShow}>
         <div className="card card-navbar">
             <div className="card-header">
-                <Avatar className="card-center"  alt={user.name} src={avatar} className={classes.orange} />
+                <Avatar  alt={user.name} src={avatar} className={classes.orange} />
             </div>
             <div className="card-body card-center">
                 <h5 className="card-title">{user.name}</h5>
                     <p className="card-text">{user.fonction}</p>
+                    
                     {isUserPermitted(DISPLAY_STRUCTURE, user.fonction) && (
                       <p className="card-text">{user.libelle_ape}</p>
                     )}
             </div>
         </div>
         </ListItem>
-       
-        
-          {/* <ListItem button onClick={handleShow}>
-            <div className="card mb-3">
-              <div className="row no-gutters">
-                <div className="card-head">
-                  <Avatar alt={user.name} src="/broken-image.jpg" className={classes.orange} />
-                  {/* TODO: Understand why broken image is not functioning */}
-                  {/* <Avatar src="/broken-image.jpg" /> 
-                </div>
-                <div className="col-12">
-                  <div className="card-body">
-                    <h5 className="card-title">{user.name}</h5>
-                    <p className="card-text">{user.fonction}</p>
-                    {isUserPermitted(DISPLAY_STRUCTURE, user.fonction) && (
-                      <p className="card-text">{user.libelle_ape}</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ListItem> */}
 
           <Accordion
           expanded={expanded === 'panel1'}
@@ -486,7 +435,7 @@ export default function NavbarV() {
                 <ListItemIcon>
                   <SettingsOutlinedIcon />
                 </ListItemIcon>
-                  <ListItemText primary="Diagnostic" onClick={() => {
+                  <ListItemText primary="Diagnostic/Caractéristiques" onClick={() => {
                   handleHistoric('Diagnostic');
                   }} />
               </ListItem>
@@ -499,7 +448,7 @@ export default function NavbarV() {
                   handleHistoric('Jalons');
                   }} />
               </ListItem>
-              <ListItem button component={Link} to="defm" selected={selectedIndex === 13}
+              {/* <ListItem button component={Link} to="defm" selected={selectedIndex === 13}
               onClick={(event) => handleListItemClick(event, 13)}>
                 <ListItemIcon>
                   <SettingsOutlinedIcon />
@@ -507,7 +456,7 @@ export default function NavbarV() {
                   <ListItemText primary="DEFM" onClick={() => {
                   handleHistoric('DEFM');
                   }} />
-              </ListItem>
+              </ListItem> */}
               </AccordionDetails>
           </Accordion>
 

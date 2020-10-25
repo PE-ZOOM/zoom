@@ -30,10 +30,12 @@ export default function PrestaTab({dataActi}) {
             <TableCell align="right" title='Nombre de DE inscrits au moins un jour dans le mois chargé, toutes cat (le même DE peut avoir plusieurs ref au cours du mois)'>Nb DE affectés</TableCell>
             <TableCell align="right" title="Nombre total de prestations ACTIV'CREA">Activ'Créa</TableCell>
             <TableCell align="right" title="Nombre total de prestations ACTIV'Emploi">Activ'Emploi</TableCell>
-            <TableCell align="right" title="Nombre total de prestations ACTIV'Projet">Activ'Projet</TableCell>
+            <TableCell align="right" title="Nombre total de prestations AP2">AP2</TableCell>
             <TableCell align="right" title="Nombre total de prestations REGARDS CROISES">Regards croisés</TableCell>
             <TableCell align="right" title="Nombre total de prestations VALORISER SON IMAGE PRO">Valoriser son image pro</TableCell>
             <TableCell align="right" title="Nombre total de prestations MARCHE DU TRAVAIL LOCAL + MARCHE DU TRAVAIL SECTORIEL + PRESENTATION DES ORGANISMES ET DES FORMATIONS">Vers un métier</TableCell>
+            <TableCell align="right" title="Nombre total de prestations ACL">ACL</TableCell>
+            <TableCell align="right" title="Nombre total de prestations EMD">EMD</TableCell>
             <TableCell align="right" title="Si plusieurs prestations dans le mois, une seule est comptabilisée par DE et référent.">Presta</TableCell>
             <TableCell align="right" title="Taux de prestation moyen par portefeuille au sens large">Tx presta</TableCell>
           </TableRow>
@@ -41,7 +43,7 @@ export default function PrestaTab({dataActi}) {
 
         <TableBody>
           {dataActi.map((row) => (
-            <TableRow key={row.annee+row.mois}>
+            <TableRow key={row.annee+''+row.mois}>
               <TableCell align="right">{row[Object.keys(dataActi[0])[0]].toLocaleString()}</TableCell> 
               <TableCell align="right">{row[Object.keys(dataActi[0])[1]].toLocaleString()}</TableCell>
               <TableCell align="right">{row[Object.keys(dataActi[0])[2]].toLocaleString()}</TableCell>
@@ -52,7 +54,9 @@ export default function PrestaTab({dataActi}) {
               <TableCell align="right">{row[Object.keys(dataActi[0])[7]].toLocaleString()}</TableCell>
               <TableCell align="right">{row[Object.keys(dataActi[0])[8]].toLocaleString()}</TableCell>
               <TableCell align="right">{row[Object.keys(dataActi[0])[9]].toLocaleString()}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[10]]}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[10]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[11]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[12]]}</TableCell>
 
             </TableRow>
           ))}

@@ -28,7 +28,8 @@ const DefmTab = ({data,selected,handleClick,isSelected, sourceUser, title, uniqu
     	if(isSelected(prefixe + key.lbl)){
     		(format==='(%)')?DoughnutData.push(key.tx):DoughnutData.push(key.nb)
     		DoughnutLabel.push(key.lbl)
-    	}
+		}
+		return 'ok'
     })
 
 	const DoughnutEntrant = {

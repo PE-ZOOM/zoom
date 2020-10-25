@@ -24,3 +24,11 @@ a{
 .Alert_desc{
 	font-size: x-large;
 }
+
+.MuiCardMedia-img {
+    object-fit: contain !important;
+}
+
+.MuiChip-colorSecondary {
+    background-color: #4b9bc9cc !important;
+}

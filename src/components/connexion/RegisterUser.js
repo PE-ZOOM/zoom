@@ -4,7 +4,7 @@ import SelectFonction from './Select/SelectFonction';
 import SelectTeam from './Select/SelectTeam';
 import SelectStructure from './Select/SelectStructure';
 import { isUserPermitted } from '../../utils/permissions';
-import { CONSEILLER, ELP } from '../../utils/permissionsTypes';
+import { CONSEILLER, ELD } from '../../utils/permissionsTypes';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -70,6 +70,13 @@ const RegisterUser = () => {
         }
     }
 
+    const  handleChangeIdgasi = (event) => { 
+        const name = event.target.name;
+        const value = event.target.value;
+        setRegister({...register, [name]: value.toLowerCase() })
+        }
+    
+
 
 //     const handleSubmit = (event) => {
 //     event.preventDefault();
@@ -134,7 +141,7 @@ const RegisterUser = () => {
                                     <span className="input-group-text"><i className="fas fa-user"></i></span>
                                 </div>
                                 <input type="text" className="form-control" placeholder="idgasi" required
-                                name="idgasi" value={register.idgasi} onChange={handleChange}>
+                                name="idgasi" value={register.idgasi} onChange={handleChangeIdgasi}>
                                 </input>
                             </div>    
                            
@@ -197,7 +204,7 @@ const RegisterUser = () => {
                                 /> 
                             </div>
                              }
-                            {isUserPermitted(ELP,  register.fonction_id) &&
+                            {isUserPermitted(ELD,  register.fonction_id) &&
                              <div>
                                 <SelectTeam
                                name = 'team_id'

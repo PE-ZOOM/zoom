@@ -26,7 +26,7 @@ const Jalons = () => {
 	//chart pie
 	const [dataPie, setDataPie] = useState([])
 	// const color = ['#6D6875', '#B5838D', '#E5989B', '#FFB4A2', '#FFCDB2'] //Défini les couleurs du tableau + donut
-	const color = ['#264653', '#2a9d8f', '#e9c46a', '#f4a261', '#e76f51', '#6f51e7', '#c4ffff', '#e76fff']
+	const color = ['#EFEBEB','#F76F6F','#F8A449','#E8F171','#BEE198', '#6f51e7', '#c4ffff', '#e76fff']
 
     //function source according to the user
     const getCountJalon = (fonction_id, p_user,ape_id) => {
@@ -160,7 +160,7 @@ const Jalons = () => {
 	return (
 		
 	<div>
-		<h4>Photo Jalons DE en portefeuille</h4>
+		<h4>Photo Echeance Jalons DE en portefeuille</h4>
 		<div className={classes.excel}>
 			<Excel
 				handleIDE={exportIDE}

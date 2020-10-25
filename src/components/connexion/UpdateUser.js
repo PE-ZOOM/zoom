@@ -6,7 +6,7 @@ import SelectFonction from './Select/SelectFonction';
 import SelectTeam from './Select/SelectTeam';
 import SelectStructure from './Select/SelectStructure';
 import { isUserPermitted } from '../../utils/permissions';
-import { CONSEILLER, ELP } from '../../utils/permissionsTypes';
+import { CONSEILLER, ELD } from '../../utils/permissionsTypes';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { UserContext } from '../../contexts/UserContext';
@@ -79,8 +79,6 @@ const UpdateUser = ({ show, handleClose }) => {
     } else {
       setRegister({ ...register, [name]: value });
     }
-    console.log(register);
-    console.log(register.p_user);
   };
 
   const source = `/auth/update/${user.idgasi}`;
@@ -106,6 +104,8 @@ const UpdateUser = ({ show, handleClose }) => {
       setMessage('le champ p_user est requis');
     }
   };
+
+
   return (
     <Modal
       size="lg"
@@ -129,6 +129,7 @@ const UpdateUser = ({ show, handleClose }) => {
                       options={listFunction} //database
                       handleChange={handleChange}
                       placeholder={'Fonction'}
+                      required={true}
                     />
                     {isUserPermitted(CONSEILLER, register.fonction_id) && (
                       <div>
@@ -163,10 +164,11 @@ const UpdateUser = ({ show, handleClose }) => {
                           options={listAPE} //database
                           handleChange={handleChange}
                           placeholder={'Agence'}
+                          required={true}
                         />
                       </div>
                     )}
-                    {isUserPermitted(ELP, register.fonction_id) && (
+                    {isUserPermitted(ELD, register.fonction_id) && (
                       <div>
                         <SelectTeam
                           name="team_id"
@@ -179,6 +181,7 @@ const UpdateUser = ({ show, handleClose }) => {
                           options={listAPE} //database
                           handleChange={handleChange}
                           placeholder={'Agence'}
+                          required={true}
                         />
                       </div>
                     )}

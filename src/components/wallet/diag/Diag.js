@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import Pmp from './onglets/Pmp';
 import Re from './onglets/Re';
 import Freins from './onglets/Freins';
+import Autres from './onglets/Autres';
 import { UserContext } from '../../../contexts/UserContext';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -200,9 +201,13 @@ const Diag = () => {
 		colonne127: "O",
 		colonne136: "O",
 		colonne140: "O",
+		dc_lblaxetravailprincipal: "RETOUR DIRECT EMPLOI",
+		c_top_oreavalider_id: "O",
+		dc_parcours: "REN",
+		tranche_age: "Moins de 26 ans"
 	})
 
-	
+
 	const [selected, setSelected] = useState([]);
 
 	useEffect(() => {
@@ -275,6 +280,10 @@ const Diag = () => {
 		event.preventDefault(event)
 		setChoice(3)
 	}
+	const choice4 = (event) => {
+		event.preventDefault(event)
+		setChoice(4)
+	}
 
 	const  handleChangeMod = (event) => { 
 		const name = event.target.name;
@@ -336,7 +345,7 @@ const Diag = () => {
 			);
 		}
 		
-		console.log(newSelected)
+		// console.log(newSelected)
 		setSelected(newSelected);
 	}; 
 	//end
@@ -371,7 +380,7 @@ const Diag = () => {
 			  })
 			  .then(res => {setmulti(res.data[0].nb)}, setCheckUrl(checkedUrl+ sourceUser),setFilter(filterName))
 			  
-			console.log(sourcemulti)
+			// console.log(sourcemulti)
 		  } else {
 			setmulti(0)
 			setFilter([])
@@ -477,9 +486,9 @@ const Diag = () => {
 	<div>
 	{/* <button onClick={test}> test</button> */}
 	
-	{(dataDiagLength===40) &&
+	{(dataDiagLength===44) &&
 		<>
-			<h2>Photo diagnostic DE en portefeuille</h2>
+			<h2>Photo DE en portefeuille</h2>
 			{/*  <Button className={classes.TEST}>Hook</Button>;*/} 
 		
 			<Paper square>
@@ -491,9 +500,10 @@ const Diag = () => {
 					textColor="primary"
 					centered
 					>
-					<Tab className={choice===1 ? "on" : "off"} onClick={choice1} label="Projet et mobilité professionnelle" />
-					<Tab className={choice===2 ? "on" : "off"} onClick={choice2} label="Recherche d'emploi" />
-					<Tab className={choice===3 ? "on" : "off"} onClick={choice3} label="Freins périphériques à l'emploi" />
+					<Tab className={choice===1 ? "on" : "off"} onClick={choice1} label="Diag: Projet et mobilité professionnelle" />
+					<Tab className={choice===2 ? "on" : "off"} onClick={choice2} label="Diag: Recherche d'emploi" />
+					<Tab className={choice===3 ? "on" : "off"} onClick={choice3} label="Diag: Freins périphériques à l'emploi" />
+					<Tab className={choice===4 ? "on" : "off"} onClick={choice4} label="Autres caractéristiques" />
 				</Tabs>
 			</Paper>
 
@@ -504,8 +514,8 @@ const Diag = () => {
 	}	
 	
 	
-	{(dataDiagLength<40) &&
-	<h3>Chargement en cours {dataDiagLength} sur 40 </h3> 
+	{(dataDiagLength<44) &&
+	<h3>Chargement en cours {dataDiagLength} sur 44 </h3> 
 }
 	
 	{(choice===1) && <Pmp 
@@ -535,6 +545,16 @@ const Diag = () => {
 		selected={selected}
 		handleClick={handleClick}
 		choice={choice} /> }
+
+	{(choice===4) && <Autres
+		dataDiagMod={dataDiagMod}
+		handleChangeMod={handleChangeMod}
+
+		dataDiag1={dataDiag.filter(el => el.groupe2 === "Autres").sort((a, b) => (a.name > b.name) ? 1 : -1)}
+		selected={selected}
+		handleClick={handleClick}
+		choice={choice} /> }
+
 
 		{(choice>0) &&
 	<>
