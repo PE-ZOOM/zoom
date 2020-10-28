@@ -1,5 +1,5 @@
-import React from 'react';
-// import React, { useContext } from 'react';
+
+import React, { useContext } from 'react';
 import NavContextProvider from './contexts/NavContext';
 import { Switch, Route } from 'react-router-dom';
 import Login from './components/connexion/Login';
@@ -17,18 +17,18 @@ import Load from './components/load/Load';
 import UpdateUser from './components/connexion/UpdateUser';
 import admin from './components/main/admin/admin';
 import PrivateRoute from './hoc/PrivateRoute';
-// import { UserContext } from './contexts/UserContext';
+import { UserContext } from './contexts/UserContext';
 
 function App() {
-	// const { user } = useContext(UserContext);
-	// const { idgasi } = user;
+	const { user } = useContext(UserContext);
+	const { idgasi } = user;
 
-	// window.addEventListener('beforeunload', async (event) => {
-	// 	if (idgasi !== undefined) {
-	// 	var URL = `/users/disconnection/${idgasi}`;
-	// 	navigator.sendBeacon(URL);
-	// 	}
-	//   });
+	window.addEventListener('beforeunload', async (event) => {
+		if (idgasi !== undefined) {
+		var URL = `/users/disconnection/${idgasi}`;
+		navigator.sendBeacon(URL);
+		}
+	  });
 
 
 	return (
