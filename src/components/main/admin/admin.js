@@ -61,13 +61,13 @@ const Admin = props => {
           for (const [key] in res.data){
             switch (res.data[key].tableMAJ) {
               case 'T_Activites':
-                setT_activ(res.data[key].Date)
+                setT_activ(res.data[key].dateMAJ)
                 break;
               case 'T_Portefeuille':
-                setT_port(res.data[key].Date)
+                setT_port(res.data[key].dateMAJ)
                 break;
               case 'T_EFO':
-                setT_efo(res.data[key].Date)
+                setT_efo(res.data[key].dateMAJ)
                 break;
               default:
                 console.log("Date introuvable");
