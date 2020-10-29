@@ -204,7 +204,9 @@ const DashBoard = () => {
 							bulle='DE en portefeuille'
 						/>
 					}
-							
+					</Grid>
+					<div style={{padding:20}}></div>
+					<Grid container justify="center" alignItems="stretch" spacing={2} > 
 						<ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
 								<CardEffectifs 
 									dataEff={dataDBEff} 
