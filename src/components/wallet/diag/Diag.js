@@ -404,13 +404,15 @@ const Diag = () => {
 	// }
 	
 	const exportIDE = () => {
-
 		// handleClickSnackBar({ vertical: 'bottom', horizontal: 'center' })
 		// setState({ open: true, ...{ vertical: 'bottom', horizontal: 'center' } });
+
+		
+
 		axios({
 			method: 'get', 
 			responseType: 'blob', 
-			url: '/diagxlsx/ide?' + checkUrl,
+			url: '/diagxlsx/ide?' + checkUrl + '&filter=' + filter,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken'),
 			}
@@ -431,7 +433,7 @@ const Diag = () => {
 		axios({
 			method: 'get', 
 			responseType: 'blob', 
-			url: '/diagxlsx/ref?' + checkUrl,
+			url: '/diagxlsx/ref?' + checkUrl + '&filter=' + filter,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken'),
 			}
@@ -453,7 +455,7 @@ const Diag = () => {
 		axios({
 			method: 'get', 
 			responseType: 'blob', 
-			url: '/diagxlsx/ape?' + checkUrl,
+			url: '/diagxlsx/ape?' + checkUrl + '&filter=' + filter,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken'),
 			}
