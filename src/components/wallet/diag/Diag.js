@@ -157,8 +157,8 @@ const Diag = () => {
 	const [ dataDiagLength, setDataDiagLength ] = useState(0);
 	const [ sourceUser, setSourceUser ] = useState('soon');
 	const [ multi, setmulti ] = useState(0);
-	// const [field, setField] = useState(['dc_individu_local','dc_civilite'])
-
+	const [ listeApe, setListeApe] = useState([]);
+	
 
 	const [ dataDiagMod, setDataDiagMod ] = useState({
 		colonne40 : "B",
@@ -201,15 +201,45 @@ const Diag = () => {
 		colonne127: "O",
 		colonne136: "O",
 		colonne140: "O",
-		dc_lblaxetravailprincipal: "RETOUR DIRECT EMPLOI",
 		c_top_oreavalider_id: "O",
-		dc_parcours: "REN",
-		tranche_age: "Moins de 26 ans"
+		dc_lblaxetravailprincipal: ['RETOUR DIRECT EMPLOI'],
+		dc_parcours: ['REN'],
+		libelle_ape: 'all',
+		tranche_age: ['Moins de 19 ans'],
+		cadre_rp: 'O',
+		crea: 'O',
+		dc_anc18mois : '12 mois et plus',
+		nbfrein: [2,3,4,5,6,7],
+		z1_diag: 'Sans Diag',
+		z2_consent_visio: ['Oui'],
+		z3_trsansentretien:['Sans entretien'],
+		z4_trsanscontactsortantteloumel:['Sans contact sortant tel ou email'],
+		z5_trsansformation:['Sans formation réalisée'],
+		z6_trsanspresta:['Sans prestation réalisée'],
+		z8_trdepuisdpae:['Sans DPAE'],
+		z9_pic:['Public PIC']
+
 	})
 
 
 	const [selected, setSelected] = useState([]);
 
+	//liste APE
+	useEffect(() => {
+		if(sourceUser !== 'soon'){
+
+			axios({
+				method: 'get',
+				url: `/count/listeape?${sourceUser}`,
+				headers: {
+					Authorization: 'Bearer ' + Cookies.get('authToken')
+				}
+			})
+			.then((res) =>  setListeApe(res.data))		
+    }
+	}, [sourceUser])
+
+	
 	useEffect(() => {
 		getFindUrl(user.fonction_id, user.p_user,user.ape_id)
 		if(sourceUser !== 'soon'){
@@ -291,6 +321,7 @@ const Diag = () => {
 		setDataDiagMod({...dataDiagMod, [name]: value })
 		changeOne(name,value)
 	}
+
 
 	function updateOne(arr, namecol, newvalue) {
 		const look = arr.map(el => {
@@ -482,13 +513,14 @@ const Diag = () => {
 	}
 
 
-   
+   	// console.log(selected)
+	// console.log(dataDiagMod)
 
 	return (
 	<div>
 	{/* <button onClick={test}> test</button> */}
 	
-	{(dataDiagLength===44) &&
+	{(dataDiagLength===57) &&
 		<>
 			<h2>Photo DE en portefeuille</h2>
 			{/*  <Button className={classes.TEST}>Hook</Button>;*/} 
@@ -516,8 +548,8 @@ const Diag = () => {
 	}	
 	
 	
-	{(dataDiagLength<44) &&
-	<h3>Chargement en cours {dataDiagLength} sur 44 </h3> 
+	{(dataDiagLength<57) &&
+	<h3>Chargement en cours {dataDiagLength} sur 57 </h3> 
 }
 	
 	{(choice===1) && <Pmp 
@@ -551,65 +583,31 @@ const Diag = () => {
 	{(choice===4) && <Autres
 		dataDiagMod={dataDiagMod}
 		handleChangeMod={handleChangeMod}
-
-		dataDiag1={dataDiag.filter(el => el.groupe2 === "Autres").sort((a, b) => (a.name > b.name) ? 1 : -1)}
+		dataDiag1={dataDiag.filter(el => el.groupe2 === "Aide").sort((a, b) => (a.name > b.name) ? 1 : -1)}
+		dataDiag2={dataDiag.filter(el => el.groupe2 === "Services").sort((a, b) => (a.name > b.name) ? 1 : -1)}
+		dataDiag3={dataDiag.filter(el => el.groupe2 === "Autres").sort((a, b) => (a.name > b.name) ? 1 : -1)}
 		selected={selected}
 		handleClick={handleClick}
-		choice={choice} /> }
+		listeApe={listeApe}
+		 /> }
 
 
 		{(choice>0) &&
 	<>
 
-		{(multi>0) && 
-
 			<div>
 			<div className={classes2.excel}>
+			{(multi>0) &&
 			<Excel
 					handleIDE={exportIDE}
 					handleREF={exportRef}
 					handleAPE={exportApe}
-				/>
-				{/*<ButtonGroup color="primary" aria-label="outlined primary button group" >
-					<ButtonR variant="contained" color="primary" disableElevation startIcon={<SaveIcon />}>
-					  Télécharger
-					</ButtonR>
-					<ButtonR onClick={exportIDE}>IDE</ButtonR>
-					<ButtonR onClick={exportRef}>REF</ButtonR>
-					<ButtonR onClick={exportApe}>APE</ButtonR>
-				</ButtonGroup>
-
-				 <Fab className={classes.TEST} color="secondary" aria-label="add" onClick={exportIDE}>
-				  IDE
-				</Fab>
-				<Fab color="secondary" aria-label="add" onClick={exportIDE}>
-				  IDE
-				</Fab>
-			 	<img onClick={exportIDE} src={ide} data-value='ide' alt='IDE' title='Resultat multi-critères par IDE'/>
-			 	<img onClick={exportRef} src={ref} data-value='ref' alt='REF' title='Resultat multi-critères par REF'/>
-			 	<img onClick={exportApe} src={ape} data-value='ape' alt='APE' title='Resultat multi-critères par APE'/>
-			 
-			 	<ButtonR
-			 		onClick={exportIDE}
-			        variant="contained"
-			        color="primary"
-			        size="small"
-			        startIcon={<SaveIcon />}
-			      >
-			        IDE
-			     </ButtonR><ButtonR onClick={exportRef} color="primary" size="small" startIcon={<SaveIcon />}>
-			        REF
-			     </ButtonR>
-			     <ButtonR
-			     	onClick={exportApe}
-			        variant="contained"
-			        color="primary"
-			        size="small"
-			        startIcon={<SaveIcon />}
-			      >
-			        APE
-			     </ButtonR> */}
+				/>}
+				
 			</div>
+
+			{(selected.length>0) &&
+
 			<Paper className={classes.paper}>
 			{/* <h4>Résultat multi critères: {multi.toLocaleString()} DE</h4> */}
 			<EnhancedTableToolbar numSelected={selected.length} handle={deselect} nb_DE={multi.toLocaleString()}/>
@@ -622,34 +620,11 @@ const Diag = () => {
 		          	</li>)
 				)}
 			</ul>
-         
-
-
-		</Paper>
+  
+		</Paper>}
 
 			</div>
 
-
-
-		}
-
-
-		
-			
-		
-
-		
-		{/* <h5>Critères:</h5>
-			  <IconButton aria-label="delete" onClick={deselect}>
-	            <DeleteIcon />
-	          </IconButton>
-		<ol className='diag-ol'>
-			{filter.map(el => (
-				<li key={el}>
-					{el}
-				</li>)
-			)}
-		</ol> */}
 	</>
 
 	}

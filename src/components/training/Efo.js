@@ -57,10 +57,12 @@ const Efo = () => {
 	dc_lblformacode:'all',
 	dd_datepreconisation:'all',
 	nom_ref:'all',
+	libelle_ape:'all'
 });
 	const { user } = useContext(UserContext);
 
 	const [listeRef, setListeRef] = useState([]);
+	const [listeStructure, setListeStructure] = useState([]);
 
 	const [ dataEfo, setDataEfo ] = useState([]);
 	const [ dataTop5, setDataTop5 ] = useState([]);
@@ -157,10 +159,25 @@ const Efo = () => {
 					Authorization: 'Bearer ' + Cookies.get('authToken')
 				}
 			})
-			.then((res) =>  setListeRef(res.data));
+			.then((res) =>  setListeRef(res.data));	
 		
 	}
 	}, [sourceUser])
+
+		//load dropdown from database listeSrtucture
+		useEffect(() => {
+			if(sourceUser !== 'soon'){	
+				axios({
+					method: 'get',
+					url: `/efo/listestructure?${sourceUser}`,
+					headers: {
+						Authorization: 'Bearer ' + Cookies.get('authToken')
+					}
+				})
+				.then((res) =>  setListeStructure(res.data));	
+			
+		}
+		}, [sourceUser])
 
 	// load dropdown from database listeStatutAction
 	// console.log(sourceUser)
@@ -550,6 +567,24 @@ const Efo = () => {
 					))}
 					</Select>
 				</FormControl> */}
+				<FormControl variant="outlined" className={classes.formControl}>
+					<InputLabel id="demo-simple-select-outlined-label"className={classes.select_orange}>Structure</InputLabel>
+					<Select
+					name="libelle_ape"
+					value={sourceFilter.libelle_ape}
+					onChange={handleChange}
+					label="Structure"
+					className={classes.select_orange}
+					>
+					<MenuItem value="all"><em>Tous</em></MenuItem>
+					{listeStructure.map(option => (
+					<MenuItem 
+					key={option.libelle_ape}
+					value={option.libelle_ape}
+					>{option.libelle_ape}</MenuItem>
+					))}
+					</Select>
+				</FormControl>
 
 				<FormControl variant="outlined" className={classes.formControl}>
 					<InputLabel id="demo-simple-select-outlined-label"className={classes.select_orange}>Référent</InputLabel>

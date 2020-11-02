@@ -14,7 +14,7 @@
 .tab-btn {
   flex: 1;
   padding: 8px 20px;
-  background-color: #c9794b;
+  background-color: #4b9bc9;
   color: white;
   text-transform: uppercase;
   cursor: pointer;
@@ -40,6 +40,7 @@
 .MuiTableRow-root.Mui-selected, .MuiTableRow-root.Mui-selected:hover {
     background-color: rgb(201 121 75 / 0.08) !important;
 }
+
 .MuiCheckbox-colorSecondary.Mui-checked {
     color: #c9794b !important;
 }

@@ -45,6 +45,19 @@ export const namefield = (name) =>  {
     case "c_top_oreavalider_id" : return "ORE à valider"
     case "dc_parcours" : return "Modalité d'accompagnement"
     case "tranche_age" : return "Tranche d'âge"
+    case "libelle_ape" : return "APE du DE"
+    case "cadre_rp" : return "Qualification Cadre ROME Principal"
+    case "crea" : return "Projet Création Entreprise"
+    case "dc_anc18mois" : return "Ancienneté d'inscription (18 mois)"
+    case "nbfrein" : return "Nombre de freins périphériques à l'emploi"
+    case "z1_diag" : return "Diag"
+    case "z2_consent_visio" : return "Consentement visio"
+    case "z3_trsansentretien" : return "Nombre de jours depuis le dernier entretien"
+    case "z4_trsanscontactsortantteloumel" : return "Nombre de jours depuis le dernier contact sortant tel ou mail"
+    case "z5_trsansformation" : return "Nombre de jours depuis la dernière formation"
+    case "z6_trsanspresta" : return "Nombre de jours depuis la dernière prestation"
+    case "z8_trdepuisdpae" : return "Nombre de jours depuis la dernière DPAE"
+    case "z9_pic" : return "PIC"
     default : console.log('missing') ;
      }
     }

@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function OngletAutres({dataDiagMod,handleChangeMod,dataDiag,selected,handleClick,listeApe}) {
+export default function OngletServices({dataDiagMod,handleChangeMod,dataDiag,selected,handleClick}) {
   const classes = useStyles();
 
 
@@ -109,25 +109,23 @@ export default function OngletAutres({dataDiagMod,handleChangeMod,dataDiag,selec
 
                         {/* Attention ordre alpha noms variables base */}
 
-                      {(index===0) &&
+                      
+                {(index===0) &&
                       <select required="required"
                         name={row.name}
                         onChange={handleChangeMod}
                         defaultValue={dataDiagMod[row.name]}
                         >
-                        <option value="all">Tous</option>
-                        {listeApe.map(option => (
+                        {['Sans Diag','Avec Diag'].map(option => (
                             <option
-                                key={option.libelle_ape}
-                                >{option.libelle_ape}
+                                key={option}
+                                >{option}
                             </option>
                             ))}         
                       </select>
-                      }
+                      } 
 
-               
-
-                       {(index===1) &&
+                {(index===1) &&
                         <FormControl className={classes.formControl}>
                           <Select
                           labelId="demo-mutiple-chip-label"
@@ -145,7 +143,7 @@ export default function OngletAutres({dataDiagMod,handleChangeMod,dataDiag,selec
                             </div>
                           )}
                         >
-                          {['Oui','Non','Non précisé'].map((name) => (
+                          {['Sans entretien','Entre 0 et 30 jours','Entre 31 jours et 90 jours','Entre 91 jours et 180 jours','181 jours et plus'].map((name) => (
                             <MenuItem
                               key={name}
                               value={name}
@@ -155,9 +153,9 @@ export default function OngletAutres({dataDiagMod,handleChangeMod,dataDiag,selec
                           ))}
                           </Select>
                          </FormControl>
+                      
                       }
-
-                  {(index===2) &&
+                       {(index===2) &&
                         <FormControl className={classes.formControl}>
                           <Select
                           labelId="demo-mutiple-chip-label"
@@ -175,7 +173,7 @@ export default function OngletAutres({dataDiagMod,handleChangeMod,dataDiag,selec
                             </div>
                           )}
                         >
-                          {['Public PIC','Public Non PIC','Non précisé'].map((name) => (
+                          {['Sans contact sortant tel ou email','Entre 0 et 30 jours','Entre 31 jours et 90 jours','Entre 91 jours et 180 jours','181 jours et plus'].map((name) => (
                             <MenuItem
                               key={name}
                               value={name}
@@ -185,8 +183,101 @@ export default function OngletAutres({dataDiagMod,handleChangeMod,dataDiag,selec
                           ))}
                           </Select>
                          </FormControl>
-                      }   
                       
+                      }
+                      {(index===3) &&
+                        <FormControl className={classes.formControl}>
+                          <Select
+                          labelId="demo-mutiple-chip-label"
+                          id="demo-mutiple-chip3"
+                          name={row.name}
+                          multiple
+                          value={dataDiagMod[row.name]}
+                          onChange={handleChangeMod}
+                          input={<Input id="select-multiple-chip3" selected={dataDiagMod[row.name]} />}
+                          renderValue={(selected) => (
+                            <div className={classes.chips}>
+                              {selected.map((value) => (
+                                <Chip key={value} label={value} className={classes.chip} />
+                              ))}
+                            </div>
+                          )}
+                        >
+                          {['Sans formation réalisée','Actuellement en formation','Entre 0 et 30 jours','Entre 31 jours et 90 jours','Entre 91 jours et 180 jours','181 jours et plus'].map((name) => (
+                            <MenuItem
+                              key={name}
+                              value={name}
+                            >
+                              {name}
+                            </MenuItem>
+                          ))}
+                          </Select>
+                         </FormControl>
+                      
+                      }
+
+                {(index===4) &&
+                        <FormControl className={classes.formControl}>
+                          <Select
+                          labelId="demo-mutiple-chip-label"
+                          id="demo-mutiple-chip4"
+                          name={row.name}
+                          multiple
+                          value={dataDiagMod[row.name]}
+                          onChange={handleChangeMod}
+                          input={<Input id="select-multiple-chip4" selected={dataDiagMod[row.name]} />}
+                          renderValue={(selected) => (
+                            <div className={classes.chips}>
+                              {selected.map((value) => (
+                                <Chip key={value} label={value} className={classes.chip} />
+                              ))}
+                            </div>
+                          )}
+                        >
+                          {['Sans prestation réalisée','Actuellement en prestation','Entre 0 et 30 jours','Entre 31 jours et 90 jours','Entre 91 jours et 180 jours','181 jours et plus'].map((name) => (
+                            <MenuItem
+                              key={name}
+                              value={name}
+                            >
+                              {name}
+                            </MenuItem>
+                          ))}
+                          </Select>
+                         </FormControl>
+                      
+                      }
+
+              
+                  {(index===5) &&
+                        <FormControl className={classes.formControl}>
+                          <Select
+                          labelId="demo-mutiple-chip-label"
+                          id="demo-mutiple-chip5"
+                          name={row.name}
+                          multiple
+                          value={dataDiagMod[row.name]}
+                          onChange={handleChangeMod}
+                          input={<Input id="select-multiple-chip5" selected={dataDiagMod[row.name]} />}
+                          renderValue={(selected) => (
+                            <div className={classes.chips}>
+                              {selected.map((value) => (
+                                <Chip key={value} label={value} className={classes.chip} />
+                              ))}
+                            </div>
+                          )}
+                        >
+                          {['Sans DPAE','Entre 0 et 30 jours','Entre 31 jours et 90 jours','Entre 91 jours et 180 jours','181 jours et plus'].map((name) => (
+                            <MenuItem
+                              key={name}
+                              value={name}
+                            >
+                              {name}
+                            </MenuItem>
+                          ))}
+                          </Select>
+                         </FormControl>
+                      
+                      }
 
 
                       </TableCell>
