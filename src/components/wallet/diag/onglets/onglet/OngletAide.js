@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function OngletAutres({dataDiagMod,handleChangeMod,dataDiag,selected,handleClick,listeApe}) {
+export default function OngletAide({dataDiagMod,handleChangeMod,dataDiag,selected,handleClick}) {
   const classes = useStyles();
 
 
@@ -109,34 +109,108 @@ export default function OngletAutres({dataDiagMod,handleChangeMod,dataDiag,selec
 
                         {/* Attention ordre alpha noms variables base */}
 
-                      {(index===0) &&
+                        {(index===0 || index===1 || index===2) &&
                       <select required="required"
                         name={row.name}
                         onChange={handleChangeMod}
                         defaultValue={dataDiagMod[row.name]}
                         >
-                        <option value="all">Tous</option>
-                        {listeApe.map(option => (
+                        {['O','N'].map(option => (
                             <option
-                                key={option.libelle_ape}
-                                >{option.libelle_ape}
+                                key={option}
+                                >{option}
                             </option>
                             ))}         
                       </select>
+                      } 
+
+
+                        {(index===3) &&
+                      <select required="required"
+                        name={row.name}
+                        onChange={handleChangeMod}
+                        defaultValue={dataDiagMod[row.name]}
+                        >
+                        {['Moins de 12 mois','12 mois et plus'].map(option => (
+                            <option
+                                key={option}
+                                >{option}
+                            </option>
+                            ))}         
+                      </select>
+                      }      
+                        
+
+                      {(index===4) &&
+                      <FormControl className={classes.formControl}>
+                                      <Select
+                                        labelId="demo-mutiple-chip-label"
+                                        id="demo-mutiple-chip4"
+                                        name={row.name}
+                                        multiple
+                                        value={dataDiagMod[row.name]}
+                                        onChange={handleChangeMod}
+                                        input={<Input id="select-multiple-chip4" selected={dataDiagMod[row.name]} />}
+                                        renderValue={(selected) => (
+                                          <div className={classes.chips}>
+                                            {selected.map((value) => (
+                                              <Chip key={value} label={value} className={classes.chip} />
+                                            ))}
+                                          </div>
+                                        )}
+                                      >
+                                        {['A APPROFONDIR','ADAPT MARCHE TRAVAIL','ELABORAT. PROJET PRO.','LEVEE FREINS PERIPH.','RETOUR DIRECT EMPLOI','STRATEGIE RECH. EMPL.','TECHNIQ. RECH. EMPL.'].map((name) => (
+                                          <MenuItem
+                                            key={name}
+                                            value={name}
+                                          >
+                                            {name}
+                                          </MenuItem>
+                                        ))}
+                                      </Select>
+                      </FormControl>
+                      }
+                       
+                      {(index===5) &&
+                      <FormControl className={classes.formControl}>
+                                      <Select
+                                        labelId="demo-mutiple-chip-label"
+                                        id="demo-mutiple-chip5"
+                                        name={row.name}
+                                        multiple
+                                        value={dataDiagMod[row.name]}
+                                        onChange={handleChangeMod}
+                                        input={<Input id="select-multiple-chip5" selected={dataDiagMod[row.name]} />}
+                                        renderValue={(selected) => (
+                                          <div className={classes.chips}>
+                                            {selected.map((value) => (
+                                              <Chip key={value} label={value} className={classes.chip} />
+                                            ))}
+                                          </div>
+                                        )}
+                                      >
+                                        {['GLO','GUI','REN','SUI'].map((name) => (
+                                          <MenuItem
+                                            key={name}
+                                            value={name}
+                                          >
+                                            {name}
+                                          </MenuItem>
+                                        ))}
+                                      </Select>
+                      </FormControl>
                       }
 
-               
-
-                       {(index===1) &&
+                        {(index===6) &&
                         <FormControl className={classes.formControl}>
                           <Select
                           labelId="demo-mutiple-chip-label"
-                          id="demo-mutiple-chip1"
+                          id="demo-mutiple-chip6"
                           name={row.name}
                           multiple
                           value={dataDiagMod[row.name]}
                           onChange={handleChangeMod}
-                          input={<Input id="select-multiple-chip1" selected={dataDiagMod[row.name]} />}
+                          input={<Input id="select-multiple-chip6" selected={dataDiagMod[row.name]} />}
                           renderValue={(selected) => (
                             <div className={classes.chips}>
                               {selected.map((value) => (
@@ -145,7 +219,7 @@ export default function OngletAutres({dataDiagMod,handleChangeMod,dataDiag,selec
                             </div>
                           )}
                         >
-                          {['Oui','Non','Non précisé'].map((name) => (
+                          {[0,1,2,3,4,5,6,7].map((name) => (
                             <MenuItem
                               key={name}
                               value={name}
@@ -155,40 +229,39 @@ export default function OngletAutres({dataDiagMod,handleChangeMod,dataDiag,selec
                           ))}
                           </Select>
                          </FormControl>
-                      }
-
-                  {(index===2) &&
-                        <FormControl className={classes.formControl}>
-                          <Select
-                          labelId="demo-mutiple-chip-label"
-                          id="demo-mutiple-chip2"
-                          name={row.name}
-                          multiple
-                          value={dataDiagMod[row.name]}
-                          onChange={handleChangeMod}
-                          input={<Input id="select-multiple-chip2" selected={dataDiagMod[row.name]} />}
-                          renderValue={(selected) => (
-                            <div className={classes.chips}>
-                              {selected.map((value) => (
-                                <Chip key={value} label={value} className={classes.chip} />
-                              ))}
-                            </div>
-                          )}
-                        >
-                          {['Public PIC','Public Non PIC','Non précisé'].map((name) => (
-                            <MenuItem
-                              key={name}
-                              value={name}
-                            >
-                              {name}
-                            </MenuItem>
-                          ))}
-                          </Select>
-                         </FormControl>
-                      }   
                       
+                      }
 
-
+                       {(index===7) &&
+                        <FormControl className={classes.formControl}>
+                          <Select
+                          labelId="demo-mutiple-chip-label"
+                          id="demo-mutiple-chip7"
+                          name={row.name}
+                          multiple
+                          value={dataDiagMod[row.name]}
+                          onChange={handleChangeMod}
+                          input={<Input id="select-multiple-chip7" selected={dataDiagMod[row.name]} />}
+                          renderValue={(selected) => (
+                            <div className={classes.chips}>
+                              {selected.map((value) => (
+                                <Chip key={value} label={value} className={classes.chip} />
+                              ))}
+                            </div>
+                          )}
+                        >
+                          {['Moins de 19 ans','Entre 19 et 25 ans','Entre 26 et 49 ans','50 ans et plus'].map((name) => (
+                            <MenuItem
+                              key={name}
+                              value={name}
+                            >
+                              {name}
+                            </MenuItem>
+                          ))}
+                          </Select>
+                         </FormControl>
+                      
+                      }
                       </TableCell>
 
                     <TableCell align="right">{row[Object.keys(dataDiag[0])[1]].toLocaleString()}</TableCell>

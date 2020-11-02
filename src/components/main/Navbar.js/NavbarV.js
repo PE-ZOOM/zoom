@@ -207,7 +207,7 @@ export default function NavbarV() {
       },
     }).then((res) => setCountUsers(res.data[0].count));
 
-  }, 1000);
+  }, 100000);
 
 
   useEffect(() => {

@@ -94,10 +94,10 @@
 .MuiListItem-root.Mui-selected{
   background-color: rgb(75 155 201 / 0.5) !important;
 }
-.MuiListItem-button:hover{
+/* .MuiListItem-button:hover{
   background-color: #c9794b85 !important;
   color: #673b23;
-}
+} */
 .MuiButton-contained,
 .MuiButton-containedPrimary {
   background-color: #4b9bc9 !important;
