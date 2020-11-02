@@ -443,7 +443,7 @@ const Diag = () => {
 		axios({
 			method: 'get', 
 			responseType: 'blob', 
-			url: '/diagxlsx/ide?' + checkUrl + '&filter=' + filter,
+			url: '/diagxlsx/ide?' + checkUrl,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken'),
 			}
@@ -464,7 +464,7 @@ const Diag = () => {
 		axios({
 			method: 'get', 
 			responseType: 'blob', 
-			url: '/diagxlsx/ref?' + checkUrl + '&filter=' + filter,
+			url: '/diagxlsx/ref?' + checkUrl,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken'),
 			}
@@ -483,10 +483,12 @@ const Diag = () => {
 
 	const exportApe = () => {
 		// setState({ open: true, ...{ vertical: 'bottom', horizontal: 'center' } });
+		
+		
 		axios({
 			method: 'get', 
 			responseType: 'blob', 
-			url: '/diagxlsx/ape?' + checkUrl + '&filter=' + filter,
+			url: '/diagxlsx/ape?' + checkUrl,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken'),
 			}
@@ -499,7 +501,7 @@ const Diag = () => {
 			document.body.appendChild(link);
 			link.click();
 		});
-
+		
 	}
 
 	// const [dense, setDense] = React.useState(false);
@@ -515,6 +517,7 @@ const Diag = () => {
 
    	// console.log(selected)
 	// console.log(dataDiagMod)
+	//console.log(filter)
 
 	return (
 	<div>

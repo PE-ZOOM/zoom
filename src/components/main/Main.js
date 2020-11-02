@@ -25,6 +25,7 @@ const Main = (props) => {
     }
     return () => {
       
+      if (idgasi !== undefined) {
       axios({
         method: 'post',
         url: `/users/disconnection/${idgasi}`,
@@ -32,6 +33,7 @@ const Main = (props) => {
           Authorization: 'Bearer ' + Cookies.get('authToken'),
         },
       }).then((res) => res.data);
+    }
     };
   }, [idgasi]);
 
