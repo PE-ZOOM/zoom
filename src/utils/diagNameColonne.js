@@ -58,6 +58,8 @@ export const namefield = (name) =>  {
     case "z6_trsanspresta" : return "Nombre de jours depuis la dernière prestation"
     case "z8_trdepuisdpae" : return "Nombre de jours depuis la dernière DPAE"
     case "z9_pic" : return "PIC"
+    case "y1_carte_visite" : return "Carte de visite"
+    case "y2_nb_besoin_num" : return "Nombre de besoins numériques"
     default : console.log('missing') ;
      }
     }

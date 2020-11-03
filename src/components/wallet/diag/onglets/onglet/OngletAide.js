@@ -262,6 +262,51 @@ export default function OngletAide({dataDiagMod,handleChangeMod,dataDiag,selecte
                          </FormControl>
                       
                       }
+                       {(index===8) &&
+                      <select required="required"
+                        name={row.name}
+                        onChange={handleChangeMod}
+                        defaultValue={dataDiagMod[row.name]}
+                        >
+                        {['O','N'].map(option => (
+                            <option
+                                key={option}
+                                >{option}
+                            </option>
+                            ))}         
+                      </select>
+                      } 
+                       {(index===9) &&
+                        <FormControl className={classes.formControl}>
+                          <Select
+                          labelId="demo-mutiple-chip-label"
+                          id="demo-mutiple-chip9"
+                          name={row.name}
+                          multiple
+                          value={dataDiagMod[row.name]}
+                          onChange={handleChangeMod}
+                          input={<Input id="select-multiple-chip9" selected={dataDiagMod[row.name]} />}
+                          renderValue={(selected) => (
+                            <div className={classes.chips}>
+                              {selected.map((value) => (
+                                <Chip key={value} label={value} className={classes.chip} />
+                              ))}
+                            </div>
+                          )}
+                        >
+                          {[0,1,2,3,4,5].map((name) => (
+                            <MenuItem
+                              key={name}
+                              value={name}
+                            >
+                              {name}
+                            </MenuItem>
+                          ))}
+                          </Select>
+                         </FormControl>
+                      
+                      }   
+
                       </TableCell>
 
                     <TableCell align="right">{row[Object.keys(dataDiag[0])[1]].toLocaleString()}</TableCell>
