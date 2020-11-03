@@ -141,6 +141,7 @@ class Load extends Component {
         method: 'post',
         data: data,
         url: "/load/"+this.props.target.slice(1),
+        // timeout: 60 * 10 * 1000,
         headers: {
           Authorization: 'Bearer ' + Cookies.get('authToken'),
         },
@@ -157,8 +158,6 @@ class Load extends Component {
             }else{
               this.setState({ loading: false, finish: true, nbLigne: res.data.arr.affectedRows, warningCount: res.data.arr.warningCount });
             }
-
-
           });
   }
   
