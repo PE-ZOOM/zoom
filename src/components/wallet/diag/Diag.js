@@ -217,7 +217,9 @@ const Diag = () => {
 		z5_trsansformation:['Sans formation réalisée'],
 		z6_trsanspresta:['Sans prestation réalisée'],
 		z8_trdepuisdpae:['Sans DPAE'],
-		z9_pic:['Public PIC']
+		z9_pic:['Public PIC'],
+		y1_carte_visite: 'O',
+        y2_nb_besoin_num: [2,3,4,5],
 
 	})
 
@@ -523,7 +525,7 @@ const Diag = () => {
 	<div>
 	{/* <button onClick={test}> test</button> */}
 	
-	{(dataDiagLength===57) &&
+	{(dataDiagLength===59) &&
 		<>
 			<h2>Photo DE en portefeuille</h2>
 			{/*  <Button className={classes.TEST}>Hook</Button>;*/} 
@@ -551,8 +553,8 @@ const Diag = () => {
 	}	
 	
 	
-	{(dataDiagLength<57) &&
-	<h3>Chargement en cours {dataDiagLength} sur 57 </h3> 
+	{(dataDiagLength<59) &&
+	<h3>Chargement en cours {dataDiagLength} sur 59 </h3> 
 }
 	
 	{(choice===1) && <Pmp 
