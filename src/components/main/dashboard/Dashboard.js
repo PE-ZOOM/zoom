@@ -17,6 +17,7 @@ import TbCard from "./card/TbCard"
 
 import ReactCardFlip from 'react-card-flip';
 import CardEffectifs from './card/CardEffectifs';
+import Abeille from './Abeille';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -68,6 +69,8 @@ const DashBoard = () => {
 	const [ dataDBCharge, setDataDBCharge ] = useState([]);
 	const [ sourceDB, setSourceDB ] = useState('soon');
 	const [ isFlipped, setIsFlipped ] = useState(false);
+	const [ isLoading, setIsLoading ] = useState(true);
+
 	
 	
 
@@ -155,6 +158,7 @@ const DashBoard = () => {
 			}
 		})
 		.then((res) =>  setDataDBCharge(res.data))
+		.then(() =>setIsLoading(false))
 		   
 	   }
    }
@@ -163,7 +167,7 @@ const DashBoard = () => {
 
 
 	  	return (
-  		
+		  		
 		  <div xs={12}>
 
   			{/* <Paper className={classes.citation}>
@@ -171,6 +175,11 @@ const DashBoard = () => {
   			</Paper> */}
 			  
   			<div className={classes.div_card}>
+			  
+			  {isLoading ? 
+				<Abeille />
+				:
+				<>
 				<Grid container justify="center" alignItems="stretch" spacing={2}>
 					{(dataDBJalon.length > 0) 
 					&&
@@ -204,7 +213,9 @@ const DashBoard = () => {
 							bulle='DE en portefeuille'
 						/>
 					}
-							
+					</Grid>
+					<div style={{padding:20}}></div>
+					<Grid container justify="center" alignItems="stretch" spacing={2} > 
 						<ReactCardFlip isFlipped={isFlipped} flipDirection="vertical">
 								<CardEffectifs 
 									dataEff={dataDBEff} 
@@ -226,9 +237,11 @@ const DashBoard = () => {
 								/>
 						</ReactCardFlip>
 				</Grid>
+				</>
+			}
 			</div>
 		</div>
-				
+	
 		
   );
 };

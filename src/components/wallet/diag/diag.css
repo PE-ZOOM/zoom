@@ -26,3 +26,8 @@
   background: #4b9bc9 !important;
   /*transition: transform 0.2s !important;*/
 }
+
+.MuiInput-underline:before {
+  content: none !important;
+}
+  
