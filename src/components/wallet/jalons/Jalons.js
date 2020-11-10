@@ -6,6 +6,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import './jalon.css'
 import useStyles from '../../main/Navbar.js/filesForMaterialUi/useStyles';
+import Abeille from '../../main/dashboard/Abeille';
 
 import Skeleton from '@material-ui/lab/Skeleton'
 // import {Pie} from 'react-chartjs-2';
@@ -16,12 +17,14 @@ import Skeleton from '@material-ui/lab/Skeleton'
 // EXCEL
 import Excel from '../../main/export/Excel';
 
+
 const Jalons = () => {
 	const classes = useStyles();
 	const { user } = useContext(UserContext);
 
 	const [ dataJalon, setDataJalon ] = useState([]);
 	const [ sourceJalon, setSourceJalon ] = useState('soon');
+	const [ isLoading, setIsLoading ] = useState(true);
 
 	//chart pie
 	const [dataPie, setDataPie] = useState([])
@@ -74,6 +77,7 @@ const Jalons = () => {
 				}
 			})
 			.then((res) =>  setDataJalon(res.data))
+			.then(() =>setIsLoading(false))
 			
 		}
 	}
@@ -183,6 +187,11 @@ const Jalons = () => {
 				</div>*/}
 		</div>
 		<div className="container-jalon">
+
+		{isLoading ? 
+				<Abeille />
+				:
+		<>
 		
 			<div className="box">{!(dataJalon.length>0) && <Skeleton variant="rect"height={500} />}
 				<JalonTab dataJalon={dataJalon} color={color}/>	 	 
@@ -191,9 +200,9 @@ const Jalons = () => {
 			<div className="Doughnut">
 				<JalonPie data={dataPie} color={color}/>
 			</div>
-			
+	
+		</>}
 		</div>
-
 	
 	</div>	
 	)

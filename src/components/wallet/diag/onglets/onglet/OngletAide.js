@@ -305,7 +305,38 @@ export default function OngletAide({dataDiagMod,handleChangeMod,dataDiag,selecte
                           </Select>
                          </FormControl>
                       
-                      }   
+                      }
+
+                      {(index===10) &&
+                        <FormControl className={classes.formControl}>
+                          <Select
+                          labelId="demo-mutiple-chip-label"
+                          id="demo-mutiple-chip10"
+                          name={row.name}
+                          multiple
+                          value={dataDiagMod[row.name]}
+                          onChange={handleChangeMod}
+                          input={<Input id="select-multiple-chip10" selected={dataDiagMod[row.name]} />}
+                          renderValue={(selected) => (
+                            <div className={classes.chips}>
+                              {selected.map((value) => (
+                                <Chip key={value} label={value} className={classes.chip} />
+                              ))}
+                            </div>
+                          )}
+                        >
+                          {['Entre 0 et 1 mois','>1 mois et 3 mois','>3 mois et 6 mois','>6 mois et 12 mois','>12 mois'].map((name) => (
+                            <MenuItem
+                              key={name}
+                              value={name}
+                            >
+                              {name}
+                            </MenuItem>
+                          ))}
+                          </Select>
+                         </FormControl>
+                      
+                      }      
 
                       </TableCell>
 

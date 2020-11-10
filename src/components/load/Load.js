@@ -151,6 +151,7 @@ class Load extends Component {
         }).catch(error => {
     
         }).then((res) => {
+         
             if(res.data.err === 'true')
             {
               this.setState({ error: true });
