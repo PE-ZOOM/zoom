@@ -219,7 +219,8 @@ const Diag = () => {
 		z8_trdepuisdpae:['Sans DPAE'],
 		z9_pic:['Public PIC'],
 		y1_carte_visite: 'O',
-        y2_nb_besoin_num: [2,3,4,5],
+		y2_nb_besoin_num: [2,3,4,5],
+		y3_trdepuismod: ['>12 mois']
 
 	})
 
@@ -525,7 +526,7 @@ const Diag = () => {
 	<div>
 	{/* <button onClick={test}> test</button> */}
 	
-	{(dataDiagLength===59) &&
+	{(dataDiagLength===60) &&
 		<>
 			<h2>Photo DE en portefeuille</h2>
 			{/*  <Button className={classes.TEST}>Hook</Button>;*/} 
@@ -553,8 +554,8 @@ const Diag = () => {
 	}	
 	
 	
-	{(dataDiagLength<59) &&
-	<h3>Chargement en cours {dataDiagLength} sur 59 </h3> 
+	{(dataDiagLength<60) &&
+	<h3>Chargement en cours {dataDiagLength} sur 60 </h3> 
 }
 	
 	{(choice===1) && <Pmp 
