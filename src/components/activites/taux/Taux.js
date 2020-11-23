@@ -442,15 +442,17 @@ const Taux = () => {
                 <TableRow>
                     <TableCell align="right">Année</TableCell>
                     <TableCell align="right">Mois</TableCell>
-                    <TableCell align="right" title='TX_Prestas'>Pourcentage de DE avec prestation</TableCell>
-                    <TableCell align="right" title='TX_DPAE'>Pourcentage de DE avec une DPAE</TableCell>
-                    <TableCell align="right" title='TX_ContactE'>Pourcentage de contact à l'initiative du DE</TableCell>
-                    <TableCell align="right" title='TX_ContactS'>Pourcentage de contact à l'initiative du PE</TableCell>
+                    <TableCell align="right" title='Pourcentage de DE avec prestation'>Pourcentage de DE avec prestation</TableCell>
+                    <TableCell align="right" title='Pourcentage de DE avec une DPAE'>Pourcentage de DE avec une DPAE</TableCell>
+                    <TableCell align="right" title='Pourcentage de DE avec une formation'>Pourcentage de DE avec une formation</TableCell>
+                    <TableCell align="right" title="Pourcentage de contact à l'initiative du DE">Pourcentage de contact à l'initiative du DE</TableCell>
+                    <TableCell align="right" title="Pourcentage de contact à l'initiative du PE">Pourcentage de contact à l'initiative du PE</TableCell>
                 </TableRow>
                 </TableHead>
 
                 <TableBody>
                     {dataActi.map((row) => (
+                    
                     <TableRow key={row.annee+''+row.mois}>
                         <TableCell align="right">{row[Object.keys(dataActi[0])[0]].toLocaleString()}</TableCell> 
                         <TableCell align="right">{row[Object.keys(dataActi[0])[1]].toLocaleString()}</TableCell>
@@ -458,6 +460,7 @@ const Taux = () => {
                         <TableCell align="right">{row[Object.keys(dataActi[0])[3]].toLocaleString()}</TableCell>
                         <TableCell align="right">{row[Object.keys(dataActi[0])[4]].toLocaleString()}</TableCell>
                         <TableCell align="right">{row[Object.keys(dataActi[0])[5]].toLocaleString()}</TableCell>
+                        <TableCell align="right">{row[Object.keys(dataActi[0])[6]].toLocaleString()}</TableCell>
 
                     </TableRow>
                     ))}
