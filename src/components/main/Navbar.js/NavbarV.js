@@ -24,7 +24,7 @@ import useStyles from './filesForMaterialUi/useStyles';
 import StyledBadge from './filesForMaterialUi/StyleBadge';
 import useStylesPanel from './filesForMaterialUi/useStylesPanel';
 import { NavContext } from '../../../contexts/NavContext';
-
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import Accordion from '@material-ui/core/Accordion'
 import AccordionDetails from '@material-ui/core/AccordionActions'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
@@ -520,6 +520,15 @@ export default function NavbarV() {
                   </ListItemIcon>
                       <ListItemText primary="Prestations" onClick={() => {
                         handleHistoric('Prestations');
+                      }} />
+              </ListItem>
+               <ListItem button component={Link} to="taux" selected={selectedIndex === 33}
+                  onClick={(event) => handleListItemClick(event, 33)}>
+                  <ListItemIcon>
+                      <TrendingUpIcon />
+                  </ListItemIcon>
+                      <ListItemText primary="Taux" onClick={() => {
+                        handleHistoric('Taux');
                       }} />
               </ListItem>
               </AccordionDetails>

@@ -1,0 +1,16 @@
+/*.MuiOutlinedInput-notchedOutline,{
+    border-color: #c9794a !important;
+}
+.MuiSelect-icon{
+	color: #c9794a !important;;
+}*/
+.MuiOutlinedInput-notchedOutline{
+	border-color: #c9794a !important;
+}
+
+.Doughnut{
+	display:flex;
+	justify-content: space-evenly;
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
