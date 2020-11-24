@@ -232,7 +232,7 @@ const Presta = () => {
 	const dataActiAnneeEnCoursColonnes = dataActiAnneeEnCours.map(obj => {
 		let result = {}
 		for (let key in obj){
-			if(!key.includes('annee') && !key.includes('mois') && !key.includes('nb_de_affectes') && !key.includes('tx_prestation')){
+			if(!key.includes('annee') && !key.includes('mois') && !key.includes('nb_de_affectes') && !key.includes('Presta') && !key.includes('tx_prestation')){
 				result[key] = obj[key]
 			}}
 		return result
