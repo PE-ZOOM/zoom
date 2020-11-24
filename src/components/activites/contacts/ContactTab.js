@@ -27,7 +27,7 @@ export default function ContactTab({dataActi}) {
           <TableRow>
             <TableCell align="right">Année</TableCell>
             <TableCell align="right">Mois</TableCell>
-            <TableCell align="right" title='Nombre de DE inscrits au moins un jour dans le mois chargé, toutes cat (le même DE peut avoir plusieurs ref au cours du mois)'>Nb DE affectés</TableCell>
+            <TableCell align="right" title="Nombre de DE inscrits au moins un jour dans le mois chargé, toutes cat (si le DE a plusieurs ref au cours du mois,l'activité est comptée sur le dernier ref)">Nb DE affectés</TableCell>
             <TableCell align="right" title='Nombre total de contacts canal: Accueil physique et nature: Demande de traitement'>GOA</TableCell>
             <TableCell align="right" title='Nombre total de contacts canal: Téléphone Entrant et nature: Demande de traitement'>3949</TableCell>
             <TableCell align="right" title="Nombre total d'entretiens physiques">Nb ent phys</TableCell>
@@ -36,8 +36,8 @@ export default function ContactTab({dataActi}) {
             <TableCell align="right" title="Nombre total d'entretiens visio (Modalité média contact = WCO)">Nb ent DMC</TableCell>
             <TableCell align="right" title="Nombre total de contacts canal: Mail Entrant et nature: Demande d'information (si le DE ne s'identifie pas, on perd l'information)">Nb mailnet entrant</TableCell>
             <TableCell align="right" title="Nombre total de contacts canal: Mail Sortant et nature: Demande d'information">Nb mailnet sortant</TableCell>
-            <TableCell align="right" title="Taux de contacts moyen par portefeuille au sens large, hors automate à l'initiative du DE">Tx contact entrant</TableCell>
-            <TableCell align="right" title="Taux de contacts moyen par portefeuille au sens large, hors automate à l'initiative du PE">Tx contact sortant</TableCell>
+            <TableCell align="right" title="Taux DE avec contact entrant, hors automate à l'initiative du DE">Tx DE avec contact entrant</TableCell>
+            <TableCell align="right" title="Taux DE avec contact sortant, hors automate à l'initiative du PE">Tx DE avec contact sortant</TableCell>
           </TableRow>
         </TableHead>
 
