@@ -20,6 +20,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import MailIcon from '@material-ui/icons/Mail';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import useStyles from './filesForMaterialUi/useStyles';
 import StyledBadge from './filesForMaterialUi/StyleBadge';
 import useStylesPanel from './filesForMaterialUi/useStylesPanel';
@@ -529,12 +530,21 @@ export default function NavbarV() {
                         handleHistoric('Prestations');
                       }} />
               </ListItem>
-               <ListItem button component={Link} to="taux" selected={selectedIndex === 33}
+              <ListItem button component={Link} to="dpae" selected={selectedIndex === 33}
                   onClick={(event) => handleListItemClick(event, 33)}>
+                  <ListItemIcon>
+                      <AssignmentTurnedInIcon />
+                  </ListItemIcon>
+                      <ListItemText primary="DPAE MEC" onClick={() => {
+                        handleHistoric('DPAE_MEC');
+                      }} />
+              </ListItem>
+               <ListItem button component={Link} to="taux" selected={selectedIndex === 34}
+                  onClick={(event) => handleListItemClick(event, 34)}>
                   <ListItemIcon>
                       <TrendingUpIcon />
                   </ListItemIcon>
-                      <ListItemText primary="Taux" onClick={() => {
+                      <ListItemText primary="Recap Taux" onClick={() => {
                         handleHistoric('Taux');
                       }} />
               </ListItem>
