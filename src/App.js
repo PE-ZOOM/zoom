@@ -9,6 +9,7 @@ import Dashboard from './components/main/dashboard/Dashboard';
 // import Contacts from './components/activites/contacts/Contacts2';
 import Contacts from './components/activites/contacts/Contacts';
 import Presta from './components/activites/prestations/Presta';
+import Dpae from './components/activites/dpae/Dpae';
 import Taux from './components/activites/taux/Taux';
 import Efo from './components/training/Efo';
 import Diag from './components/wallet/diag/Diag';
@@ -49,6 +50,7 @@ function App() {
 									<PrivateRoute path="/home/efo" component={Efo} />
 									<PrivateRoute path="/home/contacts" component={Contacts} />
 									<PrivateRoute path="/home/presta" component={Presta} />
+									<PrivateRoute path="/home/dpae" component={Dpae} />
 									<PrivateRoute path="/home/taux" component={Taux}/> 
 									<PrivateRoute path="/home/Load" component={Load} />
 									<PrivateRoute path="/home/user" component={UpdateUser} />

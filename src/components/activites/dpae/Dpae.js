@@ -1,6 +1,6 @@
 import React, { useContext,useState, useEffect } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
-//import PrestaTab from '../prestations/PrestaTab';
+import DpaeTab from './DpaeTab';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -12,15 +12,9 @@ import useStyles from '../../main/Navbar.js/filesForMaterialUi/useStyles';
 import {Line} from 'react-chartjs-2';
 import Paper from '@material-ui/core/Paper';
 import Skeleton from '@material-ui/lab/Skeleton'
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import './taux.css'
+import './dpae.css'
 
-const Taux = () => {
+const Dpae = () => {
 	const color = ['#264653', '#2a9d8f', '#e9c46a', '#f4a261', '#e76f51', '#e59b19', '#895d0f', '#5b3e0a']
 
 	const classes = useStyles();
@@ -81,8 +75,8 @@ const Taux = () => {
 		})
 		.then((res) =>  setListeRef(res.data));
 	
-    }
-    }, [sourceUser])
+}
+}, [sourceUser])
 
 
 
@@ -125,7 +119,7 @@ const Taux = () => {
 		if(sourceUser !== 'soon'){
 				axios({
 					method: 'get',
-					url: `/activites/taux?${sourceUser}`,
+					url: `/activites/dpae?${sourceUser}`,
 					headers: {
 						Authorization: 'Bearer ' + Cookies.get('authToken')
 					}
@@ -164,7 +158,7 @@ const Taux = () => {
 		}
 		axios({
 			method: 'get',
-			url: `/activites/taux?${sourceUser}&${sql}`,
+			url: `/activites/dpae?${sourceUser}&${sql}`,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken')
 			}
@@ -182,13 +176,13 @@ const Taux = () => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	, [sourceFilter,sourceUser])
 
-        // export excel
-        
+		//export excel
+		
 	const exportRef = () => {
 		axios({
 			method: 'get', 
 			responseType: 'blob', 
-			url: '/activitexlsx/taux/ref?' + checkUrl,
+			url: '/activitexlsx/dpae/ref?' + checkUrl,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken'),
 			}
@@ -197,7 +191,7 @@ const Taux = () => {
 			const url = window.URL.createObjectURL(new Blob([response.data]));
 			const link = document.createElement('a');
 			link.href = url;
-			link.setAttribute('download', 'tauxREF.xlsx'); 
+			link.setAttribute('download', 'dpaeREF.xlsx'); 
 			document.body.appendChild(link);
 			link.click();
 		 });
@@ -208,7 +202,7 @@ const Taux = () => {
 		axios({
 			method: 'get', 
 			responseType: 'blob', 
-			url: '/activitexlsx/taux/ape?' + checkUrl,
+			url: '/activitexlsx/dpae/ape?' + checkUrl,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken'),
 			}
@@ -217,7 +211,7 @@ const Taux = () => {
 			const url = window.URL.createObjectURL(new Blob([response.data]));
 			const link = document.createElement('a');
 			link.href = url;
-			link.setAttribute('download', 'tauxAPE.xlsx'); 
+			link.setAttribute('download', 'dpaeAPE.xlsx'); 
 			document.body.appendChild(link);
 			link.click();
 		 });
@@ -228,34 +222,6 @@ const Taux = () => {
 		labels: [],
 		datasets: []
 	};
-    const options = {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    callback: function(value, index, values) {
-                        return value + '%';
-                    }
-                }
-            }]
-        },
-        tooltips: {
-            callbacks: {
-                label: (tooltipItem, data) => {
-                    var label = data.datasets[tooltipItem.datasetIndex].label || '';
-
-                    if (label) {
-                        label += ': ';
-                    }
-                    label += tooltipItem.value + '%';
-                    return label;
-                }
-                
-            }
-        }
-    }
-    
-    
-
 
 	//année en cours
 	const dataActiAnneeEnCours = dataActi.filter(el => el.annee === dataActi[0].annee)
@@ -264,12 +230,13 @@ const Taux = () => {
 	const dataActiAnneeEnCoursColonnes = dataActiAnneeEnCours.map(obj => {
 		let result = {}
 		for (let key in obj){
-			if(!key.includes('annee') && !key.includes('mois')){
+			if(key!=='annee' && key!=='mois' && key!=='nb_de_affectes' && key!=='MEC' && key!=='MER' && key!=='MER+' && key!=='tx_DE_avec_DPAE' && key!=='tx_DE_avec_MEC' && key!=='tx_DE_avec_MER' && key!=='tx_DE_avec_MER+'){
 				result[key] = obj[key]
 			}}
 		return result
 	})
 
+	
 	if(dataActiAnneeEnCours.length > 0){ 	
 	 	
 		for(let z=0; z<dataActiAnneeEnCours.length; z++){ // LOOP SUR TOUTES LES LIGNES DU TABLEAU DATAACTIV
@@ -310,7 +277,7 @@ const Taux = () => {
 						// AJOUTER LA VALEUR AU DEBUT DU TABLEAU AVEC UNSHIFT
 						for(let z_data=0; z_data<data['datasets'].length; z_data++){ 
 							if(v[0].replace(/_/g,' ')===data['datasets'][z_data].label){
-								data['datasets'][z_data].data.unshift(parseFloat(v[1])) 
+								data['datasets'][z_data].data.unshift(v[1]) 
 							}
 						}
 
@@ -319,13 +286,13 @@ const Taux = () => {
 				})
 			// }
 		}
-    }
-    
+	}
+
 	return (
 		
 	<div>
 		{/* <button onClick={test}></button> */}
-		<h4>RECAP DE inscrits au moins un jour dans le mois, affectés à un conseiller référent</h4>
+		<h4>DPAE MEC MER MER+ DE inscrits au moins un jour dans le mois, affectés à un conseiller référent</h4>
 		<h5>(sans situation,rattaché,en portefeuille)</h5>
 		
 			<div>
@@ -409,11 +376,11 @@ const Taux = () => {
 			<div className="div_graph">
 				<div className="Doughnut">
 					<Paper>
-                        <Line 
+						<Line 
 							data={data} 
 							width={1000}  
 							height={300}  
-                            options={options}
+							options={{ maintainAspectRatio: true}} 
 						/>
 						
 
@@ -430,71 +397,30 @@ const Taux = () => {
 			
 			<div>
 				{!(dataActi.length>0) && <Skeleton variant="rect"height={118} />}
-                {/* <PrestaTab dataActi={dataActi}/> */}
+				<DpaeTab dataActi={dataActi}/>	 	 
 			</div>
-            {
-            // (dataActi!==undefined && dataActi.length>0) &&				
+			{(dataActi!==undefined && dataActi.length>0) &&
+
+			<div className={classes.excel}>
+				<Excel
+					handleIDE='0'
+					handleREF={exportRef}
+					handleAPE={exportApe}
+				/>
+				{/* <div className='excel'>
+					<p class="div_excel_p">Exportation </p>
+					<div class="div_excel_img">
+						<img onClick={exportRef} data_dl={checkUrl} src={ref} alt='REF' title='Liste selon filtre par REF'/>
+						<img onClick={exportApe} src={ape} alt='APE' title='Liste selon filtre par APE'/>
+					</div>
+				</div>*/}
+			</div>
+				
 			}
-		
-        <TableContainer component={Paper}>
-            <Table aria-label="simple table">
-            <TableHead>
-                <TableRow>
-                    <TableCell align="right">Année</TableCell>
-                    <TableCell align="right">Mois</TableCell>
-                    <TableCell align="right" title='Pourcentage DE avec prestation'>Tx DE avec prestation</TableCell>
-                    <TableCell align="right" title='Pourcentage DE avec DPAE'>Tx DE avec DPAE</TableCell>
-                    <TableCell align="right" title='Pourcentage DE avec formation'>Tx DE avec formation</TableCell>
-                    <TableCell align="right" title="Pourcentage DE avec contact à l'initiative du DE">Tx DE avec contact à l'initiative du DE</TableCell>
-                    <TableCell align="right" title="Pourcentage DE avec contact à l'initiative du PE">Tx DE avec contact à l'initiative du PE</TableCell>
-                    <TableCell align="right" title="Pourcentage DE avec MEC">Tx DE avec MEC</TableCell>
-                    <TableCell align="right" title="Pourcentage DE avec MER">Tx DE avec MER</TableCell>
-                    <TableCell align="right" title="Pourcentage DE avec MER+">Tx DE avec MER+</TableCell>
-                    
-                </TableRow>
-                </TableHead>
-
-                <TableBody>
-                    {dataActi.map((row) => (
-                    
-                    <TableRow key={row.annee+''+row.mois}>
-                        <TableCell align="right">{row[Object.keys(dataActi[0])[0]].toLocaleString()}</TableCell> 
-                        <TableCell align="right">{row[Object.keys(dataActi[0])[1]].toLocaleString()}</TableCell>
-                        <TableCell align="right">{row[Object.keys(dataActi[0])[2]].toLocaleString()}</TableCell>
-                        <TableCell align="right">{row[Object.keys(dataActi[0])[3]].toLocaleString()}</TableCell>
-                        <TableCell align="right">{row[Object.keys(dataActi[0])[4]].toLocaleString()}</TableCell>
-                        <TableCell align="right">{row[Object.keys(dataActi[0])[5]].toLocaleString()}</TableCell>
-                        <TableCell align="right">{row[Object.keys(dataActi[0])[6]].toLocaleString()}</TableCell>
-                        <TableCell align="right">{row[Object.keys(dataActi[0])[7]].toLocaleString()}</TableCell>
-                        <TableCell align="right">{row[Object.keys(dataActi[0])[8]].toLocaleString()}</TableCell>
-                        <TableCell align="right">{row[Object.keys(dataActi[0])[9]].toLocaleString()}</TableCell>
-
-                    </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-
-        
-        <div className={classes.excel}>
-            <Excel
-                handleIDE='0'
-                handleREF={exportRef}
-                handleAPE={exportApe}
-            />
-            {/* <div className='excel'>
-                <p class="div_excel_p">Exportation </p>
-                <div class="div_excel_img">
-                    <img onClick={exportRef} data_dl={checkUrl} src={ref} alt='REF' title='Liste selon filtre par REF'/>
-                    <img onClick={exportApe} src={ape} alt='APE' title='Liste selon filtre par APE'/>
-                </div>
-            </div>*/}
-        </div>
-
-
+					
 	</div>	
 	)
 	;
 };
 
-export default Taux;
+export default Dpae;

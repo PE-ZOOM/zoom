@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function PrestaTab({dataActi}) {
+export default function DpaeTab({dataActi}) {
   const classes = useStyles();
 
   return (
@@ -28,16 +28,17 @@ export default function PrestaTab({dataActi}) {
             <TableCell align="right">Année</TableCell>
             <TableCell align="right">Mois</TableCell>
             <TableCell align="right" title="Nombre de DE inscrits au moins un jour dans le mois chargé, toutes cat (si le DE a plusieurs ref au cours du mois,l'activité est comptée sur le dernier ref)">Nb DE affectés</TableCell>
-            <TableCell align="right" title="Nombre total de prestations ACTIV'CREA">Activ'Créa</TableCell>
-            <TableCell align="right" title="Nombre total de prestations ACTIV'Emploi">Activ'Emploi</TableCell>
-            <TableCell align="right" title="Nombre total de prestations AP2">AP2</TableCell>
-            <TableCell align="right" title="Nombre total de prestations REGARDS CROISES">Regards croisés</TableCell>
-            <TableCell align="right" title="Nombre total de prestations VALORISER SON IMAGE PRO">Valoriser son image pro</TableCell>
-            <TableCell align="right" title="Nombre total de prestations MARCHE DU TRAVAIL LOCAL + MARCHE DU TRAVAIL SECTORIEL + PRESENTATION DES ORGANISMES ET DES FORMATIONS">Vers un métier</TableCell>
-            <TableCell align="right" title="Nombre total de prestations ACL">ACL</TableCell>
-            <TableCell align="right" title="Nombre total de prestations EMD">EMD</TableCell>
-            <TableCell align="right" title="Nombre DE avec presta">Nb DE avec presta</TableCell>
-            <TableCell align="right" title="Taux DE avec prestation = Nombre DE avec presta/Nb DE affectés">Tx DE avec presta</TableCell>
+            <TableCell align="right" title="Nombre DE avec DPAE">Nb DE avec DPAE</TableCell>
+            <TableCell align="right" title="Taux DE avec DPAE = Nombre DE avec DPAE/Nb DE affectés">Tx DE avec DPAE</TableCell>
+            <TableCell align="right" title="Nombre total de MEC">MEC</TableCell>
+            <TableCell align="right" title="Nombre DE avec MEC">Nb DE avec MEC</TableCell>
+            <TableCell align="right" title="Taux DE avec MEC = Nombre DE avec MEC/Nb DE affectés">Tx DE avec MEC</TableCell>
+            <TableCell align="right" title="Nombre total de MER">MER</TableCell>
+            <TableCell align="right" title="Nombre DE avec MER">Nb DE avec MER</TableCell>
+            <TableCell align="right" title="Taux DE avec MER = Nombre DE avec MER/Nb DE affectés">Tx DE avec MER</TableCell>
+            <TableCell align="right" title="Nombre total de MER+">MER+</TableCell>
+            <TableCell align="right" title="Nombre DE avec MER+">Nb DE avec MER+</TableCell>
+            <TableCell align="right" title="Taux DE avec MER+ = Nombre DE avec MER+/Nb DE affectés">Tx DE avec MER+</TableCell>
           </TableRow>
         </TableHead>
 
@@ -56,8 +57,8 @@ export default function PrestaTab({dataActi}) {
               <TableCell align="right">{row[Object.keys(dataActi[0])[9]].toLocaleString()}</TableCell>
               <TableCell align="right">{row[Object.keys(dataActi[0])[10]].toLocaleString()}</TableCell>
               <TableCell align="right">{row[Object.keys(dataActi[0])[11]].toLocaleString()}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[12]]}</TableCell>
-
+              <TableCell align="right">{row[Object.keys(dataActi[0])[12]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[13]].toLocaleString()}</TableCell>
             </TableRow>
           ))}
         </TableBody>
