@@ -1,6 +1,5 @@
 import React, { useContext,useState, useEffect } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
-import PrestaTab from '../prestations/PrestaTab';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import InputLabel from '@material-ui/core/InputLabel';
