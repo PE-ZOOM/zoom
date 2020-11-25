@@ -42,3 +42,49 @@
 	border:1px solid black;
 	flex-shrink: 3; /* default 1 */
 }
+
+.paper-podium-box{
+	padding: 10px;
+}
+#podium-box {
+	margin: 0 auto;
+	display: flex;
+	/* width: 250px; */
+}
+
+.podium-number {
+	font-family: DaggerSquare;
+	font-weight: bold;
+	font-size: 4em;
+	color: white;
+}
+
+.step-container {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.step-container>div:first-child {
+	margin-top: auto;
+	text-align: center;
+}
+
+.step {
+	text-align: center;
+}
+
+#first-step {
+	height: 65%;
+	background-color: #264653;
+}
+
+#second-step {
+	height: 50%;
+	background-color: #2a9d8f;
+}
+
+#third-step {
+	height: 35%;
+	background-color: #e9c46a;
+}

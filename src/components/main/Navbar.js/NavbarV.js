@@ -233,7 +233,6 @@ export default function NavbarV() {
       },
     }).then((res) => setOnlineUsers(res.data));
   };
-
   const handleHistoric = (link) => {
     const jsDate = new Date();
     const year = jsDate.getFullYear();
@@ -244,8 +243,16 @@ export default function NavbarV() {
     const seconds = jsDate.getSeconds();
     const date = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
     const idgasi = user.idgasi;
+    let champs = '';
+    if(user.fonction_id==='1' || user.fonction_id==='2'){
+      champs = user.libelle_ape;
+    }else if(user.fonction_id === '6'){
+      champs = 'DR';
+    }else{
+      champs = user.fonction;
+    }
     const button = link;
-    const historic = { idgasi: idgasi, date: date, button: button };
+    const historic = { idgasi: idgasi, date: date, button: button, champs: champs };
 
     axios({
       method: 'post',
