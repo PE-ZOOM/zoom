@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ContactTab({dataActi}) {
+export default function DpaeTab({dataActi}) {
   const classes = useStyles();
 
   return (
@@ -28,16 +28,17 @@ export default function ContactTab({dataActi}) {
             <TableCell align="right">Année</TableCell>
             <TableCell align="right">Mois</TableCell>
             <TableCell align="right" title="Nombre de DE inscrits au moins un jour dans le mois chargé, toutes cat (si le DE a plusieurs ref au cours du mois,l'activité est comptée sur le dernier ref)">Nb DE affectés</TableCell>
-            <TableCell align="right" title='Nombre total de contacts canal: Accueil physique et nature: Demande de traitement'>GOA</TableCell>
-            <TableCell align="right" title='Nombre total de contacts canal: Téléphone Entrant et nature: Demande de traitement'>3949</TableCell>
-            <TableCell align="right" title="Nombre total d'entretiens physiques">Nb ent phys</TableCell>
-            <TableCell align="right" title="Nombre total d'entretiens téléphoniques">Nb ent tel</TableCell>
-            <TableCell align="right" title="Nombre total d'entretiens par mail">Nb ent mail</TableCell>
-            <TableCell align="right" title="Nombre total d'entretiens visio (Modalité média contact = WCO)">Nb ent DMC</TableCell>
-            <TableCell align="right" title="Nombre total de contacts canal: Mail Entrant et nature: Demande d'information (si le DE ne s'identifie pas, on perd l'information)">Nb mailnet entrant</TableCell>
-            <TableCell align="right" title="Nombre total de contacts canal: Mail Sortant et nature: Demande d'information">Nb mailnet sortant</TableCell>
-            <TableCell align="right" title="Taux DE avec contact entrant, hors automate à l'initiative du DE">Tx DE avec contact entrant</TableCell>
-            <TableCell align="right" title="Taux DE avec contact sortant, hors automate à l'initiative du PE">Tx DE avec contact sortant</TableCell>
+            <TableCell align="right" title="Nombre DE avec DPAE">Nb DE avec DPAE</TableCell>
+            <TableCell align="right" title="Taux DE avec DPAE = Nombre DE avec DPAE/Nb DE affectés">Tx DE avec DPAE</TableCell>
+            <TableCell align="right" title="Nombre total de MEC">MEC</TableCell>
+            <TableCell align="right" title="Nombre DE avec MEC">Nb DE avec MEC</TableCell>
+            <TableCell align="right" title="Taux DE avec MEC = Nombre DE avec MEC/Nb DE affectés">Tx DE avec MEC</TableCell>
+            <TableCell align="right" title="Nombre total de MER">MER</TableCell>
+            <TableCell align="right" title="Nombre DE avec MER">Nb DE avec MER</TableCell>
+            <TableCell align="right" title="Taux DE avec MER = Nombre DE avec MER/Nb DE affectés">Tx DE avec MER</TableCell>
+            <TableCell align="right" title="Nombre total de MER+">MER+</TableCell>
+            <TableCell align="right" title="Nombre DE avec MER+">Nb DE avec MER+</TableCell>
+            <TableCell align="right" title="Taux DE avec MER+ = Nombre DE avec MER+/Nb DE affectés">Tx DE avec MER+</TableCell>
           </TableRow>
         </TableHead>
 
@@ -55,8 +56,9 @@ export default function ContactTab({dataActi}) {
               <TableCell align="right">{row[Object.keys(dataActi[0])[8]].toLocaleString()}</TableCell>
               <TableCell align="right">{row[Object.keys(dataActi[0])[9]].toLocaleString()}</TableCell>
               <TableCell align="right">{row[Object.keys(dataActi[0])[10]].toLocaleString()}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[11]]}</TableCell>
-              <TableCell align="right">{row[Object.keys(dataActi[0])[12]]}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[11]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[12]].toLocaleString()}</TableCell>
+              <TableCell align="right">{row[Object.keys(dataActi[0])[13]].toLocaleString()}</TableCell>
             </TableRow>
           ))}
         </TableBody>

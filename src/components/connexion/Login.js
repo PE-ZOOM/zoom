@@ -11,7 +11,7 @@ import './login.css';
 
 
 const Login = () => {
-    const { user, logUser } = useContext(UserContext)
+    const { user, logUser, logUserXtidc } = useContext(UserContext)
    
     const [ login, setLogin ] = useState({idgasi: '' , password: ''});
 
@@ -35,9 +35,25 @@ const Login = () => {
         if (Cookies.get('authToken')) 
         {history.push({pathname: '/home/main'})}
         else {history.push({pathname: '/'})}
+
+       
+        
     }
     , [user,history])
+    
+    useEffect(() => {
+         // CONNECTION AUTOMATIQUE AVEC COOKIE XTIDC ?
+        // if(Cookies.get('xtidc')){
+        //     logUserXtidc(Cookies.get('xtidc'))
+        // }
 
+        // if(true){
+        //     logUserXtidc({idgasi : 'irle5360'})
+        // }
+    }
+    , [history])
+    
+	// console.log(Cookies.get() )// => { name: 'value' })
 //     useEffect(() => {
 //    console.log(user)
 //     }, [user])
@@ -82,18 +98,15 @@ const Login = () => {
                             </div> 
                         </form>
                     </div>
-                            <div className="card-footer">
-                                     <Link className="btn" to="/register">Créer un compte</Link>
-                           
-                            </div>
+                    <div className="card-footer">
+                                <Link className="btn" to="/register">Créer un compte</Link>
+                    
+                                <Link className="btn" to="/mdp">Mot de passe oublié</Link>
+                    
+                    </div>
                     <div>
 				        <div className="d-flex justify-content-center links">
-                           
-				        </div>
-			        </div>
-                    <div>
-				        <div className="d-flex justify-content-center links">
-                        {user.flash &&  <SnackbarContent message={user.flash} />}
+                            {user.flash &&  <SnackbarContent message={user.flash} />}
 				        </div>
 			        </div>
                 </div>

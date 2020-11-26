@@ -27,7 +27,7 @@ export default function PrestaTab({dataActi}) {
           <TableRow>
             <TableCell align="right">Année</TableCell>
             <TableCell align="right">Mois</TableCell>
-            <TableCell align="right" title='Nombre de DE inscrits au moins un jour dans le mois chargé, toutes cat (le même DE peut avoir plusieurs ref au cours du mois)'>Nb DE affectés</TableCell>
+            <TableCell align="right" title="Nombre de DE inscrits au moins un jour dans le mois chargé, toutes cat (si le DE a plusieurs ref au cours du mois,l'activité est comptée sur le dernier ref)">Nb DE affectés</TableCell>
             <TableCell align="right" title="Nombre total de prestations ACTIV'CREA">Activ'Créa</TableCell>
             <TableCell align="right" title="Nombre total de prestations ACTIV'Emploi">Activ'Emploi</TableCell>
             <TableCell align="right" title="Nombre total de prestations AP2">AP2</TableCell>
@@ -36,8 +36,8 @@ export default function PrestaTab({dataActi}) {
             <TableCell align="right" title="Nombre total de prestations MARCHE DU TRAVAIL LOCAL + MARCHE DU TRAVAIL SECTORIEL + PRESENTATION DES ORGANISMES ET DES FORMATIONS">Vers un métier</TableCell>
             <TableCell align="right" title="Nombre total de prestations ACL">ACL</TableCell>
             <TableCell align="right" title="Nombre total de prestations EMD">EMD</TableCell>
-            <TableCell align="right" title="Si plusieurs prestations dans le mois, une seule est comptabilisée par DE et référent.">Presta</TableCell>
-            <TableCell align="right" title="Taux de prestation moyen par portefeuille au sens large">Tx presta</TableCell>
+            <TableCell align="right" title="Nombre DE avec presta">Nb DE avec presta</TableCell>
+            <TableCell align="right" title="Taux DE avec prestation = Nombre DE avec presta/Nb DE affectés">Tx DE avec presta</TableCell>
           </TableRow>
         </TableHead>
 

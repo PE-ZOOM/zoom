@@ -1,6 +1,6 @@
 import React, { useContext,useState, useEffect } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
-import PrestaTab from './PrestaTab';
+//import PrestaTab from '../prestations/PrestaTab';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -12,9 +12,15 @@ import useStyles from '../../main/Navbar.js/filesForMaterialUi/useStyles';
 import {Line} from 'react-chartjs-2';
 import Paper from '@material-ui/core/Paper';
 import Skeleton from '@material-ui/lab/Skeleton'
-import './prestas.css'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import './taux.css'
 
-const Presta = () => {
+const Taux = () => {
 	const color = ['#264653', '#2a9d8f', '#e9c46a', '#f4a261', '#e76f51', '#e59b19', '#895d0f', '#5b3e0a']
 
 	const classes = useStyles();
@@ -75,8 +81,8 @@ const Presta = () => {
 		})
 		.then((res) =>  setListeRef(res.data));
 	
-}
-}, [sourceUser])
+    }
+    }, [sourceUser])
 
 
 
@@ -119,7 +125,7 @@ const Presta = () => {
 		if(sourceUser !== 'soon'){
 				axios({
 					method: 'get',
-					url: `/activites/presta?${sourceUser}`,
+					url: `/activites/taux?${sourceUser}`,
 					headers: {
 						Authorization: 'Bearer ' + Cookies.get('authToken')
 					}
@@ -158,7 +164,7 @@ const Presta = () => {
 		}
 		axios({
 			method: 'get',
-			url: `/activites/presta?${sourceUser}&${sql}`,
+			url: `/activites/taux?${sourceUser}&${sql}`,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken')
 			}
@@ -176,13 +182,13 @@ const Presta = () => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	, [sourceFilter,sourceUser])
 
-		//export excel
-		
+        // export excel
+        
 	const exportRef = () => {
 		axios({
 			method: 'get', 
 			responseType: 'blob', 
-			url: '/activitexlsx/presta/ref?' + checkUrl,
+			url: '/activitexlsx/taux/ref?' + checkUrl,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken'),
 			}
@@ -191,7 +197,7 @@ const Presta = () => {
 			const url = window.URL.createObjectURL(new Blob([response.data]));
 			const link = document.createElement('a');
 			link.href = url;
-			link.setAttribute('download', 'prestaREF.xlsx'); 
+			link.setAttribute('download', 'tauxREF.xlsx'); 
 			document.body.appendChild(link);
 			link.click();
 		 });
@@ -202,7 +208,7 @@ const Presta = () => {
 		axios({
 			method: 'get', 
 			responseType: 'blob', 
-			url: '/activitexlsx/presta/ape?' + checkUrl,
+			url: '/activitexlsx/taux/ape?' + checkUrl,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken'),
 			}
@@ -211,7 +217,7 @@ const Presta = () => {
 			const url = window.URL.createObjectURL(new Blob([response.data]));
 			const link = document.createElement('a');
 			link.href = url;
-			link.setAttribute('download', 'prestaAPE.xlsx'); 
+			link.setAttribute('download', 'tauxAPE.xlsx'); 
 			document.body.appendChild(link);
 			link.click();
 		 });
@@ -222,8 +228,34 @@ const Presta = () => {
 		labels: [],
 		datasets: []
 	};
+    const options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    callback: function(value, index, values) {
+                        return value + '%';
+                    }
+                }
+            }]
+        },
+        tooltips: {
+            callbacks: {
+                label: (tooltipItem, data) => {
+                    var label = data.datasets[tooltipItem.datasetIndex].label || '';
 
-	//  console.log(dataActi)
+                    if (label) {
+                        label += ': ';
+                    }
+                    label += tooltipItem.value + '%';
+                    return label;
+                }
+                
+            }
+        }
+    }
+    
+    
+
 
 	//année en cours
 	const dataActiAnneeEnCours = dataActi.filter(el => el.annee === dataActi[0].annee)
@@ -232,13 +264,11 @@ const Presta = () => {
 	const dataActiAnneeEnCoursColonnes = dataActiAnneeEnCours.map(obj => {
 		let result = {}
 		for (let key in obj){
-			if(!key.includes('annee') && !key.includes('mois') && !key.includes('nb_de_affectes') && !key.includes('Presta') && !key.includes('tx_prestation')){
+			if(!key.includes('annee') && !key.includes('mois')){
 				result[key] = obj[key]
 			}}
 		return result
 	})
-	
-	// console.log(dataActiAnneeEnCoursColonnes)
 
 	if(dataActiAnneeEnCours.length > 0){ 	
 	 	
@@ -280,7 +310,7 @@ const Presta = () => {
 						// AJOUTER LA VALEUR AU DEBUT DU TABLEAU AVEC UNSHIFT
 						for(let z_data=0; z_data<data['datasets'].length; z_data++){ 
 							if(v[0].replace(/_/g,' ')===data['datasets'][z_data].label){
-								data['datasets'][z_data].data.unshift(v[1]) 
+								data['datasets'][z_data].data.unshift(parseFloat(v[1])) 
 							}
 						}
 
@@ -289,13 +319,13 @@ const Presta = () => {
 				})
 			// }
 		}
-	}
-
+    }
+    
 	return (
 		
 	<div>
 		{/* <button onClick={test}></button> */}
-		<h4>Prestations DE inscrits au moins un jour dans le mois, affectés à un conseiller référent</h4>
+		<h4>RECAP DE inscrits au moins un jour dans le mois, affectés à un conseiller référent</h4>
 		<h5>(sans situation,rattaché,en portefeuille)</h5>
 		
 			<div>
@@ -379,11 +409,11 @@ const Presta = () => {
 			<div className="div_graph">
 				<div className="Doughnut">
 					<Paper>
-						<Line 
+                        <Line 
 							data={data} 
 							width={1000}  
 							height={300}  
-							options={{ maintainAspectRatio: true}} 
+                            options={options}
 						/>
 						
 
@@ -400,30 +430,71 @@ const Presta = () => {
 			
 			<div>
 				{!(dataActi.length>0) && <Skeleton variant="rect"height={118} />}
-				<PrestaTab dataActi={dataActi}/>	 	 
+                {/* <PrestaTab dataActi={dataActi}/> */}
 			</div>
-			{(dataActi!==undefined && dataActi.length>0) &&
-
-			<div className={classes.excel}>
-				<Excel
-					handleIDE='0'
-					handleREF={exportRef}
-					handleAPE={exportApe}
-				/>
-				{/* <div className='excel'>
-					<p class="div_excel_p">Exportation </p>
-					<div class="div_excel_img">
-						<img onClick={exportRef} data_dl={checkUrl} src={ref} alt='REF' title='Liste selon filtre par REF'/>
-						<img onClick={exportApe} src={ape} alt='APE' title='Liste selon filtre par APE'/>
-					</div>
-				</div>*/}
-			</div>
-				
+            {
+            // (dataActi!==undefined && dataActi.length>0) &&				
 			}
-					
+		
+        <TableContainer component={Paper}>
+            <Table aria-label="simple table">
+            <TableHead>
+                <TableRow>
+                    <TableCell align="right">Année</TableCell>
+                    <TableCell align="right">Mois</TableCell>
+                    <TableCell align="right" title='Pourcentage DE avec prestation'>Tx DE avec prestation</TableCell>
+                    <TableCell align="right" title='Pourcentage DE avec DPAE'>Tx DE avec DPAE</TableCell>
+                    <TableCell align="right" title='Pourcentage DE avec formation'>Tx DE avec formation</TableCell>
+                    <TableCell align="right" title="Pourcentage DE avec contact à l'initiative du DE">Tx DE avec contact à l'initiative du DE</TableCell>
+                    <TableCell align="right" title="Pourcentage DE avec contact à l'initiative du PE">Tx DE avec contact à l'initiative du PE</TableCell>
+                    <TableCell align="right" title="Pourcentage DE avec MEC">Tx DE avec MEC</TableCell>
+                    <TableCell align="right" title="Pourcentage DE avec MER">Tx DE avec MER</TableCell>
+                    <TableCell align="right" title="Pourcentage DE avec MER+">Tx DE avec MER+</TableCell>
+                    
+                </TableRow>
+                </TableHead>
+
+                <TableBody>
+                    {dataActi.map((row) => (
+                    
+                    <TableRow key={row.annee+''+row.mois}>
+                        <TableCell align="right">{row[Object.keys(dataActi[0])[0]].toLocaleString()}</TableCell> 
+                        <TableCell align="right">{row[Object.keys(dataActi[0])[1]].toLocaleString()}</TableCell>
+                        <TableCell align="right">{row[Object.keys(dataActi[0])[2]].toLocaleString()}</TableCell>
+                        <TableCell align="right">{row[Object.keys(dataActi[0])[3]].toLocaleString()}</TableCell>
+                        <TableCell align="right">{row[Object.keys(dataActi[0])[4]].toLocaleString()}</TableCell>
+                        <TableCell align="right">{row[Object.keys(dataActi[0])[5]].toLocaleString()}</TableCell>
+                        <TableCell align="right">{row[Object.keys(dataActi[0])[6]].toLocaleString()}</TableCell>
+                        <TableCell align="right">{row[Object.keys(dataActi[0])[7]].toLocaleString()}</TableCell>
+                        <TableCell align="right">{row[Object.keys(dataActi[0])[8]].toLocaleString()}</TableCell>
+                        <TableCell align="right">{row[Object.keys(dataActi[0])[9]].toLocaleString()}</TableCell>
+
+                    </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+
+        
+        <div className={classes.excel}>
+            <Excel
+                handleIDE='0'
+                handleREF={exportRef}
+                handleAPE={exportApe}
+            />
+            {/* <div className='excel'>
+                <p class="div_excel_p">Exportation </p>
+                <div class="div_excel_img">
+                    <img onClick={exportRef} data_dl={checkUrl} src={ref} alt='REF' title='Liste selon filtre par REF'/>
+                    <img onClick={exportApe} src={ape} alt='APE' title='Liste selon filtre par APE'/>
+                </div>
+            </div>*/}
+        </div>
+
+
 	</div>	
 	)
 	;
 };
 
-export default Presta;
+export default Taux;

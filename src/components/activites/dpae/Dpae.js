@@ -1,6 +1,6 @@
 import React, { useContext,useState, useEffect } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
-import PrestaTab from './PrestaTab';
+import DpaeTab from './DpaeTab';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -12,9 +12,9 @@ import useStyles from '../../main/Navbar.js/filesForMaterialUi/useStyles';
 import {Line} from 'react-chartjs-2';
 import Paper from '@material-ui/core/Paper';
 import Skeleton from '@material-ui/lab/Skeleton'
-import './prestas.css'
+import './dpae.css'
 
-const Presta = () => {
+const Dpae = () => {
 	const color = ['#264653', '#2a9d8f', '#e9c46a', '#f4a261', '#e76f51', '#e59b19', '#895d0f', '#5b3e0a']
 
 	const classes = useStyles();
@@ -119,7 +119,7 @@ const Presta = () => {
 		if(sourceUser !== 'soon'){
 				axios({
 					method: 'get',
-					url: `/activites/presta?${sourceUser}`,
+					url: `/activites/dpae?${sourceUser}`,
 					headers: {
 						Authorization: 'Bearer ' + Cookies.get('authToken')
 					}
@@ -158,7 +158,7 @@ const Presta = () => {
 		}
 		axios({
 			method: 'get',
-			url: `/activites/presta?${sourceUser}&${sql}`,
+			url: `/activites/dpae?${sourceUser}&${sql}`,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken')
 			}
@@ -182,7 +182,7 @@ const Presta = () => {
 		axios({
 			method: 'get', 
 			responseType: 'blob', 
-			url: '/activitexlsx/presta/ref?' + checkUrl,
+			url: '/activitexlsx/dpae/ref?' + checkUrl,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken'),
 			}
@@ -191,7 +191,7 @@ const Presta = () => {
 			const url = window.URL.createObjectURL(new Blob([response.data]));
 			const link = document.createElement('a');
 			link.href = url;
-			link.setAttribute('download', 'prestaREF.xlsx'); 
+			link.setAttribute('download', 'dpaeREF.xlsx'); 
 			document.body.appendChild(link);
 			link.click();
 		 });
@@ -202,7 +202,7 @@ const Presta = () => {
 		axios({
 			method: 'get', 
 			responseType: 'blob', 
-			url: '/activitexlsx/presta/ape?' + checkUrl,
+			url: '/activitexlsx/dpae/ape?' + checkUrl,
 			headers: {
 				Authorization: 'Bearer ' + Cookies.get('authToken'),
 			}
@@ -211,7 +211,7 @@ const Presta = () => {
 			const url = window.URL.createObjectURL(new Blob([response.data]));
 			const link = document.createElement('a');
 			link.href = url;
-			link.setAttribute('download', 'prestaAPE.xlsx'); 
+			link.setAttribute('download', 'dpaeAPE.xlsx'); 
 			document.body.appendChild(link);
 			link.click();
 		 });
@@ -223,8 +223,6 @@ const Presta = () => {
 		datasets: []
 	};
 
-	//  console.log(dataActi)
-
 	//année en cours
 	const dataActiAnneeEnCours = dataActi.filter(el => el.annee === dataActi[0].annee)
 	
@@ -232,14 +230,13 @@ const Presta = () => {
 	const dataActiAnneeEnCoursColonnes = dataActiAnneeEnCours.map(obj => {
 		let result = {}
 		for (let key in obj){
-			if(!key.includes('annee') && !key.includes('mois') && !key.includes('nb_de_affectes') && !key.includes('Presta') && !key.includes('tx_prestation')){
+			if(key!=='annee' && key!=='mois' && key!=='nb_de_affectes' && key!=='MEC' && key!=='MER' && key!=='MER+' && key!=='tx_DE_avec_DPAE' && key!=='tx_DE_avec_MEC' && key!=='tx_DE_avec_MER' && key!=='tx_DE_avec_MER+'){
 				result[key] = obj[key]
 			}}
 		return result
 	})
-	
-	// console.log(dataActiAnneeEnCoursColonnes)
 
+	
 	if(dataActiAnneeEnCours.length > 0){ 	
 	 	
 		for(let z=0; z<dataActiAnneeEnCours.length; z++){ // LOOP SUR TOUTES LES LIGNES DU TABLEAU DATAACTIV
@@ -295,7 +292,7 @@ const Presta = () => {
 		
 	<div>
 		{/* <button onClick={test}></button> */}
-		<h4>Prestations DE inscrits au moins un jour dans le mois, affectés à un conseiller référent</h4>
+		<h4>DPAE MEC MER MER+ DE inscrits au moins un jour dans le mois, affectés à un conseiller référent</h4>
 		<h5>(sans situation,rattaché,en portefeuille)</h5>
 		
 			<div>
@@ -400,7 +397,7 @@ const Presta = () => {
 			
 			<div>
 				{!(dataActi.length>0) && <Skeleton variant="rect"height={118} />}
-				<PrestaTab dataActi={dataActi}/>	 	 
+				<DpaeTab dataActi={dataActi}/>	 	 
 			</div>
 			{(dataActi!==undefined && dataActi.length>0) &&
 
@@ -426,4 +423,4 @@ const Presta = () => {
 	;
 };
 
-export default Presta;
+export default Dpae;

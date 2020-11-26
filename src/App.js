@@ -4,11 +4,14 @@ import NavContextProvider from './contexts/NavContext';
 import { Switch, Route } from 'react-router-dom';
 import Login from './components/connexion/Login';
 import RegisterUser from './components/connexion/RegisterUser';
+import MotDePasseOublie from './components/connexion/MotDePasseOublie';
 import Main from './components/main/Main';
 import Dashboard from './components/main/dashboard/Dashboard';
 // import Contacts from './components/activites/contacts/Contacts2';
 import Contacts from './components/activites/contacts/Contacts';
 import Presta from './components/activites/prestations/Presta';
+import Dpae from './components/activites/dpae/Dpae';
+import Taux from './components/activites/taux/Taux';
 import Efo from './components/training/Efo';
 import Diag from './components/wallet/diag/Diag';
 import Defm from './components/wallet/defm/Defm';
@@ -22,7 +25,7 @@ import { UserContext } from './contexts/UserContext';
 function App() {
 	const { user } = useContext(UserContext);
 	const { idgasi } = user;
-
+	
 	window.addEventListener('beforeunload', async (event) => {
 		if (idgasi !== undefined) {
 		var URL = `/users/disconnection/${idgasi}`;
@@ -48,6 +51,8 @@ function App() {
 									<PrivateRoute path="/home/efo" component={Efo} />
 									<PrivateRoute path="/home/contacts" component={Contacts} />
 									<PrivateRoute path="/home/presta" component={Presta} />
+									<PrivateRoute path="/home/dpae" component={Dpae} />
+									<PrivateRoute path="/home/taux" component={Taux}/> 
 									<PrivateRoute path="/home/Load" component={Load} />
 									<PrivateRoute path="/home/user" component={UpdateUser} />
 									<PrivateRoute path="/home/admin" component={admin} />
@@ -55,6 +60,7 @@ function App() {
 							)}
 						/>
 						<Route path="/register" component={RegisterUser} />
+						<Route path="/mdp" component={MotDePasseOublie} />
 					</Switch>
 				</NavContextProvider>
 		</div>

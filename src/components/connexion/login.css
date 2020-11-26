@@ -1,6 +1,3 @@
-body{
-	
-}
 .login_log{
 	padding-top: 10%;
 	/*padding-bottom: 35%;*/
@@ -13,4 +10,7 @@ body{
 	/*background-color: #FBAB7E !important;*/
     background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%) !important;
     border: 1px solid #495057;
+}
+.card-footer{
+	display: flex;
 }

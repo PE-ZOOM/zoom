@@ -10,7 +10,11 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import './registerUser.css';
+import Button from '@material-ui/core/Button';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+// import './registerUser.css';
+import './login.css';
 
 const RegisterUser = () => {
 
@@ -127,7 +131,7 @@ const RegisterUser = () => {
 
       
       return (
-        <div className="login">
+        <div className="login login_log">
         <div className="container">
             <div className="d-flex justify-content-center h-100">
                 <div className="card">
@@ -138,7 +142,7 @@ const RegisterUser = () => {
                         <form onSubmit={handleSubmit}>
                             <div className="input-group form-group">
                                 <div className="input-group-prepend">
-                                    <span className="input-group-text"><i className="fas fa-user"></i></span>
+                                    <span className="input-group-text"><AccountCircle /></span>
                                 </div>
                                 <input type="text" className="form-control" placeholder="idgasi" required
                                 name="idgasi" value={register.idgasi} onChange={handleChangeIdgasi}>
@@ -147,7 +151,7 @@ const RegisterUser = () => {
                            
                             <div className="input-group form-group">
                                 <div className="input-group-prepend">
-                                    <span className="input-group-text"><i className="fas fa-key"></i></span>
+                                    <span className="input-group-text"><AccountCircle /></span>
                                 </div>
                                 <input type="text" className="form-control" placeholder="name" required
                                 name="name" value={register.name} onChange={handleChange}>
@@ -162,7 +166,7 @@ const RegisterUser = () => {
                                 />  
                             <div className="input-group form-group">
                                 <div className="input-group-prepend">
-                                    <span className="input-group-text"><i className="fas fa-key"></i></span>
+                                    <span className="input-group-text"><VpnKeyIcon /></span>
                                 </div>
                                 <input type="password" className="form-control" placeholder="password" required
                                 name="password" value={register.password} onChange={handleChange}>
@@ -221,21 +225,21 @@ const RegisterUser = () => {
                               
                             </div>
                             }
-                             <div className="card-footer">
+                             {/* <div className="card-footer">
                                 <div className="d-flex justify-content-center links">
                                 <input type="submit" value="Valider" className="btn float-right login_btn"></input>
                                 </div>
-                            </div>   
+                            </div>    */}
+                            <div>
+                                <Button type="submit" value="Valider" className="btn login_btn" variant="contained">Valider</Button>
+                            </div> 
                         </form>
                         </div>
-                    <div>
-				        <div className="d-flex justify-content-center links">
-                        <Link className="btn float-right login_btn" to="/">Login</Link>
-				    </div>
-                       </div>
-                        <div className="d-flex justify-content-center links">
+                        <div className="card-footer">
+                            <Link className="btn" to="/">Login</Link>
                             {register.flash &&  <SnackbarContent message="Vous êtes déjà enregistré" />}
                         </div>
+                   
                 </div>
             </div>
         </div>

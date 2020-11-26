@@ -321,8 +321,16 @@ const Efo = () => {
 				Authorization: 'Bearer ' + Cookies.get('authToken')
 			}
 		})
-		.then((res) =>  setDataTop5(res.data))  
-
+		.then((res) =>  setDataTop5(res.data)) 
+		
+		axios({
+			method: 'get',
+			url: `/efo/EFO_c_o?${sourceUser}&${sql}`,
+			headers: {
+				Authorization: 'Bearer ' + Cookies.get('authToken')
+			}
+		})
+		.then((res) =>  setEfo_c_o(res.data))
 	}
 	
 	useEffect(() => {

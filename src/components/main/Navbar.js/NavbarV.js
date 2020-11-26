@@ -20,11 +20,12 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import MailIcon from '@material-ui/icons/Mail';
 import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import useStyles from './filesForMaterialUi/useStyles';
 import StyledBadge from './filesForMaterialUi/StyleBadge';
 import useStylesPanel from './filesForMaterialUi/useStylesPanel';
 import { NavContext } from '../../../contexts/NavContext';
-
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import Accordion from '@material-ui/core/Accordion'
 import AccordionDetails from '@material-ui/core/AccordionActions'
 import AccordionSummary from '@material-ui/core/AccordionSummary'
@@ -233,7 +234,6 @@ export default function NavbarV() {
       },
     }).then((res) => setOnlineUsers(res.data));
   };
-
   const handleHistoric = (link) => {
     const jsDate = new Date();
     const year = jsDate.getFullYear();
@@ -244,8 +244,16 @@ export default function NavbarV() {
     const seconds = jsDate.getSeconds();
     const date = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
     const idgasi = user.idgasi;
+    let champs = '';
+    if(user.fonction_id === 1 || user.fonction_id === 2){
+      champs = user.libelle_ape;
+    }else if(user.fonction_id === 6){
+      champs = 'DR';
+    }else{
+      champs = user.fonction;
+    }
     const button = link;
-    const historic = { idgasi: idgasi, date: date, button: button };
+    const historic = { idgasi: idgasi, date: date, button: button, champs: champs };
 
     axios({
       method: 'post',
@@ -520,6 +528,24 @@ export default function NavbarV() {
                   </ListItemIcon>
                       <ListItemText primary="Prestations" onClick={() => {
                         handleHistoric('Prestations');
+                      }} />
+              </ListItem>
+              <ListItem button component={Link} to="dpae" selected={selectedIndex === 33}
+                  onClick={(event) => handleListItemClick(event, 33)}>
+                  <ListItemIcon>
+                      <AssignmentTurnedInIcon />
+                  </ListItemIcon>
+                      <ListItemText primary="DPAE MEC" onClick={() => {
+                        handleHistoric('DPAE_MEC');
+                      }} />
+              </ListItem>
+               <ListItem button component={Link} to="taux" selected={selectedIndex === 34}
+                  onClick={(event) => handleListItemClick(event, 34)}>
+                  <ListItemIcon>
+                      <TrendingUpIcon />
+                  </ListItemIcon>
+                      <ListItemText primary="Recap Taux" onClick={() => {
+                        handleHistoric('Taux');
                       }} />
               </ListItem>
               </AccordionDetails>

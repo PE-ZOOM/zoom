@@ -23,7 +23,7 @@ import CountUp from 'react-countup';
 const useStyles = makeStyles((theme) => ({
 	paper: {
 		minHeight: 150,
-		width: 300,
+		width: 370,
 	},
   	textImg: {
 		position: 'relative',

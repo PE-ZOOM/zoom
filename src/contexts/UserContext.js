@@ -51,7 +51,6 @@ const UserContextProvider = (props) => {
 			.then((res) => {
 				if (res.hasOwnProperty('user')) {
 					const token = res.token;
-					//    console.log(res)
 					setUser({
 						idgasi: res.user.idgasi,
 						name: res.user.name,
@@ -72,11 +71,47 @@ const UserContextProvider = (props) => {
                     
 				}
 			});
-		//  .catch(err => console.log( err.flash))
 		//   .catch(err  => setUser({flash:  err.flash, token:false }))
 	};
 
-	return <UserContext.Provider value={{ user, logUser, getUser, deleteUser }}>{props.children}</UserContext.Provider>;
+	const logUserXtidc = (user) => {
+		fetch('/auth/signinAuto', {
+			method: 'POST',
+			headers: new Headers({
+				'Content-Type': 'application/json'
+			}),
+			// body: JSON.stringify(user)
+			body: JSON.stringify(user)
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				if (user) {
+					const token = res.token;
+			// 		//    console.log(res)
+					setUser({
+						idgasi: res.user.idgasi,
+						name: res.user.name,
+						fonction: res.user.fonction,
+						fonction_id: res.user.fonction_id,
+						team: res.user.team,
+						team_id: res.user.team_id,
+						p_user: res.user.p_user,
+						libelle_ape: res.user.libelle_ape,
+						ape_id: res.user.ape_id,
+						token: true,
+						flash: res.flash
+					});
+					// setUser(res.user)
+					Cookies.set('authToken', token, { expires: 7 });
+				} else {
+                    setUser({ flash: res.flash, token: false });
+                    
+				}
+			});
+
+	}
+
+	return <UserContext.Provider value={{ user, logUser, getUser, deleteUser, logUserXtidc }}>{props.children}</UserContext.Provider>;
 };
 
 export default UserContextProvider;
