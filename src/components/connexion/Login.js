@@ -11,7 +11,7 @@ import './login.css';
 
 
 const Login = () => {
-    const { user, logUser } = useContext(UserContext)
+    const { user, logUser, logUserXtidc } = useContext(UserContext)
    
     const [ login, setLogin ] = useState({idgasi: '' , password: ''});
 
@@ -36,12 +36,27 @@ const Login = () => {
         {history.push({pathname: '/home/main'})}
         else {history.push({pathname: '/'})}
 
-        // CONNECTION AUTOMATIQUE AVEC COOKIE XTIDC ?
+       
+        
+    }
+    , [user,history])
+    
+    useEffect(() => {
+         // CONNECTION AUTOMATIQUE AVEC COOKIE XTIDC ?
         // if(Cookies.get('xtidc')){
         //     logUserXtidc(Cookies.get('xtidc'))
         // }
+
+        // if(true){
+        //     logUserXtidc({idgasi : 'irle5360'})
+        // }
     }
-    , [user,history])
+    , [history])
+    
+	// console.log(Cookies.get() )// => { name: 'value' })
+//     useEffect(() => {
+//    console.log(user)
+//     }, [user])
 
 
     const log= (event) => {
