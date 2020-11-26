@@ -11,6 +11,8 @@ import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Button from '@material-ui/core/Button';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 // import './registerUser.css';
 import './login.css';
 
@@ -140,7 +142,7 @@ const RegisterUser = () => {
                         <form onSubmit={handleSubmit}>
                             <div className="input-group form-group">
                                 <div className="input-group-prepend">
-                                    <span className="input-group-text"><i className="fas fa-user"></i></span>
+                                    <span className="input-group-text"><AccountCircle /></span>
                                 </div>
                                 <input type="text" className="form-control" placeholder="idgasi" required
                                 name="idgasi" value={register.idgasi} onChange={handleChangeIdgasi}>
@@ -149,7 +151,7 @@ const RegisterUser = () => {
                            
                             <div className="input-group form-group">
                                 <div className="input-group-prepend">
-                                    <span className="input-group-text"><i className="fas fa-key"></i></span>
+                                    <span className="input-group-text"><AccountCircle /></span>
                                 </div>
                                 <input type="text" className="form-control" placeholder="name" required
                                 name="name" value={register.name} onChange={handleChange}>
@@ -164,7 +166,7 @@ const RegisterUser = () => {
                                 />  
                             <div className="input-group form-group">
                                 <div className="input-group-prepend">
-                                    <span className="input-group-text"><i className="fas fa-key"></i></span>
+                                    <span className="input-group-text"><VpnKeyIcon /></span>
                                 </div>
                                 <input type="password" className="form-control" placeholder="password" required
                                 name="password" value={register.password} onChange={handleChange}>
