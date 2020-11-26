@@ -10,7 +10,9 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import './registerUser.css';
+import Button from '@material-ui/core/Button';
+// import './registerUser.css';
+import './login.css';
 
 const RegisterUser = () => {
 
@@ -127,7 +129,7 @@ const RegisterUser = () => {
 
       
       return (
-        <div className="login">
+        <div className="login login_log">
         <div className="container">
             <div className="d-flex justify-content-center h-100">
                 <div className="card">
@@ -221,21 +223,21 @@ const RegisterUser = () => {
                               
                             </div>
                             }
-                             <div className="card-footer">
+                             {/* <div className="card-footer">
                                 <div className="d-flex justify-content-center links">
                                 <input type="submit" value="Valider" className="btn float-right login_btn"></input>
                                 </div>
-                            </div>   
+                            </div>    */}
+                            <div>
+                                <Button type="submit" value="Valider" className="btn login_btn" variant="contained">Valider</Button>
+                            </div> 
                         </form>
                         </div>
-                    <div>
-				        <div className="d-flex justify-content-center links">
-                        <Link className="btn float-right login_btn" to="/">Login</Link>
-				    </div>
-                       </div>
-                        <div className="d-flex justify-content-center links">
+                        <div className="card-footer">
+                            <Link className="btn" to="/">Login</Link>
                             {register.flash &&  <SnackbarContent message="Vous êtes déjà enregistré" />}
                         </div>
+                   
                 </div>
             </div>
         </div>

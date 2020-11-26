@@ -35,12 +35,13 @@ const Login = () => {
         if (Cookies.get('authToken')) 
         {history.push({pathname: '/home/main'})}
         else {history.push({pathname: '/'})}
+
+        // CONNECTION AUTOMATIQUE AVEC COOKIE XTIDC ?
+        // if(Cookies.get('xtidc')){
+        //     logUserXtidc(Cookies.get('xtidc'))
+        // }
     }
     , [user,history])
-
-//     useEffect(() => {
-//    console.log(user)
-//     }, [user])
 
 
     const log= (event) => {
@@ -82,18 +83,15 @@ const Login = () => {
                             </div> 
                         </form>
                     </div>
-                            <div className="card-footer">
-                                     <Link className="btn" to="/register">Créer un compte</Link>
-                           
-                            </div>
+                    <div className="card-footer">
+                                <Link className="btn" to="/register">Créer un compte</Link>
+                    
+                                <Link className="btn" to="/mdp">Mot de passe oublié</Link>
+                    
+                    </div>
                     <div>
 				        <div className="d-flex justify-content-center links">
-                           
-				        </div>
-			        </div>
-                    <div>
-				        <div className="d-flex justify-content-center links">
-                        {user.flash &&  <SnackbarContent message={user.flash} />}
+                            {user.flash &&  <SnackbarContent message={user.flash} />}
 				        </div>
 			        </div>
                 </div>
