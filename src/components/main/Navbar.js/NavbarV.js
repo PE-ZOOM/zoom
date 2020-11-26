@@ -245,9 +245,9 @@ export default function NavbarV() {
     const date = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
     const idgasi = user.idgasi;
     let champs = '';
-    if(user.fonction_id==='1' || user.fonction_id==='2'){
+    if(user.fonction_id === 1 || user.fonction_id === 2){
       champs = user.libelle_ape;
-    }else if(user.fonction_id === '6'){
+    }else if(user.fonction_id === 6){
       champs = 'DR';
     }else{
       champs = user.fonction;

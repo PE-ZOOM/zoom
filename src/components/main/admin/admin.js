@@ -34,9 +34,21 @@ const Admin = props => {
   const { user } = useContext(UserContext);
 	const [ sourceUser, 	setSourceUser 	 ] = useState('soon');
   const [listeChamps, setListeChamps] = useState([]);
+  const ladate=new Date()
+  const anneeencours=ladate.getFullYear()
+  
+  const fonctionarrayannee = () => {
+    let result = [];
+    for(let i=2020;i<=anneeencours;i++){
+      result.push(i);
+    };
+    return result
+  }
+  const listAnnee = fonctionarrayannee()
+
+
   const [ sourceFilter, setSourceFilter ] = useState({
-    
-		annee: '2020',
+		annee: anneeencours,
 		champs: 'all',
 	});
 
@@ -50,7 +62,7 @@ const Admin = props => {
 				
       axios({
         method: 'get',
-        url: `/load/listechamps?${sourceUser}`,
+        url: `/historic/listechamps?${sourceUser}`,
         headers: {
           Authorization: 'Bearer ' + Cookies.get('authToken')
         }
@@ -124,7 +136,7 @@ const Admin = props => {
 
     // axios({
     //   method: 'get',
-    //   url: `/load/historicClick?${sql}`,
+    //   url: `/historic/historicClick?${sql}`,
     //   headers: {
     //     Authorization: 'Bearer ' + Cookies.get('authToken'),
     //   },
@@ -133,7 +145,7 @@ const Admin = props => {
 
     axios({
       method: 'get',
-      url: `/load/historicTopPersonne?${sql}`,
+      url: `/historic/historicTopPersonne?${sql}`,
       headers: {
         Authorization: 'Bearer ' + Cookies.get('authToken'),
       },
@@ -141,7 +153,7 @@ const Admin = props => {
     
     axios({
       method: 'get',
-      url: `/load/historicBubble?${sql}`,
+      url: `/historic/historicBubble?${sql}`,
       headers: {
         Authorization: 'Bearer ' + Cookies.get('authToken'),
       },
@@ -154,7 +166,7 @@ const Admin = props => {
   // useEffect(() => {
   //     axios({
   //       method: 'get',
-  //       url: '/load/historicH',
+  //       url: '/historic/historicH',
   //       headers: {
   //         Authorization: 'Bearer ' + Cookies.get('authToken'),
   //       },
@@ -448,11 +460,12 @@ const Admin = props => {
                         height={300}
                         options={options}
                       /> */}
-                    
+                    <h4>PODIUM</h4>
+                    {(historicTopPersonne.length>2) &&
                     <div id="podium-box" className="row" style={{height: "300px"}}>
                       <div className="col-md-4 step-container m-0 p-0">
                         <div>
-                          {historicTopPersonne[1].name}
+                          {historicTopPersonne[1].idgasiname}
                         </div>
                         <div id="second-step" className="step centerBoth podium-number">
                           2
@@ -460,7 +473,7 @@ const Admin = props => {
                       </div>
                       <div className="col-md-4 step-container m-0 p-0">
                         <div>
-                          {historicTopPersonne[0].name}
+                          {historicTopPersonne[0].idgasiname}
                         </div>
                         <div id="first-step" className="step centerBoth podium-number">
                           1
@@ -469,14 +482,14 @@ const Admin = props => {
                       </div>
                         <div className="col-md-4 step-container m-0 p-0">
                         <div>
-                          {historicTopPersonne[2].name}
+                          {historicTopPersonne[2].idgasiname}
                         </div>
                         <div id="third-step" className="step centerBoth podium-number">
                           3
                         </div>
                       </div>
                     </div>
-
+                }
 
                   </Paper>
                 }
@@ -576,19 +589,17 @@ const Admin = props => {
               </div>
                 
                 <div style={{width: "100%"}}>
-                  <FormControl variant="outlined" className={classes.formControl}>
-                    Nombre de cliques / Boutton
-                  </FormControl>
+                <h4>Nombre de cliques par lien</h4>
                   <FormControl variant="outlined" className={classes.formControl}>
                     <InputLabel id="demo-simple-select-outlined-label" className={classes.select_orange}>Année</InputLabel>
                     <Select
                       name="annee"
-                      value={2020}
+                      value={sourceFilter.annee}
                       onChange={handleChange}
                       label="Année"
                       className={classes.select_orange}
                       >
-                      {['2020','2021'].map(value => (
+                      {listAnnee.map(value => (
                       <MenuItem 
                       key={value}
                       value={value}
@@ -597,7 +608,7 @@ const Admin = props => {
                     </Select>
                   </FormControl> 
                   <FormControl variant="outlined" className={classes.formControl}>
-                      <InputLabel id="demo-simple-select-outlined-label" className={classes.select_orange}>Champs</InputLabel>
+                      <InputLabel id="demo-simple-select-outlined-label" className={classes.select_orange}>Zone</InputLabel>
                       <Select
                       name="champs"
                       value={sourceFilter.champs}
@@ -627,10 +638,6 @@ const Admin = props => {
             </div>
 
           </div>
-
-
-
-
 
         ) : <h5>Chargement...</h5>}
 
