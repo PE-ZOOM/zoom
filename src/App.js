@@ -4,6 +4,7 @@ import NavContextProvider from './contexts/NavContext';
 import { Switch, Route } from 'react-router-dom';
 import Login from './components/connexion/Login';
 import RegisterUser from './components/connexion/RegisterUser';
+import MotDePasseOublie from './components/connexion/MotDePasseOublie';
 import Main from './components/main/Main';
 import Dashboard from './components/main/dashboard/Dashboard';
 // import Contacts from './components/activites/contacts/Contacts2';
@@ -24,7 +25,7 @@ import { UserContext } from './contexts/UserContext';
 function App() {
 	const { user } = useContext(UserContext);
 	const { idgasi } = user;
-
+	
 	window.addEventListener('beforeunload', async (event) => {
 		if (idgasi !== undefined) {
 		var URL = `/users/disconnection/${idgasi}`;
@@ -59,6 +60,7 @@ function App() {
 							)}
 						/>
 						<Route path="/register" component={RegisterUser} />
+						<Route path="/mdp" component={MotDePasseOublie} />
 					</Switch>
 				</NavContextProvider>
 		</div>
